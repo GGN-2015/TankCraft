@@ -53,11 +53,11 @@ void TcpClient::Request(const TcpData* tcpDataSend, TcpData* tcpDataGet)
 	/* 发送请求数据 */
 	send((SOCKET)pServerSocket, tcpDataSend->GetData(), tcpDataSend->GetLength(), 0);
 
-	char recvBuff[TCP_CLIENT_BUFFER_MAX];
-	memset(recvBuff, 0, sizeof(recvBuff));
-
 	/* 从 ServerSocket 接收数据消息 */
-	Utils::GetTcpDataFromSocket(pServerSocket, tcpDataGet);
+	char* recvBuff = new char[TCP_BUFFER_MAX];
+	TcpUtils::GetTcpDataFromSocket(pServerSocket, tcpDataGet);
+
+	delete[] recvBuff;
 }
 
 void TcpClient::CloseSocket() /* 关闭 socket */

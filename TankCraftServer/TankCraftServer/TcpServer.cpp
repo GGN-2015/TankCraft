@@ -76,7 +76,7 @@ int TcpServer::RunServer() {
 		}
 
 		/* 创建线程处理客户询问 */
-		Utils::CreateProcessForClient((void*)socketClient, this);
+		TcpUtils::CreateProcessForClient((void*)socketClient, this);
 	}
 
 	/* 关闭服务器并释放资源 */

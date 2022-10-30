@@ -1,5 +1,5 @@
 #pragma once
-#define TCP_CLIENT_BUFFER_MAX (4096) /* TCP 客户端的最大缓冲区大小 */
+#include "TcpUtils.h"
 
 class TcpData;
 class TcpClient                                    
@@ -13,4 +13,3 @@ public:
 private:
 	void* pServerSocket;
 };
-          

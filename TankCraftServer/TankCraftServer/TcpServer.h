@@ -4,16 +4,7 @@
 #include <vector>
 
 #include "MyMutex.h"
-
-#define TCP_SERVER_BUFFER_SIZE (4096) /* 一次通信的最大数据量 */
-#define TCP_SERVER_CLIENT_MAX  (16) /* 最大连接数 */
-
-#define TCP_SERVER_RUN (1) /* 服务器正在运行 */
-#define TCP_SERVER_END (0) /* 服务器不在运行 */
-
-#define TCP_SERVER_SUC        ( 0) /* 服务器成功停机 */
-#define TCP_SERVER_FAIL       ( 1) /* 服务器启动失败 */
-#define TCP_SERVER_MAX_LISTEN (10) /* TCP 服务器的最大监听数 */
+#include "TcpUtils.h"
 
 class TcpData; /* TCP 通信的数据，至少包含一个串和一个长度 */
 

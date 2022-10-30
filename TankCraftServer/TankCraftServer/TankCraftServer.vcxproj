@@ -146,6 +146,7 @@
     <ClCompile Include="TcpClient.cpp" />
     <ClCompile Include="TcpData.cpp" />
     <ClCompile Include="TcpServer.cpp" />
+    <ClCompile Include="TcpUtils.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="TcpClient.h" />
     <ClInclude Include="TcpData.h" />
     <ClInclude Include="TcpServer.h" />
+    <ClInclude Include="TcpUtils.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
