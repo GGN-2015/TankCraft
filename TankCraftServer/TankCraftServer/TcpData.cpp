@@ -29,7 +29,7 @@ const char* TcpData::GetData() const
 
 int TcpData::GetLength() const
 {
-	return mLength;
+	return mLength >= 0 ? mLength : 0;
 }
 
 bool TcpData::isEnd() const

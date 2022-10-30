@@ -143,12 +143,14 @@
   <ItemGroup>
     <ClCompile Include="MyMutex.cpp" />
     <ClCompile Include="TankCraftServer.cpp" />
+    <ClCompile Include="TcpClient.cpp" />
     <ClCompile Include="TcpData.cpp" />
     <ClCompile Include="TcpServer.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyMutex.h" />
+    <ClInclude Include="TcpClient.h" />
     <ClInclude Include="TcpData.h" />
     <ClInclude Include="TcpServer.h" />
     <ClInclude Include="Utils.h" />
