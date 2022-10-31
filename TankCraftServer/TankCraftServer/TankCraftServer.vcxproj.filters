@@ -13,6 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\Tcp">
+      <UniqueIdentifier>{563e7795-3662-4a34-a4e0-4e0bee8ac4d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Utils">
+      <UniqueIdentifier>{8576787c-567a-47ff-b439-94aed3a3e54b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Parser">
+      <UniqueIdentifier>{8c556be2-123c-4776-97f2-b21944c8cc05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\GameLogic">
+      <UniqueIdentifier>{469079dc-d466-4ff0-881d-2d20e78d2656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Tests">
+      <UniqueIdentifier>{46dc49d3-8323-4e26-b800-978c7cd676b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TankCraftServer.cpp">
@@ -48,40 +63,64 @@
     <ClCompile Include="IMessage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PingParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDatabase.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PingMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TcpServer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="TcpClient.h">
+      <Filter>头文件\Tcp</Filter>
     </ClInclude>
     <ClInclude Include="TcpData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MyMutex.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="TcpClient.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Tcp</Filter>
     </ClInclude>
     <ClInclude Include="TcpUtils.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Tcp</Filter>
     </ClInclude>
-    <ClInclude Include="GameTcpServer.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="TcpServer.h">
+      <Filter>头文件\Tcp</Filter>
     </ClInclude>
-    <ClInclude Include="DataParser.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Utils.h">
+      <Filter>头文件\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMutex.h">
+      <Filter>头文件\Utils</Filter>
     </ClInclude>
     <ClInclude Include="IParser.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Parser</Filter>
     </ClInclude>
     <ClInclude Include="IMessage.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="DataParser.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTcpServer.h">
+      <Filter>头文件\GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="TestPrograms.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="PingParser.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadBuffer.h">
+      <Filter>头文件\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDatabase.h">
+      <Filter>头文件\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="PingMessage.h">
+      <Filter>头文件\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

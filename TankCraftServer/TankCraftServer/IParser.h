@@ -1,9 +1,14 @@
 #pragma once
+#include <vector>
+
 class TcpData;
 class IMessage;
+class IParser;
 
 #define IPARSER_REGISTER_AT_CLINET_PARSER (0) /* 将自身注册到客户请求解析器集合 */
 #define IPARSER_REGISTER_AT_SERVER_PARSER (1) /* 将自身注册到服务消息解析器集合*/
+
+typedef std::vector<IParser*> IParserList; /* 解析器列表 */
 
 class IParser
 {

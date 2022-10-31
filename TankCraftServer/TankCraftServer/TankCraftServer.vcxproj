@@ -142,28 +142,36 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DataParser.cpp" />
+    <ClCompile Include="GameDatabase.cpp" />
     <ClCompile Include="GameTcpServer.cpp" />
     <ClCompile Include="IMessage.cpp" />
     <ClCompile Include="IParser.cpp" />
     <ClCompile Include="MyMutex.cpp" />
+    <ClCompile Include="PingMessage.cpp" />
+    <ClCompile Include="PingParser.cpp" />
     <ClCompile Include="TankCraftServer.cpp" />
     <ClCompile Include="TcpClient.cpp" />
     <ClCompile Include="TcpData.cpp" />
     <ClCompile Include="TcpServer.cpp" />
     <ClCompile Include="TcpUtils.cpp" />
+    <ClCompile Include="ThreadBuffer.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataParser.h" />
+    <ClInclude Include="GameDatabase.h" />
     <ClInclude Include="GameTcpServer.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IParser.h" />
     <ClInclude Include="MyMutex.h" />
+    <ClInclude Include="PingMessage.h" />
+    <ClInclude Include="PingParser.h" />
     <ClInclude Include="TcpClient.h" />
     <ClInclude Include="TcpData.h" />
     <ClInclude Include="TcpServer.h" />
     <ClInclude Include="TcpUtils.h" />
     <ClInclude Include="TestPrograms.h" />
+    <ClInclude Include="ThreadBuffer.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

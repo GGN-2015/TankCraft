@@ -12,6 +12,10 @@ public:
 	bool GetSanity() const;      /* 检查校验和 */
 	void FreeData();
 
+	void DebugShow(const char* prompt) const;         /* 用于对于数据内容的显示 */
+
+	unsigned short GetUnsignedShortAt(int pos) const; /* 获取一个无符号短整数 */
+
 private:
 	int   mLength;
 	char* mRawData;

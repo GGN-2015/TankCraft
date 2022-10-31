@@ -1,13 +1,17 @@
 #include <iostream>
 #include <WinSock2.h>
 
+#include "GameDatabase.h"
 #include "TcpData.h"
 #include "TcpUtils.h"
 #include "TcpServer.h"
+#include "ThreadBuffer.h"
 
 /* 客户端线程主体函数 */
 void TcpUtils::DealWithClient(void* socketClient, TcpServer* tcpServer)
 {
+	ThreadBuffer threadBuffer; /* 当前线程的缓存数据，用来储存对客户端的认识 */
+
 	/* 如果客户端数量没有达到最大值 */
 	/* 注统计的时候需要注意互斥问题 */
 	if (tcpServer->GetClientCnt() < TCP_SERVER_CLIENT_MAX) {
@@ -25,7 +29,11 @@ void TcpUtils::DealWithClient(void* socketClient, TcpServer* tcpServer)
 
 			/* 多态 */
 			if (tcpServer->GetRunStatus() == TCP_SERVER_RUN) {
-				tcpServer->GetTcpDataResult(&tcpDataRecv, &tcpDataSend);
+
+				/* 获取 TCP 的结果的同时可能会对服务器上的数据进行修改 */
+				tcpServer->GetTcpDataResult(&tcpDataRecv, &tcpDataSend, 
+					&threadBuffer, GameDatabase::GetGlobalGameDatabase());
+				
 				int ret = TcpUtils::SendTcpDataToSocket(&tcpDataSend, socketClient);
 
 				/* 数据发送失败，说明对方可能已经断开连接 */

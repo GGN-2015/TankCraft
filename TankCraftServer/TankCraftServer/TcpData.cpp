@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "TcpData.h"
+#include "Utils.h"
 
 void TcpData::SetData(const char* data, int len)
 {
@@ -70,4 +71,19 @@ void TcpData::FreeData()
 	}
 	mRawData = nullptr;
 	mLength = 0;
+}
+
+void TcpData::DebugShow(const char* prompt) const
+{
+	std::cerr << prompt;
+	for (int i = 0; i < GetLength(); i++) {
+		std::cerr << (unsigned int)(*(unsigned char*)(&GetData()[i])) << " ";
+	}
+	std::cerr << std::endl;
+}
+
+unsigned short TcpData::GetUnsignedShortAt(int pos) const
+{
+	assert(pos + 1 < GetLength());
+	return Utils::GetUnsignedShort(GetData(), pos);
 }

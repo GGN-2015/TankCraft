@@ -85,7 +85,7 @@ int TcpServer::RunServer() {
 	return TCP_SERVER_SUC;
 }
 
-void TcpServer::GetTcpDataResult(const TcpData* request, TcpData* reply)
+void TcpServer::GetTcpDataResult(const TcpData* request, TcpData* reply, ThreadBuffer* tb, GameDatabase* Gdb)
 {
 	/* 测试功能，将字符串翻转再发回去 */
 	int len = request->GetLength();

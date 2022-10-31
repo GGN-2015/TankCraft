@@ -47,8 +47,10 @@ void DataParser::Parse(const TcpData* pTcpData, IMessageList* pContainer, const 
 
 	int dataLength = pTcpData->GetLength() - 2; /* 去除校验信息后的长度 */
 	int posNow = 2;
-	int requestCnt = (int)Utils::GetUnsignedShort(pTcpData->GetData(), 0); /* 总的请求数量 */
+	int requestCnt = pTcpData->GetUnsignedShortAt(0); /* 总的请求数量 */
 	int requestCntGet = 0;
+
+	assert(pGlobalParserList->size() != 0); /* 至少要有一个解析器 */
 	while (posNow < dataLength) {
 		bool suc = false; /* 是否成功解析 */
 		for (IParser* iParser : (*pGlobalParserList)) {
@@ -68,6 +70,11 @@ void DataParser::Parse(const TcpData* pTcpData, IMessageList* pContainer, const 
 		assert(suc); /* 解析失败需要报错 */
 	}
 
-	/* 数据包个数不正确 */
-	assert(requestCntGet == requestCnt);
+	char evenAns = 0, oddAns = 0;
+	Utils::GetSanityInteger(pTcpData->GetData(), 
+		pTcpData->GetLength(), &evenAns, &oddAns);
+
+	assert(evenAns == 0 && oddAns == 0); /* 校验和 */
+	assert(requestCntGet == requestCnt); /* 数据包个数不正确 */
+	assert(posNow == dataLength); /* 数据部分没有侵占校验信息 */
 }

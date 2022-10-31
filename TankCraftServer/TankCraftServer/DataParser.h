@@ -1,12 +1,7 @@
 #pragma once
 #include <vector>
-
-class IMessage;
-class TcpData;
-typedef std::vector<IMessage*> IMessageList;
-
-class IParser;
-typedef std::vector<IParser*> IParserList; /* 解析器列表 */
+#include "IMessage.h"
+#include "IParser.h"
 
 /* 数据解析器 */
 class DataParser
