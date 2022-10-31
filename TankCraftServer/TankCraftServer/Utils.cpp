@@ -12,3 +12,10 @@ long long Utils::GetRandLongLong()
 	}
 	return ans;
 }
+
+unsigned short Utils::GetUnsignedShort(const char* charArr, int pos)
+{
+	/* 所有的数据采用小端存储 */
+	unsigned short ans = (unsigned)charArr[pos] | (((unsigned)charArr[pos+1]) << 8);
+	return ans;
+}

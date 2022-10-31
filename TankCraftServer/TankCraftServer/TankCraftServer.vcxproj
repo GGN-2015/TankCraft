@@ -141,6 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataParser.cpp" />
+    <ClCompile Include="GameTcpServer.cpp" />
+    <ClCompile Include="IMessage.cpp" />
+    <ClCompile Include="IParser.cpp" />
     <ClCompile Include="MyMutex.cpp" />
     <ClCompile Include="TankCraftServer.cpp" />
     <ClCompile Include="TcpClient.cpp" />
@@ -150,6 +154,10 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataParser.h" />
+    <ClInclude Include="GameTcpServer.h" />
+    <ClInclude Include="IMessage.h" />
+    <ClInclude Include="IParser.h" />
     <ClInclude Include="MyMutex.h" />
     <ClInclude Include="TcpClient.h" />
     <ClInclude Include="TcpData.h" />

@@ -14,19 +14,24 @@ void TcpUtils::DealWithClient(void* socketClient, TcpServer* tcpServer)
 
 		/* 处理该客户端信息，统计数目 += 1 */
 		tcpServer->IncClientCnt();
-		while (true) {
+		while (tcpServer->GetRunStatus() == TCP_SERVER_RUN) {
 			TcpData tcpDataRecv, tcpDataSend;
 
 			/* 从客户端获取数据 */
 			TcpUtils::GetTcpDataFromSocket(socketClient, &tcpDataRecv);
-			if (tcpDataRecv.isEnd()) { /* 长度为零的消息是结束消息 */
+			if (tcpDataRecv.IsEnd()) { /* 长度为零的消息是结束消息 */
 				break;
 			}
 
 			/* 多态 */
 			if (tcpServer->GetRunStatus() == TCP_SERVER_RUN) {
 				tcpServer->GetTcpDataResult(&tcpDataRecv, &tcpDataSend);
-				TcpUtils::SendTcpDataToSocket(&tcpDataSend, socketClient);
+				int ret = TcpUtils::SendTcpDataToSocket(&tcpDataSend, socketClient);
+
+				/* 数据发送失败，说明对方可能已经断开连接 */
+				if (ret == -1) {
+					break;
+				}
 			}
 			else {
 				break; /* 直接断开连接 */
@@ -53,13 +58,10 @@ void TcpUtils::GetTcpDataFromSocket(void* socketClient, TcpData* tcpData)
 	delete[] recvBuffer; // 一定要特别注意内存泄漏
 }
 
-void TcpUtils::SendTcpDataToSocket(const TcpData* tcpData, void* socketClient)
+int TcpUtils::SendTcpDataToSocket(const TcpData* tcpData, void* socketClient)
 {
 	int ret = send((SOCKET)socketClient, tcpData->GetData(), tcpData->GetLength(), 0);
-	if (ret == SOCKET_ERROR) {
-		std::cerr << "send() error" << std::endl;
-		return;
-	}
+	return ret;
 }
 
 void TcpUtils::CreateProcessForClient(void* socketClient, TcpServer* tcpServer)

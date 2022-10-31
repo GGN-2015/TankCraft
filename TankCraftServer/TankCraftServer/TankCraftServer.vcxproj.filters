@@ -36,6 +36,18 @@
     <ClCompile Include="TcpUtils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="GameTcpServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DataParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpServer.h">
@@ -54,6 +66,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="TcpUtils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTcpServer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DataParser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IParser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IMessage.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
