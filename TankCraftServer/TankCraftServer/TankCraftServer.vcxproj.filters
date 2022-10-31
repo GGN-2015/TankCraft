@@ -75,6 +75,18 @@
     <ClCompile Include="PingMessage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRequestParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRequest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -120,6 +132,21 @@
       <Filter>头文件\GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="PingMessage.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>头文件\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginRequestParser.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestMessageTypes.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginRequest.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginMessage.h">
       <Filter>头文件\Parser</Filter>
     </ClInclude>
   </ItemGroup>

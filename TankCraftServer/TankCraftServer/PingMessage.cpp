@@ -1,10 +1,11 @@
 #include <iostream>
 
 #include "PingMessage.h"
+#include "RequestMessageTypes.h"
 #include "ThreadBuffer.h"
 #include "Utils.h"
 
-#define PING_MESSAGE_DEBUG
+//#define PING_MESSAGE_DEBUG
 
 PingMessage::PingMessage()
 {
@@ -45,9 +46,15 @@ unsigned short PingMessage::GetX() const
 void PingMessage::GetRawData(TcpData* tcpData)
 {
     char buf[PING_MESSAHE_LENGTH] = {};
-    Utils::DumpUnsignedShortToBuffer(buf, 0, 0);
-    Utils::DumpUnsignedShortToBuffer(buf, 2, mX);
+    Utils::DumpUnsignedShortToBuffer(buf, 0, REQUEST_TYPE_PING); /* 类型信息 = 0 */
+    Utils::DumpUnsignedShortToBuffer(buf, 2, 2);                 /* 数据部分长度 2 字节 */
+    Utils::DumpUnsignedShortToBuffer(buf, 2, mX);                /* 具体内容是 mX */
 
     /* 将数据存储到 TcpData 中 */
     tcpData->SetData(buf, PING_MESSAHE_LENGTH);
+}
+
+void PingMessage::DebugShow()
+{
+    std::cerr << "PingMessage::DebugShow() {mX = " << mX << "}" << std::endl;
 }

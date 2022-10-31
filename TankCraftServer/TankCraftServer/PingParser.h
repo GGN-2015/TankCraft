@@ -1,7 +1,6 @@
 #pragma once
 #include "IParser.h"
-
-#define MESSAGE_TYPE_PING (0)
+#include "RequestMessageTypes.h"
 
 /* 客户发送的 Ping 请求，给定整数 X，要求服务器计算 X + 1 */
 class PingParser :

@@ -1,9 +1,11 @@
+#include <cassert>
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
-#include <string.h>
+#include <string>
 
 #include "Utils.h"
-#define UNSIGNED(c) ((unsigned int)(*(unsigned char*)&c))
+#define UNSIGNED(c) (*(unsigned char*)&c)
 
 long long Utils::GetRandLongLong()
 {
@@ -17,7 +19,8 @@ long long Utils::GetRandLongLong()
 unsigned short Utils::GetUnsignedShort(const char* charArr, int pos)
 {
 	/* 所有的数据采用小端存储 */
-	unsigned short ans = UNSIGNED(charArr[pos]) | ((UNSIGNED(charArr[pos+1]) << 8));
+	unsigned short ans = (unsigned short)UNSIGNED(charArr[pos]) |
+		((unsigned short)(UNSIGNED(charArr[pos+1]) << 8));
 	return ans;
 }
 
@@ -44,5 +47,46 @@ void Utils::GetSanityInteger(const char* buffer, int len, char* evenAns, char* o
 	for (int i = 0; i < len; i += 1) {
 		if ((i & 1) == 0) (*evenAns) ^= buffer[i];
 		else              (*oddAns ) ^= buffer[i];
+	}
+}
+
+double Utils::GetClockTime()
+{
+	return 1.0 * clock() / CLOCKS_PER_SEC;
+}
+
+std::wstring Utils::GetWstringFromCharBuffer(const char* buf, int charCnt)
+{
+	assert(charCnt % 2 == 0);
+	int wcharCnt = charCnt / 2;
+
+	wchar_t* wbuf = new wchar_t[wcharCnt + 1];
+	memcpy(wbuf, buf, charCnt);
+	wbuf[wcharCnt] = '\0'; /* 最后补一个 '\0' */
+
+	std::wstring ans = wbuf; /* 转化成字符串 */
+	delete[] wbuf;
+
+	return ans;
+}
+
+void Utils::DumpRawStringToBuffer(char* buf, int pos, const char* raw, int len)
+{
+	for (int i = 0; i < len; i += 1) {
+		buf[pos + i] = raw[i];
+	}
+}
+
+void Utils::DumpIntToBuffer(char* buf, int pos, int val)
+{
+	unsigned int uVal = *(unsigned int*)&val;
+	unsigned char p[4];
+	for (int i = 0; i < 4; i += 1) {
+		p[i] = uVal & (0b11111111); /* 获取从低到高四个字节 */
+		uVal >>= 8;
+	}
+
+	for (int i = 0; i < 4; i += 1) {
+		UNSIGNED(buf[pos + i]) = p[i]; /* 数据写入 */
 	}
 }

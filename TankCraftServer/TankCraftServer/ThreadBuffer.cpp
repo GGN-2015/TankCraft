@@ -4,6 +4,12 @@
 #include "ThreadBuffer.h"
 #include "Utils.h"
 
+ThreadBuffer::ThreadBuffer()
+{
+	mUserID = -1;
+	mLastKillListTime = mLastShootTime = -1;
+}
+
 void ThreadBuffer::DumpMessage(IMessage* iMessage)
 {
 	mIMessageList.push_back(iMessage);
@@ -27,7 +33,7 @@ void ThreadBuffer::GetTcpDataFromDumpedMessage(TcpData* pTcpDataGet)
 	}
 
 	int pos = 0;
-	unsigned short cnt = mIMessageList.size(); // 消息总数
+	unsigned short cnt = (unsigned short)mIMessageList.size(); // 消息总数
 	char* buffer = new char[totalLen];
 
 	/* 载入各个块的信息 */
@@ -54,4 +60,14 @@ void ThreadBuffer::GetTcpDataFromDumpedMessage(TcpData* pTcpDataGet)
 
 	pTcpDataGet->SetData(buffer, totalLen);
 	delete[] buffer;
+}
+
+void ThreadBuffer::SetUserID(int nID)
+{
+	mUserID = nID;
+}
+
+bool ThreadBuffer::InGame() const
+{
+	return mUserID != -1; /* UserId = -1 表示尚未登录，没有 UserInfo */
 }

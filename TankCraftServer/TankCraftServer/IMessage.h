@@ -14,4 +14,6 @@ public:
 	virtual void GetRawData(TcpData* tcpData) = 0;                  /* 计算得到二进制数据 */
 	virtual int  GetRawDataLength() = 0;                            /* 根据数据长度定位下一个包 */
 	virtual void Dispatch(ThreadBuffer* tb, GameDatabase* Gdb) = 0; /* 算法逻辑核心：根据数据修改程序存储的信息 */
+
+	virtual void DebugShow() = 0; /* 调试专用输出 */
 };

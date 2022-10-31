@@ -1,6 +1,8 @@
 #pragma once
 #include "TcpServer.h"
 
+#define GAME_TCP_SERVER_DEBUG
+
 class TcpData;
 class GameTcpServer: public TcpServer
 {

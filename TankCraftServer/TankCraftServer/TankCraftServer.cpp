@@ -12,7 +12,7 @@ int main()
     /* 初始化随机种子 */
     srand((unsigned int)time(NULL));
 
-    TestTcpClientTool();
+    TestGameTcpServer();
 }
 
 void TestTcpServer() {

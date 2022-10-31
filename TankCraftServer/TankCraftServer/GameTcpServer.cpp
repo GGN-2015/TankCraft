@@ -4,8 +4,6 @@
 #include "TcpData.h"
 #include "ThreadBuffer.h"
 
-#define GAME_TCP_SERVER_DEBUG
-
 GameTcpServer::GameTcpServer(const char* ip, int port): TcpServer(ip, port)
 {
 }
@@ -25,6 +23,16 @@ void GameTcpServer::GetTcpDataResult(const TcpData* pTcpDataRecv,
 	/* 根据消息内容做出改变，或者派发消息 */
 	for (auto iClientRequest : iClientRequestList) {
 		iClientRequest->Dispatch(tb, Gdb);
+
+
+#ifdef GAME_TCP_SERVER_DEBUG
+		iClientRequest->DebugShow(); /* 显示接收到的每一个消息 */
+#endif
+	}
+
+	/* 完成工作后要记得释放收到的 Request 数据 */
+	for (auto iClientRequest : iClientRequestList) {
+		delete iClientRequest;
 	}
 
 	tb->GetTcpDataFromDumpedMessage(pTcpDataSend); /* 获取要被发送的消息 */
