@@ -163,6 +163,7 @@
     <ClInclude Include="TcpData.h" />
     <ClInclude Include="TcpServer.h" />
     <ClInclude Include="TcpUtils.h" />
+    <ClInclude Include="TestPrograms.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

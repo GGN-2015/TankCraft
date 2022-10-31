@@ -9,13 +9,24 @@
 #include "TcpData.h"
 #include "Utils.h"
 
-TcpClient::TcpClient(const char* ip, int port)
+TcpClient::TcpClient()
 {
-	pServerSocket = nullptr; /* 没有成功连接，返回 nullptr */
+	pServerSocket = nullptr; /* 未连接 */
+}
+
+TcpClient::~TcpClient()
+{
+	CloseSocket();
+}
+
+int TcpClient::Connect(const char* ip, int port)
+{
+	assert(pServerSocket == nullptr); /* 没有成功连接，返回 nullptr */
 
 	WSADATA data;
 	if (WSAStartup(MAKEWORD(2, 2), &data) != 0) {
-	    std::cerr << "WSAStartup() error " << std::endl;
+		std::cerr << "WSAStartup() error " << std::endl;
+		return TCP_CLINET_STARTUP_ERR;
 	}
 	else {
 		/* 设置服务端*/
@@ -23,27 +34,24 @@ TcpClient::TcpClient(const char* ip, int port)
 		addrServer.sin_family = AF_INET;
 		addrServer.sin_port = htons(port);
 		addrServer.sin_addr.S_un.S_addr = inet_addr(ip);
-		
+
 		/* 创建 socket */
 		pServerSocket = (void*)socket(AF_INET, SOCK_STREAM, 0);
 		if (pServerSocket == (void*)INVALID_SOCKET) {
 			std::cerr << "socket() error " << std::endl;
 			pServerSocket = nullptr;
-			return;
+			return TCP_CLINET_SOCKET_ERR;
 		}
 
 		/* 尝试连接 */
 		if (connect((SOCKET)pServerSocket, (struct sockaddr*)&addrServer, sizeof(addrServer)) == INVALID_SOCKET)
 		{
 			std::cerr << "connect() error" << std::endl;
-			return;
+			return TCP_CLINET_CONNECT_ERR;
 		}
 	}
-}
 
-TcpClient::~TcpClient()
-{
-	CloseSocket();
+	return TCP_CLINET_CONNECT_SUC;
 }
 
 void TcpClient::Request(const TcpData* tcpDataSend, TcpData* tcpDataGet)
@@ -66,4 +74,5 @@ void TcpClient::CloseSocket() /* 关闭 socket */
 		closesocket((SOCKET)pServerSocket);
 		WSACleanup();
 	}
+	pServerSocket = nullptr;
 }

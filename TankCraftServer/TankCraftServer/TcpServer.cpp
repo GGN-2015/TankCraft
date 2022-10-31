@@ -87,11 +87,17 @@ int TcpServer::RunServer() {
 
 void TcpServer::GetTcpDataResult(const TcpData* request, TcpData* reply)
 {
-	/* 测试用的回应函数，只能发送 HelloWorld */
-	static const char msg[] = 
-		"HTTP/1.0 200 OK\r\nContent-Type:text/html\r\nContent-Length: 23\r\n\r\n<h1>Hello World!</h1>\r\n";
+	/* 测试功能，将字符串翻转再发回去 */
+	int len = request->GetLength();
 
-	reply->SetData(msg, strlen(msg));
+	/* 拷贝数据 */
+	char* buffer = new char[len];
+	memcpy(buffer, request->GetData(), request->GetLength());
+	std::reverse(buffer, buffer + len);
+
+	/* 发送数据 */
+	reply->SetData(buffer, len);
+	delete[] buffer;
 }
 
 long long TcpServer::GetToken() const

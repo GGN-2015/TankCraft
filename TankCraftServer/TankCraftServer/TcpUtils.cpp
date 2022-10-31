@@ -52,7 +52,7 @@ void TcpUtils::GetTcpDataFromSocket(void* socketClient, TcpData* tcpData)
 {
 	char* recvBuffer= new char[TCP_BUFFER_MAX];
 
-	int cnt = recv((SOCKET)socketClient, recvBuffer, sizeof(recvBuffer), 0);
+	int cnt = recv((SOCKET)socketClient, recvBuffer, TCP_BUFFER_MAX, 0);
 	tcpData->SetData(recvBuffer, cnt);
 
 	delete[] recvBuffer; // 一定要特别注意内存泄漏
