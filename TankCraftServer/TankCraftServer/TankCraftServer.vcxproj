@@ -154,6 +154,7 @@
     <ClCompile Include="PingMessage.cpp" />
     <ClCompile Include="PingParser.cpp" />
     <ClCompile Include="TankCraftServer.cpp" />
+    <ClCompile Include="TanksFight_NetManager_Component.cpp" />
     <ClCompile Include="TcpClient.cpp" />
     <ClCompile Include="TcpData.cpp" />
     <ClCompile Include="TcpServer.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
     <ClInclude Include="DataParser.h" />
     <ClInclude Include="GameDatabase.h" />
     <ClInclude Include="GameGraph.h" />
@@ -176,6 +178,7 @@
     <ClInclude Include="PingMessage.h" />
     <ClInclude Include="PingParser.h" />
     <ClInclude Include="RequestMessageTypes.h" />
+    <ClInclude Include="TanksFight_NetManager_Component.h" />
     <ClInclude Include="TcpClient.h" />
     <ClInclude Include="TcpData.h" />
     <ClInclude Include="TcpServer.h" />
@@ -184,6 +187,9 @@
     <ClInclude Include="ThreadBuffer.h" />
     <ClInclude Include="UserInfo.h" />
     <ClInclude Include="Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TankCraftServer.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,8 +11,14 @@
 #define TCP_SERVER_FAIL       ( 1) /* 服务器启动失败 */
 #define TCP_SERVER_MAX_LISTEN (10) /* TCP 服务器的最大监听数 */
 
+#define CLIENT_THREAD_SLEEP_TIME (60) /* 客户端发送消息的周期 ms for windows */
+
 class TcpServer;
 class TcpData;
+class Xn::TankCraft::NetManager_Component;
+
+typedef std::vector<std::unique_ptr<TcpData>> TcpDataList;
+
 class TcpUtils
 {
 public:
@@ -21,4 +27,7 @@ public:
 	static void GetTcpDataFromSocket(void* socketClient, TcpData* tcpData);
 	static int  SendTcpDataToSocket(const TcpData* tcpData, void* socketClient); /* 可能返回 -1 */
 	static void CreateProcessForClient(void* socketClient, TcpServer* tcpServer);
+
+	/* 客户端接收数据的线程 */
+	static void ClientThreadFunction(const char* ip, int port, Xn::TankCraft::NetManager_Component* nmComponent);
 };

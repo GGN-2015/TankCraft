@@ -2,6 +2,8 @@
 #include <WinSock2.h>
 
 #include "GameDatabase.h"
+#include "TankCraft_NetManager_Component.h"
+#include "TcpClient.h"
 #include "TcpData.h"
 #include "TcpUtils.h"
 #include "TcpServer.h"
@@ -75,5 +77,54 @@ int TcpUtils::SendTcpDataToSocket(const TcpData* tcpData, void* socketClient)
 void TcpUtils::CreateProcessForClient(void* socketClient, TcpServer* tcpServer)
 {
 	/* 使用新的线程处理这个客户端的事件 */
-	std::thread(DealWithClient, socketClient, tcpServer).detach();
+	std::thread* pthread = new std::thread(DealWithClient, socketClient, tcpServer);
+	pthread->detach();
+
+	// TODO: 将 pthread 放入线程池并进行管理
+}
+
+void TcpUtils::ClientThreadFunction(const char* ip, int port, Xn::TankCraft::NetManager_Component* nmComponent)
+{
+	TcpClient tcpClient;
+
+	int ret = tcpClient.Connect(ip, port);
+	if (ret != 0) {
+		nmComponent->PushFailedMessage(ret); /* 推送一个连接出错消息，告知出错原因 */
+		return; /* 结束线程 */
+	}
+	else {
+		nmComponent->PushSucessMessage(); /* 推送一个连接成功消息 */
+
+		/* 线程主循环 */
+		while (nmComponent->GetConnectStatus() == Xn::TankCraft::NetManager_Component::NET_MANAGER_ONLINE) {
+			if (nmComponent->HasClientRequest()) {
+				TcpDataList tcpDataList;
+
+				/* 由于这个操作是原子的，所以要尽可能节省性能 */
+				nmComponent->MoveClientRequestToTcpDataList(&tcpDataList);
+
+				/* 对数据进行打包 */
+				TcpData tcpDataRequest;
+				TcpUtils::CompactTcpDataListToTcpDataRequest(&tcpDataList, &tcpDataRequest);
+
+				/* 发送打包后的请求，获取消息 */
+				TcpData tcpDataMessage;
+				tcpClient.Request(&tcpDataRequest, &tcpDataMessage);
+
+				/* 检测是否与服务器断开连接 */
+				if (tcpDataMessage.IsEnd()) {
+					nmComponent->PushFailedMessage(TCP_CLIENT_DISCONNECT_FROM_SERVER);
+				}
+
+				/* 对收到的消息进行解包 */
+				tcpDataList.clear();
+				TcpUtils::UnpackTcpDataMessageToTcpDataList(&tcpDataMessage, &tcpDataList);
+			}
+
+			Sleep(CLIENT_THREAD_SLEEP_TIME);
+		}
+
+		/* 断开连接 */
+		tcpClient.CloseSocket();
+	}
 }

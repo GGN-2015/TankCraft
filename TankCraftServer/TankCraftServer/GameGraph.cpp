@@ -26,7 +26,14 @@ void GameGraph::GenerateRandMap()
 		return; /* 拒绝生成地图 */
 	}
 
+	/* 克鲁斯卡尔算法，最小生成树 */
+	assert(false); // 没有实现完
 
+	for (int i = 0; i < mHeight; i += 1) {
+		for (int j = 0; j < mWidth; j += 1) {
+
+		}
+	}
 }
 
 int GameGraph::GetNodeId(int posX, int posY) const

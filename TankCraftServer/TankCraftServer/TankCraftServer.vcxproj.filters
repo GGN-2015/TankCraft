@@ -31,6 +31,9 @@
     <Filter Include="头文件\Algo">
       <UniqueIdentifier>{6f10b030-ba1a-44a5-92a4-e625a7aac456}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Interface">
+      <UniqueIdentifier>{7ddab8d0-5445-42a6-9ef6-04ead911f6f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TankCraftServer.cpp">
@@ -91,6 +94,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="GameGraph.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TanksFight_NetManager_Component.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -158,5 +164,16 @@
     <ClInclude Include="GameGraph.h">
       <Filter>头文件\Algo</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>头文件\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="TanksFight_NetManager_Component.h">
+      <Filter>头文件\Interface</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TankCraftServer.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

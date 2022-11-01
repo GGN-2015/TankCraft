@@ -2,6 +2,7 @@
 
 #define GAME_GRAPH_MAX_WIDTH  (40)
 #define GAME_GRAPH_MAX_HEIGHT (40)
+#define GAME_GRAPH_MAX_POS    (GAME_GRAPH_MAX_WIDTH * GAME_GRAPH_MAX_HEIGHT)
 
 struct GameGraphEdges {
 	bool hasLeft; /* 当前位置左侧是否有墙 */

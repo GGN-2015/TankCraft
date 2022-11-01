@@ -1,10 +1,11 @@
 #pragma once
 #include "TcpUtils.h"
 
-#define TCP_CLINET_CONNECT_SUC (0)
-#define TCP_CLINET_STARTUP_ERR (1)
-#define TCP_CLINET_SOCKET_ERR  (2)
-#define TCP_CLINET_CONNECT_ERR (3)
+#define TCP_CLINET_CONNECT_SUC            (0)
+#define TCP_CLINET_STARTUP_ERR            (1)
+#define TCP_CLINET_SOCKET_ERR             (2)
+#define TCP_CLINET_CONNECT_ERR            (3)
+#define TCP_CLIENT_DISCONNECT_FROM_SERVER (4)
 
 class TcpData;
 class TcpClient                                    
