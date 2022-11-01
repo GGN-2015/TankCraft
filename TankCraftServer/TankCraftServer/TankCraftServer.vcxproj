@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="DataParser.cpp" />
     <ClCompile Include="GameDatabase.cpp" />
+    <ClCompile Include="GameGraph.cpp" />
     <ClCompile Include="GameTcpServer.cpp" />
     <ClCompile Include="IMessage.cpp" />
     <ClCompile Include="IParser.cpp" />
@@ -164,6 +165,7 @@
   <ItemGroup>
     <ClInclude Include="DataParser.h" />
     <ClInclude Include="GameDatabase.h" />
+    <ClInclude Include="GameGraph.h" />
     <ClInclude Include="GameTcpServer.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IParser.h" />

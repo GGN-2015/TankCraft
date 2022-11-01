@@ -28,6 +28,9 @@
     <Filter Include="头文件\Tests">
       <UniqueIdentifier>{46dc49d3-8323-4e26-b800-978c7cd676b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Algo">
+      <UniqueIdentifier>{6f10b030-ba1a-44a5-92a4-e625a7aac456}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TankCraftServer.cpp">
@@ -85,6 +88,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="LoginMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GameGraph.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -148,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="LoginMessage.h">
       <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="GameGraph.h">
+      <Filter>头文件\Algo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
