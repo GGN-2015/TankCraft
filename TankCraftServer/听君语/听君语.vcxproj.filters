@@ -224,8 +224,6 @@
     <ClInclude Include="..\TankCraftServer\TankCraft_NetManager_Component.h">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
     </ClInclude>
-<<<<<<< Updated upstream
-=======
     <ClInclude Include="TankCraft_WallComponent.h">
       <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\地图\墙</Filter>
     </ClInclude>
@@ -235,7 +233,6 @@
     <ClInclude Include="Math-Int.h">
       <Filter>代码文件\器\数学\Base</Filter>
     </ClInclude>
->>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

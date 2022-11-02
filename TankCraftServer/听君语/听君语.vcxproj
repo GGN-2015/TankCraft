@@ -82,11 +82,8 @@
     <ClInclude Include="Circular_RenderComponent.h" />
     <ClInclude Include="FileAbout.h" />
     <ClInclude Include="InputManagerInterface.h" />
-<<<<<<< Updated upstream
-=======
     <ClInclude Include="Line_RenderComponent.h" />
     <ClInclude Include="Math-Int.h" />
->>>>>>> Stashed changes
     <ClInclude Include="Math-Vector3.h" />
     <ClInclude Include="Math-Vector4.h" />
     <ClInclude Include="Component.h" />
