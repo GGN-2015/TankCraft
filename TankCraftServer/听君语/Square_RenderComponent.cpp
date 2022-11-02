@@ -5,7 +5,6 @@
 //
 //*********************************************************
 
-#include "ObjectManager-XnObject.h"
 #include "RenderManager.h"
 #include "Ìı¾ıÓï.h"
 

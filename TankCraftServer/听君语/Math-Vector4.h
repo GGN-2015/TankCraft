@@ -68,10 +68,10 @@ struct Vector4 {
   static inline Vector4 Lerp(const Vector4 &start, const Vector4 &end,
                              const Float &t) {
     auto clamped_t = Float::Clamp(t);
-    auto x = Float::LerpWithoutClampe(start.x, end.x, clamped_t);
-    auto y = Float::LerpWithoutClampe(start.y, end.y, clamped_t);
-    auto z = Float::LerpWithoutClampe(start.z, end.z, clamped_t);
-    auto w = Float::LerpWithoutClampe(start.w, end.w, clamped_t);
+    auto x = Float::LerpWithoutClamp(start.x, end.x, clamped_t);
+    auto y = Float::LerpWithoutClamp(start.y, end.y, clamped_t);
+    auto z = Float::LerpWithoutClamp(start.z, end.z, clamped_t);
+    auto w = Float::LerpWithoutClamp(start.w, end.w, clamped_t);
     return Vector4(x, y, z, w);
   }
 

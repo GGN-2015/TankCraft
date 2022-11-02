@@ -105,8 +105,10 @@
     <ClInclude Include="SingletonBaseClass.h" />
     <ClInclude Include="Square_RenderComponent.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TankCraft_MapComponent.h" />
     <ClInclude Include="TankCraft_TankComponent.h" />
     <ClInclude Include="TestComponent.h" />
+    <ClInclude Include="Transform_RenderComponent.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="Math-Vector2.h" />
     <ClInclude Include="ForDebug-XnException.h" />
@@ -129,7 +131,9 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlatformManager.cpp" />
     <ClCompile Include="Square_RenderComponent.cpp" />
+    <ClCompile Include="TankCraft_MapComponent.cpp" />
     <ClCompile Include="TankCraft_TankComponent.cpp" />
+    <ClCompile Include="Transform_RenderComponent.cpp" />
     <ClCompile Include="XnTime.cpp" />
     <ClCompile Include="听君语.cpp" />
   </ItemGroup>

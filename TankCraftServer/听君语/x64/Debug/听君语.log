@@ -1,2 +1,22 @@
-﻿  TankCraft_NetManager_Component.cpp
+﻿  Circular_RenderComponent.cpp
+  InputManager.cpp
+  Main.cpp
+  Math.cpp
+  ObjectManager-XnObject.cpp
+  ObjectManager.cpp
+  PlatformManager.cpp
+  RenderComponent.cpp
+  RenderManager.cpp
+D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\听君语\RenderManager.cpp(127,40): warning C4244: “参数”: 从“uint”转换到“float”，可能丢失数据
+D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\听君语\RenderManager.cpp(127,32): warning C4244: “参数”: 从“uint”转换到“float”，可能丢失数据
+D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\听君语\RenderManager.cpp(192,36): warning C4244: “参数”: 从“const uint”转换到“float”，可能丢失数据
+D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\听君语\RenderManager.cpp(192,29): warning C4244: “参数”: 从“const uint”转换到“float”，可能丢失数据
+  Square_RenderComponent.cpp
+  TankCraft_MapComponent.cpp
+  TankCraft_TankComponent.cpp
+D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\听君语\TankCraft_TankComponent.cpp(25,64): warning C4305: “参数”: 从“double”到“float”截断
+D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\听君语\TankCraft_TankComponent.cpp(27,34): warning C4305: “参数”: 从“double”到“float”截断
+  Transform_RenderComponent.cpp
+  听君语.cpp
+  正在生成代码...
   听君语.vcxproj -> D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\x64\Debug\听君语.exe

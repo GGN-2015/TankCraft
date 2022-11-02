@@ -72,9 +72,6 @@
     <Filter Include="代码文件\司\数\对象组件\渲染组件">
       <UniqueIdentifier>{9d48e0ec-cdf8-4e29-bd4e-900420c52941}</UniqueIdentifier>
     </Filter>
-    <Filter Include="代码文件\司\形\UI">
-      <UniqueIdentifier>{0ceac60f-3df1-42e0-9a29-8cdda88df4c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="代码文件\司\数\对象组件\测试组件">
       <UniqueIdentifier>{d4e3d289-9fc7-4cff-a05f-2abb9483d04e}</UniqueIdentifier>
     </Filter>
@@ -119,6 +116,21 @@
     </Filter>
     <Filter Include="代码文件\司\数\对象组件\渲染组件\基础图形">
       <UniqueIdentifier>{23b84e0e-6c39-4e25-9274-72561a86f74e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\地图">
+      <UniqueIdentifier>{ee58f4be-6c23-4bad-a45e-4a30e5bc8494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\地图\坦克">
+      <UniqueIdentifier>{5265c604-fcdf-4c30-99f8-ae490d7bcb59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\地图\墙">
+      <UniqueIdentifier>{7e6d7de0-9287-4fa8-aec5-e0e1a8815201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\地图\其它实体">
+      <UniqueIdentifier>{19f929e5-4a18-4c95-a91e-1b5cde588edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\渲染组件\仅变换">
+      <UniqueIdentifier>{c6e9da30-753d-49e8-85b1-5a3257186247}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -212,9 +224,6 @@
     <ClInclude Include="ObjectManager-XnObject.h">
       <Filter>代码文件\司\数\对象管理\空对象</Filter>
     </ClInclude>
-    <ClInclude Include="TankCraft_TankComponent.h">
-      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡</Filter>
-    </ClInclude>
     <ClInclude Include="Circular_RenderComponent.h">
       <Filter>代码文件\司\数\对象组件\渲染组件\基础图形</Filter>
     </ClInclude>
@@ -223,6 +232,15 @@
     </ClInclude>
     <ClInclude Include="..\TankCraftServer\TankCraft_NetManager_Component.h">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClInclude>
+    <ClInclude Include="TankCraft_TankComponent.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\地图\坦克</Filter>
+    </ClInclude>
+    <ClInclude Include="TankCraft_MapComponent.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\地图</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform_RenderComponent.h">
+      <Filter>代码文件\司\数\对象组件\渲染组件\仅变换</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,11 +292,17 @@
     <ClCompile Include="Circular_RenderComponent.cpp">
       <Filter>代码文件\司\数\对象组件\渲染组件\基础图形</Filter>
     </ClCompile>
-    <ClCompile Include="TankCraft_TankComponent.cpp">
-      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡</Filter>
-    </ClCompile>
     <ClCompile Include="..\TankCraftServer\TankCraft_NetManager_Component.cpp">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraft_TankComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\地图\坦克</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform_RenderComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\渲染组件\仅变换</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraft_MapComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\地图</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

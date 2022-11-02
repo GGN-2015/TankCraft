@@ -133,7 +133,7 @@ RenderManager::RenderManager(const uint &width, const uint &height,
 
 void Xn::RenderManager::StartRender() {
   d2d_context_->BeginDraw();
-  d2d_context_->Clear(D2D1::ColorF(D2D1::ColorF::Black, 0.2f));
+  d2d_context_->Clear(D2D1::ColorF(D2D1::ColorF::White, 0.2f));
 }
 
 void Xn::RenderManager::EndRender() {
@@ -172,7 +172,13 @@ void Xn::RenderManager::RenderTransformOver() {
   d2d_context_->SetTransform(the_transform);
 }
 
-void RenderManager::OnDestory() {}
+void RenderManager::OnDestory() {
+  d2d_factory_->Release();
+  d2d_device_->Release();
+  d2d_context_->Release();
+  d2d_render_target_bitmap_->Release();
+  brush_->Release();
+}
 
 uint Xn::RenderManager::GetHeight() { return height_; }
 
@@ -250,8 +256,8 @@ void Xn::RenderManager::RenderEllipse(const Vector2 &pos, const float &radius,
                                       const Vector4 &color) {
   brush_->SetColor(D2D1::ColorF(color.asColor.R, color.asColor.G,
                                 color.asColor.B, color.asColor.A));
-  D2D1_ELLIPSE d2d_ellipse = {.point = {.x = pos.x, .y = pos.y},
-                              .radiusX = radius, .radiusY = radius};
+  D2D1_ELLIPSE d2d_ellipse = {
+      .point = {.x = pos.x, .y = pos.y}, .radiusX = radius, .radiusY = radius};
   d2d_context_->FillEllipse(d2d_ellipse, brush_.Get());
 }
 void Xn::RenderManager::RenderEllipse(const Vector2 &pos, const float &radius_x,
