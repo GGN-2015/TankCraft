@@ -15,6 +15,7 @@ public:
 	void DebugShow(const char* prompt) const;         /* 用于对于数据内容的显示 */
 
 	unsigned short GetUnsignedShortAt(int pos) const; /* 获取一个无符号短整数 */
+	void IgnoreData(); /* 直接丢弃当前的数据但是不析构 */
 
 private:
 	int   mLength;

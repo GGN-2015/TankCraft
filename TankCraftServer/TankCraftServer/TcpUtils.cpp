@@ -104,7 +104,7 @@ void TcpUtils::ClientThreadFunction(const char* ip, int port, Xn::TankCraft::Net
 
 				/* 由于这个操作是原子的，所以要尽可能节省性能 */
 				nmComponent->MoveClientRequestToNetMessageBaseDataList(&nmBaseDataList);
-				TcpUtils::GetTcoDataListFromNetMessageBaseDataList(&nmBaseDataList, &tcpDataList);
+				TcpUtils::GetTcpDataListFromNetMessageBaseDataList(&nmBaseDataList, &tcpDataList);
 
 				/* 对数据进行打包 */
 				TcpData tcpDataRequest;

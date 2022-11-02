@@ -19,17 +19,32 @@ namespace Xn {
 	typedef unsigned char byte;
 	typedef wchar_t wchar;
 
-
 	namespace TankCraft {
-
-		typedef std::vector<wchar_t> WcharList;
 
 		struct NetMessageBaseData {
 			uint length;    // 是按wchar的长度
-			WcharList data; /* 时间代价可能会比较高 */
+			wchar_t* data; /* 时间代价可能会比较高 */
 
-			NetMessageBaseData() : length(0) {};
-			NetMessageBaseData(const TcpData* pTcpData);
+			NetMessageBaseData() : length(0), data(nullptr) {};
+			void MoveDataFrom(TcpData* pTcpData); /* 转移构造 */
+
+			void FreeData() { /* 安全地清空数据 */
+				if (data != nullptr) {
+					delete[] data;
+				}
+				data = nullptr;
+				length = 0;
+			}
+
+			void SetData(wchar_t* nData, int nLen) {
+				FreeData();
+				length = nLen;
+				data = nData;
+			}
+
+			~NetMessageBaseData() { /* 析构函数 */
+				FreeData();
+			}
 		};
 
 		/* 数据缓冲区 */
@@ -135,7 +150,7 @@ namespace Xn {
 			void MoveClientRequestToNetMessageBaseDataList(
 				NetMessageBaseDataList* nmBaseDataList); /* 原子：数据转移 */
 
-			void PushServerMessageTcpData(const TcpData* pTcpData); /* 原子：向来自服务器的消息序列追加数据 */
+			void PushServerMessageTcpData(TcpData* pTcpData); /* 原子：向来自服务器的消息序列追加数据 */
 
 		private:
 			/* 原子：相当于一条来自服务器的消息，但是实际上是本机推送的 */

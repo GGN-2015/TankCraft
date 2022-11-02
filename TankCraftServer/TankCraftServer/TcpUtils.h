@@ -17,6 +17,7 @@
 class TcpServer;
 class TcpData;
 class Xn::TankCraft::NetManager_Component;
+class Xn::TankCraft::NetMessageBaseDataList;
 
 class TcpUtils
 {
@@ -35,4 +36,7 @@ public:
 
 	/* 将一个数据包拆分成多个 Message*/
 	static void UnpackTcpDataMessageToTcpDataList(const TcpData* pTcpDataMessage, TcpDataList* pTcpDataList);
+
+	/* 将 tcpDataList 转换成 nmBaseDataList */
+	static void GetTcpDataListFromNetMessageBaseDataList(Xn::TankCraft::NetMessageBaseDataList* nmBaseDataList, TcpDataList* tcpDataList);
 };

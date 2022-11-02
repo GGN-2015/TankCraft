@@ -12,6 +12,8 @@ class GameDatabase;
 
 class TcpServer
 {
+	friend TcpUtils;
+
 public:
 	TcpServer(const std::string& IP, int port); /* 创建一个服务器对象 */
 	~TcpServer();
