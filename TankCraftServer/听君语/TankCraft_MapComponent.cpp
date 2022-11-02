@@ -9,6 +9,7 @@
 #include "ObjectManager.h"
 #include "RenderManager.h"
 #include "Square_RenderComponent.h"
+#include "TankCraft_BulletComponent.h"
 #include "TankCraft_TankComponent.h"
 #include "TankCraft_WallComponent.h"
 #include "Transform_RenderComponent.h"
@@ -20,9 +21,11 @@ constexpr uint map_side_length = 10;
 void Xn::TankCraft::MapComponent::OnStart() {
   render_component_ =
       (Square_RenderComponent*)GetXnObject()->SetRenderComponent(
-          std::make_unique<Square_RenderComponent>(Vector4(1, 0, 0, 1)));
+          std::make_unique<Square_RenderComponent>(
+              Vector4(0.7f, 1.f, 0.75f, 1)));
 
-  render_component_->rect_ = {0, 0, 100, 100};
+  render_component_->rect_ = {-0.3f, -0.3f, map_side_length + 0.3f,
+                              map_side_length + 0.3f};
 
   // TODO 目前，仅支持地图上下对齐，左右不管
   {
@@ -41,6 +44,13 @@ void Xn::TankCraft::MapComponent::OnStart() {
     SetTargetPos(map_pos, map_scale);
   }
 
+  for (uint i = 0; i < 50; ++i) {
+    听君语::Get()
+        .GetObjectManager()
+        ->CreateXnObject(Vector2::ZERO, GetXnObject())
+        ->AddComponent(std::make_unique<BulletComponent>());
+  }
+
   for (uint i = 0; i < 5; ++i) {
     听君语::Get()
         .GetObjectManager()
@@ -49,18 +59,6 @@ void Xn::TankCraft::MapComponent::OnStart() {
   }
 
   // TODO 加入地图10*10，模拟一下墙
-  for (uint i = 0; i < 10; ++i) {
-    for (uint j = 0; j < 10; ++j) {
-      auto wall = (WallComponent*)听君语::Get()
-                      .GetObjectManager()
-                      ->CreateXnObject(Vector2::ZERO, GetXnObject())
-                      ->AddComponent(std::make_unique<WallComponent>());
-      wall->SetPos({j, i},
-                   (rand() & 1) ? Vector2(j + 1, i) : Vector2(j, i + 1));
-      wall->SetWidth(0.1f);
-      wall->SetColor(Vector4(1, 0.6f, 0.7f, 1));
-    }
-  }
 }
 void Xn::TankCraft::MapComponent::OnUpdate() {
   GetXnObject()->pos_ = Vector2::Lerp(GetXnObject()->pos_, target_pos_, 0.05f);
@@ -84,4 +82,22 @@ void Xn::TankCraft::MapComponent::SetTargetPos(const Vector2& pos,
                                                const Float& scale) {
   target_pos_ = pos;
   target_scale_ = Vector2(scale, scale);
+}
+
+void Xn::TankCraft::MapComponent::SetMap(const wchar* const& map_data,
+                                         const uint& x_side_length,
+                                         const uint& y_side_length) {
+  for (uint i = 0; i < y_side_length; ++i) {
+    for (uint j = 0; j < 2 * x_side_length / (8 * sizeof(wchar)); ++j) {
+      union {};
+      auto wall = (WallComponent*)听君语::Get()
+                      .GetObjectManager()
+                      ->CreateXnObject(Vector2::ZERO, GetXnObject())
+                      ->AddComponent(std::make_unique<WallComponent>());
+      wall->SetPos({j, i},
+                   (rand() & 1) ? Vector2(j + 1, i) : Vector2(j, i + 1));
+      wall->SetWidth(0.1f);
+      wall->SetColor(Vector4(1, 0.6f, 0.7f, 1));
+    }
+  }
 }

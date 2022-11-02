@@ -57,7 +57,7 @@ class TestComponent2 : public Component {
     target_pos_ = Vector2(0, 0);
     // target_pos_ = Vector2::RandomBetween(Vector2(100, 100), Vector2(400,
     // 400));
-    target_scale_ = Vector2::Random(Vector2(0.5, 0.5), Vector2(2, 2));
+    target_scale_ = Vector2::Random(Vector2(0.5f, 0.5f), Vector2(2, 2));
     target_rotation_ = Float::Random(-45, 45);
     target_color_ =
         Vector4::Random(Vector4(1, 0, 0, 1), Vector4(1, 1, 1, 1));
@@ -100,7 +100,7 @@ class TestComponent : public Component {
 
     Ìý¾ýÓï::Get()
         .GetObjectManager()
-        ->CreateXnObject(Vector2(0, 0.5), GetXnObject())
+        ->CreateXnObject(Vector2(0.f, 0.5f), GetXnObject())
         ->AddComponent(std::make_unique<TestComponent2>());
   };
   virtual void OnUpdate() override {
@@ -129,7 +129,7 @@ class TestComponent : public Component {
     target_scale_ = Vector2::Random(Vector2(100, 100), Vector2(400, 400));
     target_rotation_ = Float::Random(-45, 135);
     target_color_ =
-        Vector4::Random(Vector4(1, 0, 0, 0.5), Vector4(1, 1, 1, 1));
+        Vector4::Random(Vector4(1.f, 0.f, 0.f, 0.5f), Vector4(1, 1, 1, 1));
   }
 
  private:

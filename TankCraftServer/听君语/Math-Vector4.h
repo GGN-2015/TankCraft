@@ -6,6 +6,8 @@
 //*********************************************************
 
 #include "Math-Float.h"
+#include "Math-Vector2.h"
+#include "Math-Vector3.h"
 
 namespace Xn {
 
@@ -16,6 +18,10 @@ struct Vector4 {
   Vector4(const float (&floats)[4]) {
     std::memcpy(this->asFloats.floats, floats, sizeof floats);
   }
+  Vector4(const Vector2 &vector, const Float &z, const Float &w)
+      : x(vector.x), y(vector.y), z(z), w(w) {}
+  Vector4(const Vector3 &vector, const Float &w)
+      : x(vector.x), y(vector.y), z(vector.z), w(w) {}
 
   union {
     struct {
@@ -86,7 +92,7 @@ struct Vector4 {
     x = other.x;
     y = other.y;
     z = other.z;
-    w = other.x;
+    w = other.w;
     return *this;
   }
   inline Vector4 operator+(const Vector4 &other) const {

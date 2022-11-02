@@ -6,6 +6,7 @@
 //*********************************************************
 
 #include "Math-Float.h"
+#include "Math-Vector2.h"
 
 namespace Xn {
 
@@ -15,6 +16,8 @@ struct Vector3 {
   Vector3(const Float (&floats)[3]) {
     std::memcpy(this->asFloats.floats, floats, sizeof floats);
   }
+  Vector3(const Vector2 &vector, const Float &z)
+      : x(vector.x), y(vector.y), z(z) {}
 
   union {
     struct {

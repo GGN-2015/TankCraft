@@ -78,7 +78,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\TankCraftServer\TankCraft_NetManager_Component.h" />
     <ClInclude Include="Circular_RenderComponent.h" />
     <ClInclude Include="FileAbout.h" />
     <ClInclude Include="InputManagerInterface.h" />
@@ -107,7 +106,11 @@
     <ClInclude Include="SingletonBaseClass.h" />
     <ClInclude Include="Square_RenderComponent.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TankCraft_BulletComponent.h" />
+    <ClInclude Include="TankCraft_MapComponent.h" />
+    <ClInclude Include="TankCraft_NetManager_Component.h" />
     <ClInclude Include="TankCraft_TankComponent.h" />
+    <ClInclude Include="TankCraft_WallComponent.h" />
     <ClInclude Include="TestComponent.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="Math-Vector2.h" />
@@ -116,8 +119,8 @@
     <ClInclude Include="听君语.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\TankCraftServer\TankCraft_NetManager_Component.cpp" />
     <ClCompile Include="Circular_RenderComponent.cpp" />
+    <ClCompile Include="Line_RenderComponent.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectManager-XnObject.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
@@ -131,7 +134,11 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PlatformManager.cpp" />
     <ClCompile Include="Square_RenderComponent.cpp" />
+    <ClCompile Include="TankCraft_BulletComponent.cpp" />
+    <ClCompile Include="TankCraft_MapComponent.cpp" />
+    <ClCompile Include="TankCraft_NetManager_Component.cpp" />
     <ClCompile Include="TankCraft_TankComponent.cpp" />
+    <ClCompile Include="TankCraft_WallComponent.cpp" />
     <ClCompile Include="XnTime.cpp" />
     <ClCompile Include="听君语.cpp" />
   </ItemGroup>

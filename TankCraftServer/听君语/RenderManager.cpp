@@ -133,7 +133,7 @@ RenderManager::RenderManager(const uint &width, const uint &height,
 
 void Xn::RenderManager::StartRender() {
   d2d_context_->BeginDraw();
-  d2d_context_->Clear(D2D1::ColorF(D2D1::ColorF::White, 0.2f));
+  d2d_context_->Clear(D2D1::ColorF(D2D1::ColorF::White, 0.8f));
 }
 
 void Xn::RenderManager::EndRender() {
