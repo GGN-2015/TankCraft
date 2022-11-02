@@ -3,6 +3,8 @@
 #include <string>
 #include "MyMutex.h"
 
+// TODO: LOCK BEFORE USE GAME_DATABASE
+
 #define GAME_DATABASE_DEBUG
 #define GAME_DATABASE_USER_MAX (8)
 
@@ -21,6 +23,7 @@ public:
 	int GetUserCount() const; /* 获取服务器当前正在游玩的人数 */
 
 	void AddUser(int nUserId, std::wstring nUserName); /* 将玩家加入游戏中 */
+	void DelUser(int nUserId); /* 删除一个玩家 */
 
 private:
 	GameDatabase();

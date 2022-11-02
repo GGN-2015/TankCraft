@@ -6,6 +6,7 @@ class UserInfo
 {
 public:
 	UserInfo(int nUserId);
+	int GetUserId() const; /* 获取用户 ID */
 
 	std::wstring GetUserName() const;
 	void SetUserName(std::wstring nUserName);

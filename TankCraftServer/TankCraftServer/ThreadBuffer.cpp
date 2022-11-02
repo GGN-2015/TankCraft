@@ -71,3 +71,8 @@ bool ThreadBuffer::InGame() const
 {
 	return mUserID != -1; /* UserId = -1 表示尚未登录，没有 UserInfo */
 }
+
+int ThreadBuffer::GetUserID() const
+{
+	return mUserID;
+}

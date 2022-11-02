@@ -5,6 +5,11 @@ UserInfo::UserInfo(int nUserId)
     mUserId = nUserId;
 }
 
+int UserInfo::GetUserId() const
+{
+    return mUserId;
+}
+
 std::wstring UserInfo::GetUserName() const
 {
     return mUserName;

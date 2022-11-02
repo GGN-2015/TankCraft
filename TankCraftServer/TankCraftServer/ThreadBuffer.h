@@ -14,6 +14,7 @@ public:
 	void SetUserID(int nID);                                /* 登录检测通过时获得用户 ID */
 
 	bool InGame() const; /* 检测当前该客户是否在游玩 */
+	int GetUserID() const; /* 获取用户编号 */
 
 private:
 	IMessageList mIMessageList; /* 待发送的消息队列，服务端有义务在清空这个队列时对其中内容进行释放 */

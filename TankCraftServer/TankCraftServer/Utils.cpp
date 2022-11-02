@@ -19,8 +19,7 @@ long long Utils::GetRandLongLong()
 unsigned short Utils::GetUnsignedShort(const char* charArr, int pos)
 {
 	/* 所有的数据采用小端存储 */
-	unsigned short ans = (unsigned short)UNSIGNED(charArr[pos]) |
-		((unsigned short)(UNSIGNED(charArr[pos+1]) << 8));
+	unsigned short ans = *(unsigned short*)&charArr[pos];
 	return ans;
 }
 

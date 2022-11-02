@@ -48,6 +48,15 @@ void TcpUtils::DealWithClient(void* socketClient, TcpServer* tcpServer)
 				break; /* 直接断开连接 */
 			}
 		}
+
+		/* 让游戏中的玩家下线 */
+		if (threadBuffer.InGame()) {
+			/* 一定要记得用前上锁 */
+			GameDatabase::GetGlobalGameDatabase()->lock();
+			GameDatabase::GetGlobalGameDatabase()->DelUser(threadBuffer.GetUserID());
+			GameDatabase::GetGlobalGameDatabase()->unlock();
+		}
+
 		/* 统计数目 -= */
 		tcpServer->DecClientCnt();
 	}
@@ -71,6 +80,7 @@ void TcpUtils::GetTcpDataFromSocket(void* socketClient, TcpData* tcpData)
 
 int TcpUtils::SendTcpDataToSocket(const TcpData* tcpData, void* socketClient)
 {
+	tcpData->DebugShow("[SendToClient] ");
 	int ret = send((SOCKET)socketClient, tcpData->GetData(), tcpData->GetLength(), 0);
 	return ret;
 }
@@ -90,10 +100,12 @@ void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::Net
 
 	int ret = tcpClient.Connect(ip.c_str(), port);
 	
-	std::cerr << "[Client] " << ip << ":" << port << std::endl;
+	std::cerr << "[Client] Start with " << ip << ":" << port << std::endl;
 
 	if (ret != 0) {
 		nmComponent->PushFailedMessage(ret); /* 推送一个连接出错消息，告知出错原因 */
+
+		std::cerr << "[Client] End with ErrorLevel =  " << ret << std::endl;
 		return; /* 结束线程 */
 	}
 	else {
@@ -102,6 +114,8 @@ void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::Net
 		/* 线程主循环 */
 		while (nmComponent->GetConnectStatus() == Xn::TankCraft::NetManager_Component::NET_MANAGER_ONLINE) {
 			if (nmComponent->HasClientRequest()) {
+				std::cerr << "[Client] has request to send." << std::endl;
+
 				TcpDataList tcpDataList;
 				Xn::TankCraft::NetMessageBaseDataList nmBaseDataList;
 
@@ -120,6 +134,7 @@ void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::Net
 				/* 检测是否与服务器断开连接 */
 				if (tcpDataMessage.IsEnd()) {
 					nmComponent->PushFailedMessage(TCP_CLIENT_DISCONNECT_FROM_SERVER);
+					std::cerr << "[Client] Can not connect to server." << std::endl;
 				}
 
 				/* 释放先前的 Request 空间 */
@@ -150,6 +165,7 @@ void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::Net
 
 		/* 断开连接 */
 		tcpClient.CloseSocket();
+		std::cerr << "[Client End]" << std::endl;
 	}
 }
 
@@ -199,6 +215,8 @@ void TcpUtils::UnpackTcpDataMessageToTcpDataList(const TcpData* pTcpDataMessage,
 	while (pos < messageTotalLength) {
 		/* 从 pos 开始长度为 dataLength 的一段是一个消息 */
 		unsigned short dataLength = Utils::GetUnsignedShort(pTcpDataMessage->GetData(), pos + 2) + 4;
+
+		pTcpDataMessage->DebugShow("[TcpData] ");
 		assert(pos + dataLength <= messageTotalLength);
 
 		TcpData* tcpDataNow = new TcpData;

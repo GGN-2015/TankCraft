@@ -2,6 +2,7 @@
 
 #include "GameDatabase.h"
 #include "UserInfo.h"
+#include <cassert>
 
 GameDatabase* GameDatabase::pGlobalGameDatabase = nullptr;
 
@@ -45,6 +46,21 @@ void GameDatabase::AddUser(int nUserId, std::wstring nUserName)
 	std::wcerr << L"GameDatabase::AddUser() {\n    nUserId = " << nUserId <<
 		L"\n    nUserName = " << nUserName << "\n}" << std::endl;
 #endif
+}
+
+void GameDatabase::DelUser(int nUserId)
+{
+	int pos = -1;
+	for (int i = 0; i < (int)mUserInfoList.size(); i += 1) {
+		if (mUserInfoList[i]->GetUserId() == nUserId) {
+			pos = i;
+			break;
+		}
+	}
+
+	assert(pos != -1);
+	std::wcerr << L"[GameDatabase::DelUser] UserName = " << mUserInfoList[pos]->GetUserName() << std::endl;
+	mUserInfoList.erase(mUserInfoList.begin() + pos);
 }
 
 GameDatabase::GameDatabase() {

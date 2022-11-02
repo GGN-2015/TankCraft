@@ -124,6 +124,7 @@ void Xn::TankCraft::NetManager_Component::PushFailedMessage(int ret) {
 
 void Xn::TankCraft::NetManager_Component::PushSucessMessage() {
 	PushFailedMessage(0); /* 错误码为零，表示成功 */
+	mConnectStatus = NET_MANAGER_ONLINE;
 }
 
 int Xn::TankCraft::NetManager_Component::GetConnectStatus() const {
@@ -217,7 +218,7 @@ void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(TcpData* tcpData)
 void Xn::TankCraft::NetMessageBaseData::DebugShow() const
 {
 	std::cerr << "[BaseData] ";
-	for (int i = 0; i < length; i += 1) {
+	for (int i = 0; i < (int)length; i += 1) {
 		std::cerr << *(unsigned short*)&data[i] << ", ";
 	}
 	std::cerr << std::endl;
