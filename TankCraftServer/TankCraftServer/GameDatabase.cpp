@@ -32,7 +32,7 @@ int GameDatabase::AllocNxtUserId()
 
 int GameDatabase::GetUserCount() const
 {
-	return mUserInfoList.size();
+	return (int)mUserInfoList.size();
 }
 
 void GameDatabase::AddUser(int nUserId, std::wstring nUserName)

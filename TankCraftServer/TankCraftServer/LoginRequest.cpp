@@ -10,7 +10,7 @@
 
 int LoginRequest::GetRawDataLength()
 {
-    return 4 + 2 * mUserName.length();
+    return 4 + 2 * (int)mUserName.length();
 }
 
 void LoginRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)

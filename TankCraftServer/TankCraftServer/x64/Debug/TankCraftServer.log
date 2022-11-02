@@ -1,67 +1,17 @@
 ﻿  DataParser.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
-  GameDatabase.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\GameDatabase.cpp(35,29): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
-  GameGraph.cpp
   GameTcpServer.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
-  IMessage.cpp
-  IParser.cpp
   LoginMessage.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
   LoginRequest.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\LoginRequest.cpp(13,38): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
   LoginRequestParser.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
-  MyMutex.cpp
   PingMessage.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
-  PingParser.cpp
   TankCraftServer.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TankCraftServer.cpp(38,54): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   TankCraft_NetManager_Component.cpp
   TcpClient.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(20,14): error C2039: "vector": 不是 "std" 的成员
-D:\Xn\Code\Engine\VS2022\VC\Tools\MSVC\14.33.31629\include\iostream(19): message : 参见“std”的声明
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(20,20): error C2143: 语法错误: 缺少“;”(在“<”的前面)
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(20,20): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
   TcpData.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
   TcpServer.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
   TcpUtils.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.cpp(104,61): error C2664: “void Xn::TankCraft::NetManager_Component::MoveClientRequestToTcpDataList(Xn::TcpDataList *)”: 无法将参数 1 从“TcpDataList *”转换为“Xn::TcpDataList *”
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.cpp(104,49): message : 指向的类型不相关; 转换需要 reinterpret_cast、C 样式强制转换或带圆括号的函数样式强制转换
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TankCraft_NetManager_Component.h(129,9): message : 参见“Xn::TankCraft::NetManager_Component::MoveClientRequestToTcpDataList”的声明
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.cpp(108,15): error C2039: "CompactTcpDataListToTcpDataRequest": 不是 "TcpUtils" 的成员
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(22): message : 参见“TcpUtils”的声明
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.cpp(108,49): error C3861: “CompactTcpDataListToTcpDataRequest”: 找不到标识符
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.cpp(121,15): error C2039: "UnpackTcpDataMessageToTcpDataList": 不是 "TcpUtils" 的成员
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(22): message : 参见“TcpUtils”的声明
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.cpp(121,48): error C3861: “UnpackTcpDataMessageToTcpDataList”: 找不到标识符
   ThreadBuffer.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
-  UserInfo.cpp
-  正在生成代码...
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TankCraft_NetManager_Component.cpp(79): warning C4172: 返回局部变量或临时变量的地址: foo
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TankCraft_NetManager_Component.cpp(99): warning C4172: 返回局部变量或临时变量的地址: bufferFrom
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TankCraft_NetManager_Component.cpp(63): error C4716: “Xn::TankCraft::NetManager_Component::ConnectToServer”: 必须返回一个值
-  正在编译...
   Utils.cpp
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(18,9): error C2653: “Xn”: 不是类或命名空间名称
-D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\TankCraftServer\TcpUtils.h(32,61): error C2653: “Xn”: 不是类或命名空间名称
   正在生成代码...
+TcpUtils.obj : error LNK2019: 无法解析的外部符号 "public: void __cdecl Xn::TankCraft::NetManager_Component::MoveClientRequestToTcpDataList(class std::vector<class TcpData *,class std::allocator<class TcpData *> > *)" (?MoveClientRequestToTcpDataList@NetManager_Component@TankCraft@Xn@@QEAAXPEAV?$vector@PEAVTcpData@@V?$allocator@PEAVTcpData@@@std@@@std@@@Z)，函数 "public: static void __cdecl TcpUtils::ClientThreadFunction(char const *,int,class Xn::TankCraft::NetManager_Component *)" (?ClientThreadFunction@TcpUtils@@SAXPEBDHPEAVNetManager_Component@TankCraft@Xn@@@Z) 中引用了该符号
+D:\TankCraft\TankCraftServer\x64\Debug\TankCraftServer.exe : fatal error LNK1120: 1 个无法解析的外部命令

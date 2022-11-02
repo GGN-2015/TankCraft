@@ -171,9 +171,4 @@
       <Filter>头文件\Interface</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="TankCraftServer.rc">
-      <Filter>资源文件</Filter>
-    </ResourceCompile>
-  </ItemGroup>
 </Project>
