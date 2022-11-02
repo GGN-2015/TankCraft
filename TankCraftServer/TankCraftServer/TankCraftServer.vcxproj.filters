@@ -96,7 +96,7 @@
     <ClCompile Include="GameGraph.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TanksFight_NetManager_Component.cpp">
+    <ClCompile Include="TankCraft_NetManager_Component.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,7 +167,7 @@
     <ClInclude Include="Component.h">
       <Filter>头文件\Interface</Filter>
     </ClInclude>
-    <ClInclude Include="TanksFight_NetManager_Component.h">
+    <ClInclude Include="TankCraft_NetManager_Component.h">
       <Filter>头文件\Interface</Filter>
     </ClInclude>
   </ItemGroup>

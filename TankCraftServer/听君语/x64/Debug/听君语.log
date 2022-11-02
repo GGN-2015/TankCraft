@@ -1,8 +1,2 @@
-﻿  ForDebug-HrException.cpp
-  ForDebug-XnException.cpp
-  TankCraft_TankComponent.cpp
-  XnTime.cpp
-  听君语.cpp
-  正在生成代码...
-  LINK : 没有找到 D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\x64\Debug\听君语.exe 或上一个增量链接没有生成它；正在执行完全链接
+﻿  TankCraft_NetManager_Component.cpp
   听君语.vcxproj -> D:\Xn\听君语\TankCraft\TankCraft\TankCraftServer\x64\Debug\听君语.exe
