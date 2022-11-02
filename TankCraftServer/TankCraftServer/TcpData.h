@@ -17,6 +17,8 @@ public:
 	unsigned short GetUnsignedShortAt(int pos) const; /* 获取一个无符号短整数 */
 	void IgnoreData(); /* 直接丢弃当前的数据但是不析构 */
 
+	void DirectSet(char* nData, int nLen); /* 直接过继一个数据 */
+
 private:
 	int   mLength;
 	char* mRawData;

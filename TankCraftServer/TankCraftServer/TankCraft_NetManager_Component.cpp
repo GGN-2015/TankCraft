@@ -1,3 +1,4 @@
+#include <iostream>
 #include <thread>
 
 #include "TankCraft_NetManager_Component.h"
@@ -59,14 +60,18 @@ uint Xn::TankCraft::NetManager_Component::ConnectToServer(std::wstring ipV4,
 
 	int iPort = std::stoi(port);
 	mClientThread =
-		new std::thread(TcpUtils::ClientThreadFunction, ipBuf, iPort, this);
+		new std::thread(TcpUtils::ClientThreadFunction, std::string(ipBuf), iPort, this);
 	mClientThread->detach();
 
 	return 0;
 }
 
 void Xn::TankCraft::NetManager_Component::DisConnect() {
+	Lock();
+
 	mConnectStatus = NET_MANAGER_OFFLINE; /* 关闭客户端的连接 */
+
+	Unlock();
 }
 
 NetMessageBaseDataBuffer* 
@@ -177,8 +182,10 @@ void Xn::TankCraft::NetManager_Component::PushToFromServerList(
 	std::unique_ptr<NetMessageBaseData> nmData) {
 	/* 将数据移动到对应的队列中 */
 	Lock();
+
 	from_server_datas_buffers_[from_server_datas_buffer_index_].Push(
 		std::move(nmData));
+
 	Unlock();
 }
 
@@ -196,4 +203,22 @@ void Xn::TankCraft::NetMessageBaseData::MoveDataFrom(TcpData* pTcpData)
 	data = (wchar_t*)pTcpData->GetData(); /* 获取数据信息 */
 
 	pTcpData->IgnoreData(); /* 在不析构的前提下 */
+}
+
+void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(TcpData* tcpData)
+{
+	/* 直接过继数据 */
+	tcpData->DirectSet((char*)data, length * 2);
+
+	length = 0;
+	data = nullptr;
+}
+
+void Xn::TankCraft::NetMessageBaseData::DebugShow() const
+{
+	std::cerr << "[BaseData] ";
+	for (int i = 0; i < length; i += 1) {
+		std::cerr << *(unsigned short*)&data[i] << ", ";
+	}
+	std::cerr << std::endl;
 }

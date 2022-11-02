@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 #include "TankCraft_NetManager_Component.h"
 
 #define TCP_BUFFER_MAX (1048576) /* TCP 的缓冲区大小 */
@@ -17,7 +19,6 @@
 class TcpServer;
 class TcpData;
 class Xn::TankCraft::NetManager_Component;
-class Xn::TankCraft::NetMessageBaseDataList;
 
 class TcpUtils
 {
@@ -29,7 +30,7 @@ public:
 	static void CreateProcessForClient(void* socketClient, TcpServer* tcpServer);
 
 	/* 客户端接收数据的线程 */
-	static void ClientThreadFunction(const char* ip, int port, Xn::TankCraft::NetManager_Component* nmComponent);
+	static void ClientThreadFunction(std::string ip, int port, Xn::TankCraft::NetManager_Component* nmComponent);
 	
 	/* 将多个 Request 消息打包成一个 Request 数据包 */
 	static void CompactTcpDataListToTcpDataRequest(const TcpDataList* tcpDataList, TcpData* tcpDataRequest);

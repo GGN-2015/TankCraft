@@ -93,3 +93,11 @@ void TcpData::IgnoreData()
 	mLength = 0;
 	mRawData = nullptr; /* 丢弃原来的数据 */
 }
+
+void TcpData::DirectSet(char* nData, int nLen)
+{
+	FreeData();
+
+	mRawData = nData;
+	mLength = nLen;
+}

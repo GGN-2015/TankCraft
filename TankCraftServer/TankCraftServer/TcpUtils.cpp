@@ -84,11 +84,14 @@ void TcpUtils::CreateProcessForClient(void* socketClient, TcpServer* tcpServer)
 	// TODO: 将 pthread 放入线程池并进行管理
 }
 
-void TcpUtils::ClientThreadFunction(const char* ip, int port, Xn::TankCraft::NetManager_Component* nmComponent)
+void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::NetManager_Component* nmComponent)
 {
 	TcpClient tcpClient;
 
-	int ret = tcpClient.Connect(ip, port);
+	int ret = tcpClient.Connect(ip.c_str(), port);
+	
+	std::cerr << "[Client] " << ip << ":" << port << std::endl;
+
 	if (ret != 0) {
 		nmComponent->PushFailedMessage(ret); /* 推送一个连接出错消息，告知出错原因 */
 		return; /* 结束线程 */
@@ -208,4 +211,18 @@ void TcpUtils::UnpackTcpDataMessageToTcpDataList(const TcpData* pTcpDataMessage,
 
 	assert(pos == messageTotalLength);
 	assert(cnt == messageCnt);
+}
+
+void TcpUtils::GetTcpDataListFromNetMessageBaseDataList(
+	Xn::TankCraft::NetMessageBaseDataList* nmBaseDataList, TcpDataList* tcpDataList) {
+	tcpDataList->clear();
+
+	for (int i = 0; i < (int)nmBaseDataList->size(); i += 1) {
+
+		TcpData* tcpDataNow = new TcpData;
+		(*nmBaseDataList)[i]->MoveDataToTcpData(tcpDataNow); /* 移动数据 */
+
+		/* TODO 要记得释放 */
+		tcpDataList->push_back(tcpDataNow);
+	}
 }

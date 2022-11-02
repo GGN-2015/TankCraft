@@ -27,6 +27,7 @@ namespace Xn {
 
 			NetMessageBaseData() : length(0), data(nullptr) {};
 			void MoveDataFrom(TcpData* pTcpData); /* 转移构造 */
+			void MoveDataToTcpData(TcpData* tcpData); /* 将数据转移出去 */
 
 			void FreeData() { /* 安全地清空数据 */
 				if (data != nullptr) {
@@ -39,12 +40,16 @@ namespace Xn {
 			void SetData(wchar_t* nData, int nLen) {
 				FreeData();
 				length = nLen;
-				data = nData;
+
+				data = new wchar_t[nLen];
+				memcpy(data, nData, sizeof(wchar_t) * nLen);
 			}
 
 			~NetMessageBaseData() { /* 析构函数 */
 				FreeData();
 			}
+
+			void DebugShow() const;
 		};
 
 		/* 数据缓冲区 */
