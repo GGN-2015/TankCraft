@@ -43,6 +43,8 @@ int TcpClient::Connect(const char* ip, int port)
 			return TCP_CLINET_SOCKET_ERR;
 		}
 
+		std::cerr << "[pServerSocket] " <<  * (int*)&pServerSocket << std::endl;
+
 		/* ³¢ÊÔÁ¬½Ó */
 		if (connect((SOCKET)pServerSocket, (struct sockaddr*)&addrServer, sizeof(addrServer)) == INVALID_SOCKET)
 		{

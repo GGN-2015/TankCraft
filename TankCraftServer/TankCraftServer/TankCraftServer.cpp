@@ -1,7 +1,9 @@
 ﻿#include <cassert>
 #include <iostream>
+#include <windows.h>
 
 #include "GameTcpServer.h"
+#include "TankCraft_NetManager_Component.h"
 #include "TcpData.h"
 #include "TcpClient.h"
 #include "TcpServer.h"
@@ -12,7 +14,7 @@ int main()
     /* 初始化随机种子 */
     srand((unsigned int)time(NULL));
 
-    TestGameTcpServer();
+    TestTcpNetManager();
 }
 
 void TestTcpServer() {
@@ -92,4 +94,54 @@ void TestTcpClientTool() { /* 服务端测试器 */
         tcpDataGet.DebugShow("[Server] ");
     }
     tcpClient.CloseSocket();
+}
+
+void TestTcpNetManager() {
+    Xn::TankCraft::NetManager_Component nmComponent;
+
+    nmComponent.OnStart();
+    nmComponent.ConnectToServer(L"127.0.0.1", L"12345");
+
+    while (true) {
+        int nbytes; std::cout << "nbytes = "; std::cin >> nbytes;
+
+        if (nbytes == 0) break; /* 关闭客户端 */
+
+        std::cout << "data = ";
+
+        /* 输入数据 */
+        char* buf = new char[nbytes];
+        for (int i = 0; i < nbytes; i += 1) {
+            int val; std::cin >> val;
+            buf[i] = val;
+        }
+
+        /* 把数据填写进缓冲区中 */
+        TcpData tcpDataSend, tcpDataGet;
+        tcpDataSend.SetData(buf, nbytes);
+        delete[] buf;
+
+        /* 缓冲区送入发送队列 */
+        auto requestBufferArr = nmComponent.TryGetClientToServerMessageBuffer();
+        std::unique_ptr<Xn::TankCraft::NetMessageBaseData> pnmbd1(new Xn::TankCraft::NetMessageBaseData);
+        pnmbd1->MoveDataFrom(&tcpDataSend);
+        requestBufferArr->Push(std::move(pnmbd1));
+
+        /* 等待一段时间保证数据送到 */
+        Sleep(600);
+        
+        /* 获取客户收到的数据 */
+        auto msgBufferArr = nmComponent.TryGetServerToClientMessageBuffer();
+
+        while (!msgBufferArr->isEmpty()) {
+            std::unique_ptr<Xn::TankCraft::NetMessageBaseData> pnmbd2(
+                std::move(msgBufferArr->Pop())
+            );
+
+            pnmbd2->DebugShow();
+        }
+    }
+
+    nmComponent.DisConnect();
+    nmComponent.OnDestory();
 }

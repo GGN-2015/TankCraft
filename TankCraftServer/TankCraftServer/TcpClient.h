@@ -8,8 +8,10 @@
 #define TCP_CLIENT_DISCONNECT_FROM_SERVER (4)
 
 class TcpData;
-class TcpClient                                    
+class TcpClient
 {
+	friend TcpUtils;
+
 public:
 	TcpClient(); /* 指明要连接的服务器的 IP 和端口 */
 	~TcpClient();
