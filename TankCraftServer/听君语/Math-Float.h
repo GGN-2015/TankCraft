@@ -12,13 +12,15 @@ namespace Xn {
 struct Float {
   Float() : x(0) {}
   Float(float value) : x(value) {}
+  Float(int value) : x(static_cast<float>(value)) {}
+  Float(unsigned int value) : x(static_cast<float>(value)) {}
 
   float x;
 
  public:
-  static const Float ZERO;
-  static const Float ONE;
-  static const Float PI;
+  static const Float ZERO;  // 0
+  static const Float ONE;   // 1
+  static const Float PI;    // pi ~ 3.14……
 
  public:
   // 取得[0, 1)区间上随机的Float
@@ -46,8 +48,8 @@ struct Float {
   // 返回:
   //   钳制后的值
   static inline Float Clamp(const Float &value) {
-    if (value <= ZERO) return 0;
-    if (value >= ONE) return 1;
+    if (value <= 0.f) return 0;
+    if (value >= 1.f) return 1;
     return value;
   }
   // 钳制函数，会返回value在[min, max]之间的值
@@ -121,7 +123,37 @@ struct Float {
   inline bool operator>=(const Float &other) const { return x >= other.x; }
   inline bool operator<=(const Float &other) const { return x <= other.x; }
   inline bool operator==(const Float &other) const { return x == other.x; }
+  inline Float &operator=(const float &other) {
+    x = other;
+    return *this;
+  }
+  inline Float operator+(const float &other) const { return x + other; }
+  inline Float operator-(const float &other) const { return x - other; }
+  inline Float operator*(const float &other) const { return x * other; }
+  inline Float operator/(const float &other) const { return x / other; }
+  inline Float &operator+=(const float &other) {
+    x += other;
+    return *this;
+  }
+  inline Float &operator-=(const float &other) {
+    x -= other;
+    return *this;
+  }
+  inline Float &operator*=(const float &other) {
+    x *= other;
+    return *this;
+  }
+  inline Float &operator/=(const float &other) {
+    x /= other;
+    return *this;
+  }
+  inline bool operator>(const float &other) const { return x > other; }
+  inline bool operator<(const float &other) const { return x < other; }
+  inline bool operator>=(const float &other) const { return x >= other; }
+  inline bool operator<=(const float &other) const { return x <= other; }
+  inline bool operator==(const float &other) const { return x == other; }
   inline operator bool() const { return x != 0; }
+  inline operator int() const { return static_cast<int>(x); }
 };
 
 }  // namespace Xn
