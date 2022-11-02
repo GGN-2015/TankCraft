@@ -1,0 +1,131 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.33.31630.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/objectmanager-xnobject.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "9b6d7e062bc1b7d6c63a0c99b0898a837721e64f9797df8ddf72a1777d30c9ae"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/objectmanager-xnobject.h"
+          },
+          "hashes": {
+            "sha-256": "f832703acce84308b2b2fe352f91b9790d74865f94e43fe70c6a9ba5b8e17a9b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/component.h"
+          },
+          "hashes": {
+            "sha-256": "a12d4019222bd59550e7ab32d46540244d50defde6d6abf6521def22db07f304"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/typedef.h"
+          },
+          "hashes": {
+            "sha-256": "95243810ad1ab6de92486b3470b81abedcee1326e1d7bc82ba9fabae6b928bd3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/stdafx.h"
+          },
+          "hashes": {
+            "sha-256": "7f2e79850bbe95237b2b4f57f04bff07d47cfbb79b0bbd3c5bb585d1408d5929"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/fordebug-xnexception.h"
+          },
+          "hashes": {
+            "sha-256": "37482ce43a307433791537a71e2e4befd918b14c7803274e2a560ed208b81f55"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/math.h"
+          },
+          "hashes": {
+            "sha-256": "688708c395134bfa0e743e0d2b232b9df4fb5d4d1784d162951dfddf88ccb62f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/math-float.h"
+          },
+          "hashes": {
+            "sha-256": "bf703a5d7025397a165fb37ca76ae86ca023471d7ce756037a9a284487701cc1"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/math-vector2.h"
+          },
+          "hashes": {
+            "sha-256": "89b935ba740c95fbac95bf93c6421f2c88196435f9b5b243b6a3bfbd757e7167"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/math-vector3.h"
+          },
+          "hashes": {
+            "sha-256": "2fe4069c09a466016b642212c4a8fb24d0c14390ddcba043f8f03c43e4b0c947"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/math-vector4.h"
+          },
+          "hashes": {
+            "sha-256": "c2481baa269737e54ce1ce841994ef83da8606415e3f88bfa86d6c8fa98c9fcb"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/rendercomponent.h"
+          },
+          "hashes": {
+            "sha-256": "4385fa143e3a9da651d3e8b29be9cc777aba09ce0367cd8298db8ba8d67b8dd8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/rendermanagerinterface.h"
+          },
+          "hashes": {
+            "sha-256": "1e03475521155a82e60084009993c7f27c2d93ca1a8fbdf211b044c000e1de29"
+          }
+        }
+      ]
+    }
+  ]
+}

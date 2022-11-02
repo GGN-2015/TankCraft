@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="代码文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="代码文件\司">
+      <UniqueIdentifier>{a68b06f6-4590-4ce3-9812-ebe0bf2b418f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\器">
+      <UniqueIdentifier>{9e03485f-2a8e-40fb-8c6b-e1fcbbb6a880}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\器\数学">
+      <UniqueIdentifier>{d7d082bf-4535-433b-80d4-5ce569518534}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\器\数学\Vector">
+      <UniqueIdentifier>{66205e02-50aa-48be-91f2-15be3cc5c258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\器\调试">
+      <UniqueIdentifier>{bef195a2-3211-4601-be9f-e8534e9ade07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\器\调试\异常">
+      <UniqueIdentifier>{08a8d3db-5ed0-41c6-8a3d-7b1ad26815c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\图">
+      <UniqueIdentifier>{a5235d8e-8931-4264-8e03-32fbd962028c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\乐">
+      <UniqueIdentifier>{d2301ba1-89e4-4249-8e23-7a04e01f5f29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\书">
+      <UniqueIdentifier>{3c658fc6-1d7d-4c67-9a03-7e11ad2f20aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\数">
+      <UniqueIdentifier>{137197cb-3522-483f-94c9-22f9beb6cb7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\图\着色器">
+      <UniqueIdentifier>{1635f72f-062f-428b-881d-1d4d906a8921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\图\ico">
+      <UniqueIdentifier>{3c0eed8d-9a3c-442d-a712-55fc6fbf2505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\形">
+      <UniqueIdentifier>{70025914-1088-42a1-8c4d-98497fac9bc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\形\渲染管理单元">
+      <UniqueIdentifier>{bca57aec-58d8-4caa-ab2c-163bf4be3a67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数">
+      <UniqueIdentifier>{e052b93d-fae8-451a-94d2-2c43dbeb7477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\器\时间">
+      <UniqueIdentifier>{d4710451-9061-40b8-ab0c-76147eaedfee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\平台相关">
+      <UniqueIdentifier>{10756e76-2532-47b0-b727-b10315b5c03c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象管理">
+      <UniqueIdentifier>{59b676cc-0db6-4cd8-860c-6e7f0f282f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件">
+      <UniqueIdentifier>{fe38f991-a99a-4653-927a-1b28251b0833}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\器\文件">
+      <UniqueIdentifier>{ab485711-26c9-4604-8c27-287ea103fc06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\渲染组件">
+      <UniqueIdentifier>{9d48e0ec-cdf8-4e29-bd4e-900420c52941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\形\UI">
+      <UniqueIdentifier>{0ceac60f-3df1-42e0-9a29-8cdda88df4c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\测试组件">
+      <UniqueIdentifier>{d4e3d289-9fc7-4cff-a05f-2abb9483d04e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象管理\UI对象">
+      <UniqueIdentifier>{c6a0e88c-36de-4fcd-9afd-da740c27abcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象管理\空对象">
+      <UniqueIdentifier>{b46db4ac-f1fa-4093-9e68-88d5cf61b570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件">
+      <UniqueIdentifier>{6aa77dfa-9368-4ac3-af67-125c99a18366}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\器\数学\Base">
+      <UniqueIdentifier>{047d7b88-dff8-4404-83c3-279f761f9c67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\流">
+      <UniqueIdentifier>{13157c4d-9c51-4c44-80da-1e308448ac4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\流\IO">
+      <UniqueIdentifier>{2086a8bc-8703-431b-9b92-565cbbeb44d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\流\IO\输入">
+      <UniqueIdentifier>{8bb0e0b5-eb35-4b05-8fa0-18fd904fceee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\流\IO\输入\键盘">
+      <UniqueIdentifier>{cc7fd51d-a891-4505-95aa-2db3c162b9d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\流\IO\输入\鼠标">
+      <UniqueIdentifier>{8da610f5-8a42-4e55-852a-6baf5475311b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡">
+      <UniqueIdentifier>{eec43d7d-443a-42c1-bbaa-31acb07de40d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\管理组件">
+      <UniqueIdentifier>{ae110675-8d7b-43c5-ab25-14b2d2f0c0a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\管理组件\坦克动荡">
+      <UniqueIdentifier>{73de8f20-3779-40a6-a4f7-6db9ce106986}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关">
+      <UniqueIdentifier>{5fdc4d08-285c-42d8-9e47-21b1b339b07c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\渲染组件\基础图形">
+      <UniqueIdentifier>{23b84e0e-6c39-4e25-9274-72561a86f74e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DXSampleHelper.h">
+      <Filter>代码文件\器</Filter>
+    </ClInclude>
+    <ClInclude Include="typedef.h">
+      <Filter>代码文件\器</Filter>
+    </ClInclude>
+    <ClInclude Include="SingletonBaseClass.h">
+      <Filter>代码文件\器</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>代码文件\器\数学</Filter>
+    </ClInclude>
+    <ClInclude Include="Math-Vector2.h">
+      <Filter>代码文件\器\数学\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="ForDebug.h">
+      <Filter>代码文件\器\调试</Filter>
+    </ClInclude>
+    <ClInclude Include="ForDebug-HrException.h">
+      <Filter>代码文件\器\调试\异常</Filter>
+    </ClInclude>
+    <ClInclude Include="Math-Float.h">
+      <Filter>代码文件\器\数学\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManagerInterface.h">
+      <Filter>代码文件\司\形\渲染管理单元</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>代码文件\司\形\渲染管理单元</Filter>
+    </ClInclude>
+    <ClInclude Include="听君语.h">
+      <Filter>代码文件\司</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>代码文件\器</Filter>
+    </ClInclude>
+    <ClInclude Include="ForDebug-XnException.h">
+      <Filter>代码文件\器\调试\异常</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager-KeyboardManager.h">
+      <Filter>代码文件\司\流\IO\输入\键盘</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>代码文件\器</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>代码文件\司\流\IO\输入</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager-MouseManager.h">
+      <Filter>代码文件\司\流\IO\输入\鼠标</Filter>
+    </ClInclude>
+    <ClInclude Include="XnTime.h">
+      <Filter>代码文件\器\时间</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformManager.h">
+      <Filter>代码文件\司\数\平台相关</Filter>
+    </ClInclude>
+    <ClInclude Include="PlatformManagerInterface.h">
+      <Filter>代码文件\司\数\平台相关</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManagerInterface.h">
+      <Filter>代码文件\司\流\IO\输入</Filter>
+    </ClInclude>
+    <ClInclude Include="Math-Vector3.h">
+      <Filter>代码文件\器\数学\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Math-Vector4.h">
+      <Filter>代码文件\器\数学\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManagerInterface.h">
+      <Filter>代码文件\司\数\对象管理</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>代码文件\司\数\对象管理</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>代码文件\司\数\对象组件</Filter>
+    </ClInclude>
+    <ClInclude Include="FileAbout.h">
+      <Filter>代码文件\器\文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>代码文件\司\数\对象组件\渲染组件</Filter>
+    </ClInclude>
+    <ClInclude Include="TestComponent.h">
+      <Filter>代码文件\司\数\对象组件\测试组件</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager-XnObject.h">
+      <Filter>代码文件\司\数\对象管理\空对象</Filter>
+    </ClInclude>
+    <ClInclude Include="TankCraft_TankComponent.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡</Filter>
+    </ClInclude>
+    <ClInclude Include="TanksFight_NetManager_Component.h">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClInclude>
+    <ClInclude Include="Circular_RenderComponent.h">
+      <Filter>代码文件\司\数\对象组件\渲染组件\基础图形</Filter>
+    </ClInclude>
+    <ClInclude Include="Square_RenderComponent.h">
+      <Filter>代码文件\司\数\对象组件\渲染组件\基础图形</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>代码文件</Filter>
+    </ClCompile>
+    <ClCompile Include="听君语.cpp">
+      <Filter>代码文件\司</Filter>
+    </ClCompile>
+    <ClCompile Include="ForDebug-HrException.cpp">
+      <Filter>代码文件\器\调试\异常</Filter>
+    </ClCompile>
+    <ClCompile Include="ForDebug-XnException.cpp">
+      <Filter>代码文件\器\调试\异常</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>代码文件\司\形\渲染管理单元</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>代码文件\司\流\IO\输入</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager-KeyboardManager.cpp">
+      <Filter>代码文件\司\流\IO\输入\键盘</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager-MouseManager.cpp">
+      <Filter>代码文件\司\流\IO\输入\鼠标</Filter>
+    </ClCompile>
+    <ClCompile Include="PlatformManager.cpp">
+      <Filter>代码文件\司\数\平台相关</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>代码文件\司\数\对象管理</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\渲染组件</Filter>
+    </ClCompile>
+    <ClCompile Include="XnTime.cpp">
+      <Filter>代码文件\器\时间</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager-XnObject.cpp">
+      <Filter>代码文件\司\数\对象管理\空对象</Filter>
+    </ClCompile>
+    <ClCompile Include="Math.cpp">
+      <Filter>代码文件\器\数学</Filter>
+    </ClCompile>
+    <ClCompile Include="Square_RenderComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\渲染组件\基础图形</Filter>
+    </ClCompile>
+    <ClCompile Include="Circular_RenderComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\渲染组件\基础图形</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraft_TankComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="听君语.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="听君语v0.1.ico">
+      <Filter>资源文件\图\ico</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>资源文件\图\着色器</Filter>
+    </FxCompile>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>资源文件\图\着色器</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="compute.txt">
+      <Filter>资源文件\图\着色器</Filter>
+    </Text>
+    <Text Include="shaders.txt">
+      <Filter>资源文件\图\着色器</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

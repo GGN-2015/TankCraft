@@ -1,0 +1,59 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.33.31630.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/fordebug-xnexception.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "fc2ffcff8b7c501659b1942093a6f7997c3f40302e0302f854980a50031ce5ae"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/fordebug-xnexception.h"
+          },
+          "hashes": {
+            "sha-256": "37482ce43a307433791537a71e2e4befd918b14c7803274e2a560ed208b81f55"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/typedef.h"
+          },
+          "hashes": {
+            "sha-256": "95243810ad1ab6de92486b3470b81abedcee1326e1d7bc82ba9fabae6b928bd3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///d:/xn/听君语/听君语/听君语/stdafx.h"
+          },
+          "hashes": {
+            "sha-256": "7f2e79850bbe95237b2b4f57f04bff07d47cfbb79b0bbd3c5bb585d1408d5929"
+          }
+        }
+      ]
+    }
+  ]
+}
