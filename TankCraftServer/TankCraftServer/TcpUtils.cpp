@@ -8,6 +8,7 @@
 #include "TcpUtils.h"
 #include "TcpServer.h"
 #include "ThreadBuffer.h"
+#include "Utils.h"
 
 /* 客户端线程主体函数 */
 void TcpUtils::DealWithClient(void* socketClient, TcpServer* tcpServer)
@@ -99,9 +100,11 @@ void TcpUtils::ClientThreadFunction(const char* ip, int port, Xn::TankCraft::Net
 		while (nmComponent->GetConnectStatus() == Xn::TankCraft::NetManager_Component::NET_MANAGER_ONLINE) {
 			if (nmComponent->HasClientRequest()) {
 				TcpDataList tcpDataList;
+				Xn::TankCraft::NetMessageBaseDataList nmBaseDataList;
 
 				/* 由于这个操作是原子的，所以要尽可能节省性能 */
-				nmComponent->MoveClientRequestToTcpDataList(&tcpDataList);
+				nmComponent->MoveClientRequestToNetMessageBaseDataList(&nmBaseDataList);
+				TcpUtils::GetTcoDataListFromNetMessageBaseDataList(&nmBaseDataList, &tcpDataList);
 
 				/* 对数据进行打包 */
 				TcpData tcpDataRequest;
@@ -116,9 +119,27 @@ void TcpUtils::ClientThreadFunction(const char* ip, int port, Xn::TankCraft::Net
 					nmComponent->PushFailedMessage(TCP_CLIENT_DISCONNECT_FROM_SERVER);
 				}
 
-				/* 对收到的消息进行解包 */
+				/* 释放先前的 Request 空间 */
+				for (auto pTcpData : tcpDataList) { 
+					delete pTcpData;
+				}
 				tcpDataList.clear();
-				TcpUtils::UnpackTcpDataMessageToTcpDataList(&tcpDataMessage, &tcpDataList);
+
+				/* 对收到的消息进行解包 */
+				if (!tcpDataMessage.IsEnd()) {
+					TcpUtils::UnpackTcpDataMessageToTcpDataList(&tcpDataMessage, &tcpDataList);
+
+					/* 把拆分后的数据送入消息队列 */
+					for (auto pTcpData : tcpDataList) {
+						nmComponent->PushServerMessageTcpData(pTcpData);
+					}
+
+					for (auto pTcpData : tcpDataList) { /* 释放 Message 空间 */
+						delete pTcpData;
+					}
+					tcpDataList.clear();
+				}
+				else break;
 			}
 
 			Sleep(CLIENT_THREAD_SLEEP_TIME);
@@ -127,4 +148,64 @@ void TcpUtils::ClientThreadFunction(const char* ip, int port, Xn::TankCraft::Net
 		/* 断开连接 */
 		tcpClient.CloseSocket();
 	}
+}
+
+
+void TcpUtils::CompactTcpDataListToTcpDataRequest(const TcpDataList* tcpDataList, TcpData* tcpDataRequest) {
+	int totalLength = 4; /* 头部信息两字节，校验信息两字节 */
+	int totalCnt = (int)tcpDataList->size();
+
+	/* 计算二进制信息总长度 */
+	for (auto pTcpData : *tcpDataList) {
+		totalLength += pTcpData->GetLength();
+	}
+
+	/* 申请缓冲区 */
+	char* buf = new char[totalLength];
+	int pos = 0;
+	Utils::DumpUnsignedShortToBuffer(buf, pos, (unsigned short)totalCnt);
+	pos += 2;
+
+	/* 将数据填写进入消息 */
+	for (auto pTcpData : *tcpDataList) {
+		Utils::DumpTcpDataToBuffer(buf, pos, pTcpData);
+		pos += pTcpData->GetLength();
+	}
+	assert(pos == totalLength - 2); /* 检查是否恰好还剩两个位置 */
+
+	/* 计算校验和 */
+	char evenAns = 0, oddAns = 0;
+	Utils::GetSanityInteger(buf, pos, &evenAns, &oddAns);
+	buf[pos + 0] = evenAns;
+	buf[pos + 1] = oddAns;
+
+	tcpDataRequest->SetData(buf, totalLength);
+	delete[] buf;
+}
+
+void TcpUtils::UnpackTcpDataMessageToTcpDataList(const TcpData* pTcpDataMessage, TcpDataList* pTcpDataList) {
+	assert(pTcpDataMessage->GetSanity());
+	int messageTotalLength = pTcpDataMessage->GetLength() - 2;
+
+	/* 取出消息总数 */
+	int pos = 0;
+	unsigned short messageCnt = Utils::GetUnsignedShort(pTcpDataMessage->GetData(), pos);
+	int cnt = 0;
+	pos += 2;
+
+	while (pos < messageTotalLength) {
+		/* 从 pos 开始长度为 dataLength 的一段是一个消息 */
+		unsigned short dataLength = Utils::GetUnsignedShort(pTcpDataMessage->GetData(), pos + 2) + 4;
+		assert(pos + dataLength <= messageTotalLength);
+
+		TcpData* tcpDataNow = new TcpData;
+		tcpDataNow->SetData(pTcpDataMessage->GetData() + pos, dataLength);
+		pTcpDataList->push_back(tcpDataNow); /* 主函数负责释放 */
+
+		cnt += 1;
+		pos += dataLength;
+	}
+
+	assert(pos == messageTotalLength);
+	assert(cnt == messageCnt);
 }

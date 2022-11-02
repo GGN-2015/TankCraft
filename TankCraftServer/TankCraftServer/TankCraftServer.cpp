@@ -35,7 +35,7 @@ void TestTcpClient() {
 
         /* 发送请求到服务端 */
         TcpData tcpDataSend, tcpDataGet;
-        tcpDataSend.SetData(ans.c_str(), ans.length());
+        tcpDataSend.SetData(ans.c_str(), (int)ans.length());
         tcpClient.Request(&tcpDataSend, &tcpDataGet);
 
         /* 输出接收到的消息 */
