@@ -11,6 +11,7 @@
 namespace Xn {
 
 class Circular_RenderComponent;
+class Square_RenderComponent;
 
 namespace TankCraft {
 
@@ -26,14 +27,16 @@ class TankComponent : public Component {
   void SetLerpTime(const Float &lerp_time);
   void SetPos(const Vector2 &pos, const Float &rotation);
   void SetPos(const Vector2 &pos, const Vector2 &direction);
-  void SetTargetPos(const Vector2 &pos);
-  void SetRadio(const Float &radio);
+  void SetTargetPos(const Vector2 &pos, const Float &rotation);
+  void SetTargetPos(const Vector2 &pos, const Vector2 &direction);
+  void SetRadio(const Float &radius);
   void SetColor(const Vector3 &color);
   void SetColor(const Vector4 &color);
 
   void BindUser();  // TODO
 
  private:
+  Float web_delay_time_;
   Float lerp_time_;
   Float though_t_;
 
@@ -43,8 +46,9 @@ class TankComponent : public Component {
   Float target_rotation_;
 
   Circular_RenderComponent *render_component_ = nullptr;
+  Square_RenderComponent *gun_barrel_render_component_ = nullptr;
 };
 
-}  // namespace TanksFight
+}  // namespace TankCraft
 
 }  // namespace Xn

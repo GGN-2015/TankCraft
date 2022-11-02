@@ -39,7 +39,7 @@ class XnObject {
   Component* GetComponent(const Component::ComponentType& component_type);
 
   void RemoveChild(const uint& id);
-  void AddComponent(std::unique_ptr<Component> component);
+  Component* AddComponent(std::unique_ptr<Component> component);
   void RemoveComponet(const Component::ComponentType& component_type);
   RenderComponent* SetRenderComponent(
       std::unique_ptr<RenderComponent> render_component);

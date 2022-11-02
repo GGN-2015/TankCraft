@@ -62,9 +62,9 @@ struct Vector3 {
   static inline Vector3 Lerp(const Vector3 &start, const Vector3 &end,
                              const Float &t) {
     auto clamped_t = Float::Clamp(t);
-    auto x = Float::LerpWithoutClampe(start.x, end.x, clamped_t);
-    auto y = Float::LerpWithoutClampe(start.y, end.y, clamped_t);
-    auto z = Float::LerpWithoutClampe(start.z, end.z, clamped_t);
+    auto x = Float::LerpWithoutClamp(start.x, end.x, clamped_t);
+    auto y = Float::LerpWithoutClamp(start.y, end.y, clamped_t);
+    auto z = Float::LerpWithoutClamp(start.z, end.z, clamped_t);
     return Vector3(x, y, z);
   }
 

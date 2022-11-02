@@ -14,7 +14,8 @@ void Circular_RenderComponent::StartRender(const Vector2 &pos,
                                            const Vector2 &scale,
                                            const float &rotation) {
   Ìý¾ýÓï::Get().GetRenderManager()->RenderTransformSet(pos, scale, rotation);
-  Ìý¾ýÓï::Get().GetRenderManager()->RenderEllipse(pos, radius_, color_);
+  Ìý¾ýÓï::Get().GetRenderManager()->RenderEllipse(Vector2::ZERO, radius_,
+                                                  color_);
 }
 
 void Circular_RenderComponent::OverRender() {

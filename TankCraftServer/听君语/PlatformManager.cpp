@@ -46,6 +46,8 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
       SetWindowLongPtr(
           window_handle, GWLP_USERDATA,
           reinterpret_cast<LONG_PTR>(create_struct->lpCreateParams));
+
+      SetTimer(window_handle, 1, 8, NULL);
     } break;
 
     //-----窗口销毁-----
@@ -98,6 +100,12 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
     case WM_SYSKEYDOWN:
       if (!(param2 & 0x40000000))
         听君语::Get().GetInputManager()->OnKeyDown(static_cast<byte>(param1));
+      break;
+
+      //-----定时器刷新窗口-----
+    case WM_TIMER:
+      听君语::Get().Update();
+      听君语::Get().Render();
       break;
 
     //-----窗口接收鼠标移动消息-----
@@ -172,7 +180,7 @@ Xn::PlatformManager::PlatformManager(const HINSTANCE &instance_handle,
   // 初始化窗口类
   WNDCLASSEX window_class = {};
   window_class.cbSize = sizeof(WNDCLASSEX);  // 务必设置此值
-  window_class.style = CS_NOCLOSE;  // 禁用窗口菜单上的关闭键
+  window_class.style = 0 /* CS_NOCLOSE*/;  // 禁用窗口菜单上的关闭键
   window_class.lpfnWndProc = WindowProcess;  // 窗口过程
   window_class.hInstance = instance_handle;  // 实例句柄
   window_class.hIcon = static_cast<HICON>(LoadImage(
@@ -210,9 +218,6 @@ int PlatformManager::Run() {
     DispatchMessage(&message);
   }
   while (message.message != WM_QUIT) {
-    // 没有消息就更新并渲染
-    听君语::Get().Update();
-    听君语::Get().Render();
     // 处理队列中的消息
     while (PeekMessage(&message, NULL, 0, 0, PM_REMOVE) &&
            message.message != WM_QUIT) {

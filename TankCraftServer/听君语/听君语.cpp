@@ -10,6 +10,7 @@
 #include "ObjectManager.h"
 #include "PlatformManager.h"
 #include "RenderManager.h"
+#include "TankCraft_MapComponent.h"
 #include "TestComponent.h"
 #include "stdafx.h"
 
@@ -57,7 +58,7 @@ void Xn::听君语::Start() {
   auto object2 = object_manager_->CreateXnObject();
   OutputDebugString((L"创建了一个物体：" + object2->GetName() + L"\n").c_str());
 
-  object2->AddComponent(std::make_unique<TestComponent>());
+  object2->AddComponent(std::make_unique<TankCraft::MapComponent>());
 
   object_manager_->OnStart();
 }
@@ -74,7 +75,7 @@ void 听君语::Render() {
 }
 
 void 听君语::OnSizeChanged(uint width, uint height, bool minimized) {
-  render_manager_->SetWidthAndHeight(width, height);
+  if (render_manager_) render_manager_->SetWidthAndHeight(width, height);
 }
 
 void 听君语::OnWindowMoved(int, int) {}

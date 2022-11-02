@@ -75,8 +75,8 @@ struct Float {
   //   - t     [Float] : 插值参数：0时，返回值==start；1时，返回值==end
   // 返回:
   //   插值
-  static inline Float LerpWithoutClampe(const Float &start, const Float &end,
-                                        const Float &t) {
+  static inline Float LerpWithoutClamp(const Float &start, const Float &end,
+                                       const Float &t) {
     return start + (end - start) * t;
   }
   // 插值，同时进行钳制
@@ -89,7 +89,14 @@ struct Float {
   static inline Float Lerp(const Float &start, const Float &end,
                            const Float &t) {
     auto clamped_t = Clamp(t);
-    return LerpWithoutClampe(start, end, clamped_t);
+    return LerpWithoutClamp(start, end, clamped_t);
+  }
+  // TODO 编写注释
+  inline Float ScaleFromTo(const Float &from_min, const Float &from_max,
+                           const Float &to_min, const Float &to_max) {
+    Float from_range = from_min - from_max;
+    Float to_range = to_min - to_max;
+    return to_min + (*this - from_min) * (to_range / from_range);
   }
 
  public:

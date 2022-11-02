@@ -5,8 +5,13 @@
 //
 //*********************************************************
 
+#include <string>
+
 #include "Circular_RenderComponent.h"
 #include "ObjectManager-XnObject.h"
+#include "ObjectManager.h"
+#include "Square_RenderComponent.h"
+#include "Ã˝æ˝”Ô.h"
 
 using namespace Xn;
 using namespace TankCraft;
@@ -16,22 +21,80 @@ void TankComponent::OnStart() {
       (Circular_RenderComponent *)GetXnObject()->SetRenderComponent(
           std::make_unique<Circular_RenderComponent>());
 
+  though_t_ = 0;
+
+  // …Ë÷√≈⁄π‹Œª÷√
+  gun_barrel_render_component_ =
+      (Square_RenderComponent *)Ã˝æ˝”Ô::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->SetRenderComponent(std::make_unique<Square_RenderComponent>(
+              render_component_->color_));
+  gun_barrel_render_component_->rect_ = Vector4(-0.05, 0.05, 0.6, -0.05);
+
 #if _DEBUG && 1
   SetPos(Vector2::Random({0, 0}, {10, 10}),
          Vector2::Random(Vector2::X, Vector2::Y));
-  SetColor(Vector3::Random(Vector3::ZERO, Vector3::ONE));
+  OutputDebugStringW((L"TankTargetPos is (" +
+                      std::to_wstring((float)target_pos_.x) + L", " +
+                      std::to_wstring((float)target_pos_.y) + L")!\n")
+                         .c_str());
+  SetColor(Vector3::Random(Vector3(0.6f, 0.6f, 0.6f), Vector3::ONE));
+  SetLerpTime(Float::Random(0.07f, 0.1f));
+  SetRadio(Float::Random(0.3f, 0.4f));
+  web_delay_time_ = Float::Random(0.03f, 0.1f);
 #endif  // Test
 }
-void TankComponent::OnUpdate() {}
+void TankComponent::OnUpdate() {
+  though_t_ += Ã˝æ˝”Ô::Get().GetDeltaTime();
+  auto t = though_t_.ScaleFromTo(0, lerp_time_, 0, 1);
+  GetXnObject()->pos_ = Vector2::Lerp(start_pos_, target_pos_, t);
+  GetXnObject()->rotation_ = Float::Lerp(start_rotation_, target_rotation_, t);
+#if _DEBUG && 1
+  if (though_t_ >= web_delay_time_) {
+    auto new_target_pos_ =
+        target_pos_ + Vector2::Random({-0.5, -0.5}, {0.5, 0.5});
+    new_target_pos_ = Vector2(Float::Clamp(new_target_pos_.x, 0, 10),
+                              Float::Clamp(new_target_pos_.y, 0, 10));
+    SetTargetPos(new_target_pos_, Vector2::Random(Vector2::X, Vector2::Y));
+  }
+#endif  // Test
+}
 void TankComponent::OnDestory() {}
 
-void TankComponent::SetLerpTime(const Float &lerp_time) {}
+void TankComponent::SetLerpTime(const Float &lerp_time) {
+  lerp_time_ = lerp_time;
+}
+void TankComponent::SetPos(const Vector2 &pos, const Float &rotation) {
+  GetXnObject()->pos_ = start_pos_ = target_pos_ = pos;
+  GetXnObject()->rotation_ = start_rotation_ = target_rotation_ = rotation;
+}
+void TankComponent::SetPos(const Vector2 &pos, const Vector2 &direction) {
+  GetXnObject()->pos_ = start_pos_ = target_pos_ = pos;
+  // TODO direction to rotation
+}
+void TankComponent::SetTargetPos(const Vector2 &pos, const Float &rotation) {
+  though_t_ = 0;
+  start_pos_ = target_pos_;
+  start_rotation_ = target_rotation_;
+  target_pos_ = pos;
+  target_rotation_ = rotation;
+}
+void TankComponent::SetTargetPos(const Vector2 &pos, const Vector2 &direction) {
+  // TODO direction to rotation
+  SetTargetPos(pos, 0);
+}
+void TankComponent::SetRadio(const Float &radius) {
+  render_component_->radius_ = radius;
+}
+void TankComponent::SetColor(const Vector3 &color) {
+  SetColor(Vector4(color.x, color.y, color.z, 1));
+}
+void TankComponent::SetColor(const Vector4 &color) {
+  render_component_->color_ = color;
+  gun_barrel_render_component_->color_ = color;
+}
 
-void TankComponent::SetPos(const Vector2 &pos, const Float &rotation) {}
-void TankComponent::SetPos(const Vector2 &pos, const Vector2 &direction) {}
-void TankComponent::SetTargetPos(const Vector2 &pos) {}
-void TankComponent::SetRadio(const Float &radio) {}
-void TankComponent::SetColor(const Vector3 &color) {}
-void TankComponent::SetColor(const Vector4 &color) {}
-
-void TankComponent::BindUser() {}
+void TankComponent::BindUser() {
+  // TODO ∞Û∂®”√ªß–≈œ¢
+}

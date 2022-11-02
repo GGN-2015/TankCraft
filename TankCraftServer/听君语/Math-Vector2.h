@@ -66,8 +66,19 @@ struct Vector2 {
   static inline Vector2 Lerp(const Vector2 &start, const Vector2 &end,
                              const Float &t) {
     auto clamped_t = Float::Clamp(t);
-    auto x = Float::LerpWithoutClampe(start.x, end.x, clamped_t);
-    auto y = Float::LerpWithoutClampe(start.y, end.y, clamped_t);
+    return LerpWithoutClamp(start, end, clamped_t);
+  }
+  // 插值，不进行钳制
+  // 参数:
+  //   - start [Vector2] : 插值起始值
+  //   - end   [Vector2] : 插值目标值
+  //   - t     [Vector2] : 插值参数：0时，返回值==start；1时，返回值==end
+  // 返回:
+  //   插值
+  static inline Vector2 LerpWithoutClamp(const Vector2 &start,
+                                          const Vector2 &end, const Float &t) {
+    auto x = Float::LerpWithoutClamp(start.x, end.x, t);
+    auto y = Float::LerpWithoutClamp(start.y, end.y, t);
     return Vector2(x, y);
   }
 

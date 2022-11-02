@@ -21,15 +21,15 @@ void ObjectManager::OnDestory() { root_object_->OnDestory(); }
 XnObject* ObjectManager::GetRootObject() { return root_object_.get(); }
 
 XnObject* ObjectManager::CreateXnObject() {
-  return real_CreateXnObject(Vector2::ZERO, Vector2::ZERO, 0.0f,
+  return real_CreateXnObject(Vector2::ZERO, Vector2::ONE, 0.0f,
                              root_object_.get());
 }
 XnObject* ObjectManager::CreateXnObject(const Vector2& position) {
-  return real_CreateXnObject(position, Vector2::ZERO, 0.0f, root_object_.get());
+  return real_CreateXnObject(position, Vector2::ONE, 0.0f, root_object_.get());
 }
 XnObject* ObjectManager::CreateXnObject(const Vector2& position,
                                         XnObject* const& parent) {
-  return real_CreateXnObject(position, Vector2::ZERO, 0.0f, parent);
+  return real_CreateXnObject(position, Vector2::ONE, 0.0f, parent);
 }
 XnObject* Xn::ObjectManager::CreateXnObject(const Vector2& position,
                                             const Vector2& scale,
@@ -39,7 +39,7 @@ XnObject* Xn::ObjectManager::CreateXnObject(const Vector2& position,
 XnObject* Xn::ObjectManager::CreateXnObject(const Vector2& position,
                                             const float& rotation,
                                             XnObject* const& parent) {
-  return real_CreateXnObject(position, Vector2::ZERO, rotation, parent);
+  return real_CreateXnObject(position, Vector2::ONE, rotation, parent);
 }
 XnObject* Xn::ObjectManager::CreateXnObject(const Vector2& position,
                                             const Vector2& scale,
