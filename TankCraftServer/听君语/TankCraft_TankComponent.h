@@ -11,6 +11,7 @@
 namespace Xn {
 
 class Circular_RenderComponent;
+class Square_RenderComponent;
 
 namespace TankCraft {
 
@@ -35,6 +36,7 @@ class TankComponent : public Component {
   void BindUser();  // TODO
 
  private:
+  Float web_delay_time_;
   Float lerp_time_;
   Float though_t_;
 
@@ -44,8 +46,9 @@ class TankComponent : public Component {
   Float target_rotation_;
 
   Circular_RenderComponent *render_component_ = nullptr;
+  Square_RenderComponent *gun_barrel_render_component_ = nullptr;
 };
 
-}  // namespace TanksFight
+}  // namespace TankCraft
 
 }  // namespace Xn

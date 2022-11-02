@@ -4,3 +4,9 @@ TankCraftServer/Debug/*
 TankCraftServer/TankCraftServer/Debug/*
 听君语/Debug/*
 TankCraftServer/听君语/Debug/*
+*.obj
+*.pdb
+*.idb
+*.obj
+*.ilk
+*.tlog

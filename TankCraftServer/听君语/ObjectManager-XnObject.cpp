@@ -70,7 +70,7 @@ XnObject *XnObject::AddChild(std::unique_ptr<XnObject> child) {
 
 void XnObject::RemoveChild(const uint &id) { children_.erase(id); }
 
-void XnObject::AddComponent(std::unique_ptr<Component> component) {
+Component *XnObject::AddComponent(std::unique_ptr<Component> component) {
   component->object_ = this;
 
   auto type = component->GetComponentType();
@@ -78,6 +78,8 @@ void XnObject::AddComponent(std::unique_ptr<Component> component) {
   components_.insert({type, std::move(component)});
 
   the_component->OnStart();
+
+  return the_component;
 }
 
 void XnObject::RemoveComponet(const Component::ComponentType &component_type) {

@@ -47,7 +47,7 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
           window_handle, GWLP_USERDATA,
           reinterpret_cast<LONG_PTR>(create_struct->lpCreateParams));
 
-      SetTimer(window_handle, 1, 10, NULL);
+      SetTimer(window_handle, 1, 8, NULL);
     } break;
 
     //-----´°¿ÚÏú»Ù-----
