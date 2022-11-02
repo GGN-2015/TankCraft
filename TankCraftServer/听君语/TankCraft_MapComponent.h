@@ -7,6 +7,7 @@
 
 #include "Component.h"
 #include "Math.h"
+#include "typedef.h"
 
 namespace Xn {
 
@@ -26,6 +27,14 @@ class MapComponent : public Component {
 
   void SetPos(const Vector2 &pos, const Float &scale);
   void SetTargetPos(const Vector2 &pos, const Float &scale);
+
+ private:
+  void SetMap(const wchar *const &map_data, const uint &x_side_length,
+              const uint &y_side_length);
+
+ private:
+  uint x_side_length_;
+  uint y_side_length_;
 
  private:
   Vector2 target_pos_;
