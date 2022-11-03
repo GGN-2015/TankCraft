@@ -20,7 +20,7 @@ void Xn::TankCraft::BulletComponent::OnStart() {
   SetPos(Vector2::Random({0, 0}, {10, 10}));
   SetColor(Vector3::Random(Vector3::ZERO, Vector3(0.3f, 0.3f, 0.3f)));
   SetLerpTime(Float::Random(0.07f, 0.1f));
-  SetRadio(Float::Random(0.06f, 0.1f));
+  SetRadio(0.04f);
   web_delay_time_ = Float::Random(0.03f, 0.1f);
 #endif  // Test
 }

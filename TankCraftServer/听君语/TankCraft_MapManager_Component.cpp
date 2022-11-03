@@ -1,4 +1,4 @@
-#include "TankCraft_MapComponent.h"
+#include "TankCraft_MapManager_Component.h"
 //*********************************************************
 //
 // 由「马昭」编写
@@ -11,15 +11,16 @@
 #include "Square_RenderComponent.h"
 #include "TankCraft_BulletComponent.h"
 #include "TankCraft_TankComponent.h"
+#include "TankCraft_TankManager_Component.h"
 #include "TankCraft_WallManager_Component.h"
 #include "Transform_RenderComponent.h"
 #include "听君语.h"
 
-void Xn::TankCraft::MapComponent::OnStart() {
+void Xn::TankCraft::MapManagerComponent::OnStart() {
   render_component_ =
       (Square_RenderComponent*)GetXnObject()->SetRenderComponent(
           std::make_unique<Square_RenderComponent>(
-              Vector4(0.7f, 1.f, 0.75f, 1)));
+              Vector4(0.8f, 1.f, 0.85f, 0.8f)));
 
   render_component_->rect_ = {-0.3f, -0.3f, 1 + 0.3f, 1 + 0.3f};
 
@@ -27,6 +28,10 @@ void Xn::TankCraft::MapComponent::OnStart() {
                      .GetObjectManager()
                      ->CreateXnObject(Vector2::ZERO, GetXnObject())
                      ->AddComponent(std::make_unique<WallManagerComponent>());
+  tank_manager = (TankManagerComponent*)听君语::Get()
+                     .GetObjectManager()
+                     ->CreateXnObject(Vector2::ZERO, GetXnObject())
+                     ->AddComponent(std::make_unique<TankManagerComponent>());
 
   // TODO 目前，仅支持地图上下对齐，左右不管
   {
@@ -70,7 +75,7 @@ void Xn::TankCraft::MapComponent::OnStart() {
   SetMap(the_wall_data, 8, 8);
   delete[] the_wall_data;
 }
-void Xn::TankCraft::MapComponent::OnUpdate() {
+void Xn::TankCraft::MapManagerComponent::OnUpdate() {
   GetXnObject()->pos_ = Vector2::Lerp(GetXnObject()->pos_, target_pos_, 0.05f);
   GetXnObject()->scale_ =
       Vector2::Lerp(GetXnObject()->scale_, target_scale_, 0.05f);
@@ -86,22 +91,22 @@ void Xn::TankCraft::MapComponent::OnUpdate() {
   map_scale -= amend_scale_div;
   SetTargetPos(map_pos, map_scale);
 }
-void Xn::TankCraft::MapComponent::OnDestory() {}
+void Xn::TankCraft::MapManagerComponent::OnDestory() {}
 
-void Xn::TankCraft::MapComponent::SetPos(const Vector2& pos,
-                                         const Float& scale) {
+void Xn::TankCraft::MapManagerComponent::SetPos(const Vector2& pos,
+                                                const Float& scale) {
   GetXnObject()->pos_ = target_pos_ = pos;
   GetXnObject()->scale_ = target_scale_ = Vector2(scale, scale);
 }
-void Xn::TankCraft::MapComponent::SetTargetPos(const Vector2& pos,
-                                               const Float& scale) {
+void Xn::TankCraft::MapManagerComponent::SetTargetPos(const Vector2& pos,
+                                                      const Float& scale) {
   target_pos_ = pos;
   target_scale_ = Vector2(scale, scale);
 }
 
-void Xn::TankCraft::MapComponent::SetMap(const wchar* const& map_data,
-                                         const uint& x_side_length,
-                                         const uint& y_side_length) {
+void Xn::TankCraft::MapManagerComponent::SetMap(const wchar* const& map_data,
+                                                const uint& x_side_length,
+                                                const uint& y_side_length) {
   x_side_length_ = x_side_length;
   y_side_length_ = y_side_length;
   render_component_->rect_ = {-0.3f, -0.3f, x_side_length_ + 0.3f,

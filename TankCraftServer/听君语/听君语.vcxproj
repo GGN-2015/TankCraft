@@ -108,9 +108,12 @@
     <ClInclude Include="Square_RenderComponent.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TankCraft_BulletComponent.h" />
-    <ClInclude Include="TankCraft_MapComponent.h" />
+    <ClInclude Include="TankCraft_GameManager_Component.h" />
+    <ClInclude Include="TankCraft_MapManager_Component.h" />
     <ClInclude Include="TankCraft_NetManager_Component.h" />
     <ClInclude Include="TankCraft_TankComponent.h" />
+    <ClInclude Include="TankCraft_TankManager_Component.h" />
+    <ClInclude Include="TankCraft_UserManager_Component.h" />
     <ClInclude Include="TankCraft_WallComponent.h" />
     <ClInclude Include="TankCraft_WallManager_Component.h" />
     <ClInclude Include="TestComponent.h" />
@@ -138,9 +141,12 @@
     <ClCompile Include="PlatformManager.cpp" />
     <ClCompile Include="Square_RenderComponent.cpp" />
     <ClCompile Include="TankCraft_BulletComponent.cpp" />
-    <ClCompile Include="TankCraft_MapComponent.cpp" />
+    <ClCompile Include="TankCraft_GameManager_Component.cpp" />
+    <ClCompile Include="TankCraft_MapManager_Component.cpp" />
     <ClCompile Include="TankCraft_NetManager_Component.cpp" />
     <ClCompile Include="TankCraft_TankComponent.cpp" />
+    <ClCompile Include="TankCraft_TankManager_Component.cpp" />
+    <ClCompile Include="TankCraft_UserManager_Component.cpp" />
     <ClCompile Include="TankCraft_WallComponent.cpp" />
     <ClCompile Include="TankCraft_WallManager_Component.cpp" />
     <ClCompile Include="Transform_RenderComponent.cpp" />
