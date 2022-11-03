@@ -16,14 +16,20 @@ class Square_RenderComponent;
 
 namespace TankCraft {
 
-// 以x（Vector2::X）为前方向
-class MapComponent : public Component {
- public:
-  MapComponent() : Component(L"TanksFight_MapComponent") {}
+class GameManagerComponent;
+class WallManagerComponent;
+class TankManagerComponent;
 
-  virtual void OnStart();
-  virtual void OnUpdate();
-  virtual void OnDestory();
+// 以x（Vector2::X）为前方向
+class MapManagerComponent : public Component {
+  friend class GameManagerComponent;
+
+ public:
+  MapManagerComponent() : Component(L"TanksFight_MapManagerComponent") {}
+
+  virtual void OnStart() override;
+  virtual void OnUpdate() override;
+  virtual void OnDestory() override;
 
   void SetPos(const Vector2 &pos, const Float &scale);
   void SetTargetPos(const Vector2 &pos, const Float &scale);
@@ -33,8 +39,11 @@ class MapComponent : public Component {
               const uint &y_side_length);
 
  private:
-  uint x_side_length_;
-  uint y_side_length_;
+  uint x_side_length_ = 1;
+  uint y_side_length_ = 1;
+
+  WallManagerComponent *wall_manager = nullptr;
+  TankManagerComponent *tank_manager = nullptr;
 
  private:
   Vector2 target_pos_;

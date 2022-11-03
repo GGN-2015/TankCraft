@@ -26,9 +26,7 @@ class TankComponent : public Component {
 
   void SetLerpTime(const Float &lerp_time);
   void SetPos(const Vector2 &pos, const Float &rotation);
-  void SetPos(const Vector2 &pos, const Vector2 &direction);
   void SetTargetPos(const Vector2 &pos, const Float &rotation);
-  void SetTargetPos(const Vector2 &pos, const Vector2 &direction);
   void SetRadio(const Float &radius);
   void SetColor(const Vector3 &color);
   void SetColor(const Vector4 &color);

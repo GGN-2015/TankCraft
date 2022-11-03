@@ -46,6 +46,9 @@ class XnObject {
 
  private:
   XnObject* AddChild(std::unique_ptr<XnObject> child);
+
+ public:
+  void RemoveAllChild();
   void RemoveChild(XnObject*& child);
   void RemoveChild(const uint& child_id);
 

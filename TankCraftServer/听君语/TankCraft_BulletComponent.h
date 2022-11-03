@@ -18,7 +18,7 @@ namespace TankCraft {
 // 以x（Vector2::X）为前方向
 class BulletComponent : public Component {
  public:
-  BulletComponent() : Component(L"TanksFight_TankComponent") {}
+  BulletComponent() : Component(L"TanksFight_BulletComponent") {}
 
   virtual void OnStart();
   virtual void OnUpdate();

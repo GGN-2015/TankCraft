@@ -28,14 +28,13 @@ void TankComponent::OnStart() {
           ->CreateXnObject(Vector2::ZERO, GetXnObject())
           ->SetRenderComponent(std::make_unique<Square_RenderComponent>(
               Vector4(162.f / 255.f, 168.f / 255.f, 160.f / 255.f, 1)));
-  gun_barrel_render_component_->rect_ = Vector4(-0.05f, 0.05f, 0.6f, -0.05f);
+  gun_barrel_render_component_->rect_ = Vector4(-0.05f, 0.05f, 0.23f, -0.05f);
 
 #if _DEBUG && 1
-  SetPos(Vector2::Random({0, 0}, {10, 10}),
-         Vector2::Random(Vector2::X, Vector2::Y));
+  SetPos(Vector2::Random({0, 0}, {10, 10}), 0.f);
   SetColor(Vector3::Random(Vector3(0.6f, 0.6f, 0.6f), Vector3::ONE));
   SetLerpTime(Float::Random(0.07f, 0.1f));
-  SetRadio(Float::Random(0.3f, 0.4f));
+  SetRadio(0.2f);
   web_delay_time_ = Float::Random(0.03f, 0.1f);
 #endif  // Test
 }
@@ -50,7 +49,7 @@ void TankComponent::OnUpdate() {
         target_pos_ + Vector2::Random({-0.5f, -0.5f}, {0.5f, 0.5f});
     new_target_pos_ = Vector2(Float::Clamp(new_target_pos_.x, 0, 10),
                               Float::Clamp(new_target_pos_.y, 0, 10));
-    SetTargetPos(new_target_pos_, Vector2::Random(Vector2::X, Vector2::Y));
+    SetTargetPos(new_target_pos_, 45);
   }
 #endif  // Test
 }
@@ -63,20 +62,12 @@ void TankComponent::SetPos(const Vector2 &pos, const Float &rotation) {
   GetXnObject()->pos_ = start_pos_ = target_pos_ = pos;
   GetXnObject()->rotation_ = start_rotation_ = target_rotation_ = rotation;
 }
-void TankComponent::SetPos(const Vector2 &pos, const Vector2 &direction) {
-  GetXnObject()->pos_ = start_pos_ = target_pos_ = pos;
-  // TODO direction to rotation
-}
 void TankComponent::SetTargetPos(const Vector2 &pos, const Float &rotation) {
   though_t_ = 0;
   start_pos_ = GetXnObject()->pos_;
   start_rotation_ = GetXnObject()->rotation_;
   target_pos_ = pos;
   target_rotation_ = rotation;
-}
-void TankComponent::SetTargetPos(const Vector2 &pos, const Vector2 &direction) {
-  // TODO direction to rotation
-  SetTargetPos(pos, 0);
 }
 void TankComponent::SetRadio(const Float &radius) {
   render_component_->radius_ = radius;
