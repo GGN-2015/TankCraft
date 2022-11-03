@@ -108,3 +108,8 @@ char Utils::GetCharFromBools(bool b0, bool b1, bool b2, bool b3, bool b4, bool b
 	}
 	return *(char*)&ans;
 }
+
+unsigned char Utils::GetRandUnsignedChar()
+{
+	return (unsigned char)(GetRandLongLong() % 256);
+}

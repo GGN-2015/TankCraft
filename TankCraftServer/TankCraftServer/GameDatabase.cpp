@@ -1,9 +1,10 @@
+#include <cassert>
 #include <iostream>
 
 #include "GameDatabase.h"
 #include "GameGraph.h"
 #include "UserInfo.h"
-#include <cassert>
+#include "Utils.h"
 
 GameDatabase* GameDatabase::pGlobalGameDatabase = nullptr;
 
@@ -41,6 +42,7 @@ void GameDatabase::AddUser(int nUserId, std::wstring nUserName)
 {
 	UserInfo* pUserInfo = new UserInfo(nUserId);
 	pUserInfo->SetUserName(nUserName);
+	pUserInfo->SetUserColor(UserColor::GetRandomColor());
 
 	mUserInfoList.push_back(pUserInfo); /* 增加一个用户 */
 #ifdef GAME_DATABASE_DEBUG
@@ -72,6 +74,43 @@ void GameDatabase::GenerateNewMap(int mHeight, int mWidth, double alpha)
 void GameDatabase::GetGraphTcpData(TcpData* pGraphTcpDataCache) const
 {
 	mGameGraph.GetTcpData(pGraphTcpDataCache);
+}
+
+double GameDatabase::GetLastGraphGenerateTime() const
+{
+	return mGameGraph.GetCreateTime();
+}
+
+void GameDatabase::GetTcpDataForUserInfoMessage(TcpData* nTcpData)
+{
+	int userNameLenSum = 0;
+	int userCnt = mUserInfoList.size();
+
+	for (auto pUserInfo : mUserInfoList) {
+		userNameLenSum += 2 * pUserInfo->GetUserName().size();
+	}
+
+	int subDataLen = userNameLenSum + userCnt * 12;
+	int totalDataLen = 6 + subDataLen;
+
+	char* buf = new char[totalDataLen];
+	Utils::DumpUnsignedShortToBuffer(buf, 0, 3);          /* User Msg */
+	Utils::DumpUnsignedShortToBuffer(buf, 2, subDataLen); /* 其后的数据长度 */
+	Utils::DumpUnsignedShortToBuffer(buf, 4, userCnt);    /* 用户数量 */
+
+	int pos = 6;
+	for (auto pUserInfo : mUserInfoList) {
+		/* 获取一个用户的数据 */
+		TcpData tmpTcpData;
+		pUserInfo->GetUserInfoTcpData(&tmpTcpData);
+
+		Utils::DumpTcpDataToBuffer(buf, pos, &tmpTcpData);
+		pos += tmpTcpData.GetLength();
+	}
+
+	assert(pos == totalDataLen);
+	nTcpData->SetData(buf, totalDataLen);
+	delete[] buf;
 }
 
 GameDatabase::GameDatabase() {

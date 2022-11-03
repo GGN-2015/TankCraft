@@ -111,6 +111,12 @@
     <ClCompile Include="MapMessage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="UserInfoRequest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfoMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -192,6 +198,12 @@
       <Filter>头文件\Parser</Filter>
     </ClInclude>
     <ClInclude Include="MapMessage.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfoRequest.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfoMessage.h">
       <Filter>头文件\Parser</Filter>
     </ClInclude>
   </ItemGroup>

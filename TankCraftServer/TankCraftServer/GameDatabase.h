@@ -31,6 +31,9 @@ public:
 	void GenerateNewMap(int mHeight, int mWidth, double alpha); /* 生成一个新的地图 */
 	void GetGraphTcpData(TcpData* mGraphTcpDataCache) const; /* 获取 地图数据 */
 
+	double GetLastGraphGenerateTime() const; /* 获取上一次重置地图的时间 */
+	void GetTcpDataForUserInfoMessage(TcpData* nTcpData); /* 获取用户数据 */
+
 private:
 	GameDatabase();
 
