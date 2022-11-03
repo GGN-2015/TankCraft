@@ -84,14 +84,14 @@ double GameDatabase::GetLastGraphGenerateTime() const
 void GameDatabase::GetTcpDataForUserInfoMessage(TcpData* nTcpData)
 {
 	int userNameLenSum = 0;
-	int userCnt = mUserInfoList.size();
+	int userCnt = (int)mUserInfoList.size();
 
 	for (auto pUserInfo : mUserInfoList) {
-		userNameLenSum += 2 * pUserInfo->GetUserName().size();
+		userNameLenSum += 2 * (int)pUserInfo->GetUserName().size();
 	}
 
-	int subDataLen = userNameLenSum + userCnt * 12;
-	int totalDataLen = 6 + subDataLen;
+	int subDataLen = userNameLenSum + userCnt * 12 + 2; /* 这里少加了用户的总人数 2 字节 */
+	int totalDataLen = 4 + subDataLen;
 
 	char* buf = new char[totalDataLen];
 	Utils::DumpUnsignedShortToBuffer(buf, 0, 3);          /* User Msg */

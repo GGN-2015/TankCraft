@@ -64,6 +64,7 @@ void DataParser::Parse(const TcpData* pTcpData, IMessageList* pContainer, const 
 				posNow += iMessage->GetRawDataLength();                  /* 数据使用者负责释放 */
 
 				pContainer->push_back(iMessage);                         /* 数据追加到队列尾部 */
+				break;
 			}
 		}
 

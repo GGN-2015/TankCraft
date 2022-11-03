@@ -15,7 +15,6 @@ int UserInfoRequest::GetRawDataLength()
 void UserInfoRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)
 {
     // TODO: 这里效率比较低，需要优化临界区的算法 
-
     Gdb->lock();
 
     TcpData pTcpData;
@@ -23,7 +22,7 @@ void UserInfoRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)
 
     Gdb->unlock();
 
-    UserInfoMessage* pUserInfoMessage = new UserInfoMessage(pTcpData);
+    UserInfoMessage* pUserInfoMessage = new UserInfoMessage(&pTcpData);
     tb->DumpMessage(pUserInfoMessage);
 }
 

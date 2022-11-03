@@ -167,6 +167,7 @@
     <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="UserInfoMessage.cpp" />
     <ClCompile Include="UserInfoRequest.cpp" />
+    <ClCompile Include="UserInfoRequestParser.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +199,7 @@
     <ClInclude Include="UserInfo.h" />
     <ClInclude Include="UserInfoMessage.h" />
     <ClInclude Include="UserInfoRequest.h" />
+    <ClInclude Include="UserInfoRequestParser.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
