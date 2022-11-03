@@ -92,6 +92,7 @@ XnObject *XnObject::AddChild(std::unique_ptr<XnObject> child) {
   const uint id = child->GetId();
   return children_.insert({id, std::move(child)}).first->second.get();
 }
+void Xn::XnObject::RemoveAllChild() { children_.clear(); }
 void Xn::XnObject::RemoveChild(XnObject *&child) {
   RemoveChild(child->GetId());
   child = nullptr;

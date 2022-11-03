@@ -16,6 +16,8 @@ class Square_RenderComponent;
 
 namespace TankCraft {
 
+class WallManagerComponent;
+
 // 以x（Vector2::X）为前方向
 class MapComponent : public Component {
  public:
@@ -33,8 +35,10 @@ class MapComponent : public Component {
               const uint &y_side_length);
 
  private:
-  uint x_side_length_;
-  uint y_side_length_;
+  uint x_side_length_ = 1;
+  uint y_side_length_ = 1;
+
+  WallManagerComponent *wall_manager = nullptr;
 
  private:
   Vector2 target_pos_;

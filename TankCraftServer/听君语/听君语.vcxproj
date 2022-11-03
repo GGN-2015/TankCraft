@@ -142,6 +142,7 @@
     <ClCompile Include="TankCraft_NetManager_Component.cpp" />
     <ClCompile Include="TankCraft_TankComponent.cpp" />
     <ClCompile Include="TankCraft_WallComponent.cpp" />
+    <ClCompile Include="TankCraft_WallManager_Component.cpp" />
     <ClCompile Include="Transform_RenderComponent.cpp" />
     <ClCompile Include="XnTime.cpp" />
     <ClCompile Include="听君语.cpp" />

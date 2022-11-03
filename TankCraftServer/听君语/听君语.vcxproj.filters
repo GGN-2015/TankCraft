@@ -334,6 +334,9 @@
     <ClCompile Include="Transform_RenderComponent.cpp">
       <Filter>代码文件\司\数\对象组件\渲染组件\仅变换</Filter>
     </ClCompile>
+    <ClCompile Include="TankCraft_WallManager_Component.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\墙</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

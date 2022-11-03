@@ -11,12 +11,9 @@
 #include "Square_RenderComponent.h"
 #include "TankCraft_BulletComponent.h"
 #include "TankCraft_TankComponent.h"
-#include "TankCraft_WallComponent.h"
+#include "TankCraft_WallManager_Component.h"
 #include "Transform_RenderComponent.h"
 #include "听君语.h"
-
-// TODO 目前写死的棋盘大小
-const Xn::Int map_side_length(10);
 
 void Xn::TankCraft::MapComponent::OnStart() {
   render_component_ =
@@ -24,8 +21,12 @@ void Xn::TankCraft::MapComponent::OnStart() {
           std::make_unique<Square_RenderComponent>(
               Vector4(0.7f, 1.f, 0.75f, 1)));
 
-  render_component_->rect_ = {-0.3f, -0.3f, map_side_length.ToFloat() + 0.3f,
-                              map_side_length.ToFloat() + 0.3f};
+  render_component_->rect_ = {-0.3f, -0.3f, 1 + 0.3f, 1 + 0.3f};
+
+  wall_manager = (WallManagerComponent*)听君语::Get()
+                     .GetObjectManager()
+                     ->CreateXnObject(Vector2::ZERO, GetXnObject())
+                     ->AddComponent(std::make_unique<WallManagerComponent>());
 
   // TODO 目前，仅支持地图上下对齐，左右不管
   {
@@ -33,10 +34,10 @@ void Xn::TankCraft::MapComponent::OnStart() {
     Float height = 听君语::Get().GetRenderManager()->GetHeight();
 
     auto small_map_pos = Vector2(width / 2.0f - height / 4.0f, height / 4.0f);
-    auto small_map_scale = (height / map_side_length.ToFloat()) / 2.0f;
+    auto small_map_scale = height / 2.0f;
 
     auto map_pos = Vector2(width / 2.0f - height / 2.0f, 0);
-    auto map_scale = height / map_side_length.ToFloat();
+    auto map_scale = height;
 
     SetPos(small_map_pos, small_map_scale);
     SetTargetPos(map_pos, map_scale);
@@ -56,7 +57,18 @@ void Xn::TankCraft::MapComponent::OnStart() {
         ->AddComponent(std::make_unique<TankComponent>());
   }
 
-  // TODO 加入地图10*10，模拟一下墙
+  // TODO 加入地图8*8，模拟一下墙
+  wchar* the_wall_data = new wchar[10];
+  the_wall_data[0] = 49147;
+  the_wall_data[1] = 21513;
+  the_wall_data[2] = 17579;
+  the_wall_data[3] = 4645;
+  the_wall_data[4] = 34919;
+  the_wall_data[5] = 4233;
+  the_wall_data[6] = 38979;
+  the_wall_data[7] = 40977;
+  SetMap(the_wall_data, 8, 8);
+  delete[] the_wall_data;
 }
 void Xn::TankCraft::MapComponent::OnUpdate() {
   GetXnObject()->pos_ = Vector2::Lerp(GetXnObject()->pos_, target_pos_, 0.05f);
@@ -66,7 +78,12 @@ void Xn::TankCraft::MapComponent::OnUpdate() {
   Float width = 听君语::Get().GetRenderManager()->GetWidth();
   Float height = 听君语::Get().GetRenderManager()->GetHeight();
   auto map_pos = Vector2(width / 2.0f - height / 2.0f, 0);
-  auto map_scale = height / map_side_length.ToFloat();
+  auto map_scale = height / Float(y_side_length_);
+
+  auto amend_scale_div = map_scale * 0.1f;
+  map_pos.x += amend_scale_div * Float(x_side_length_) / 2.0f;
+  map_pos.y += amend_scale_div * Float(y_side_length_) / 2.0f;
+  map_scale -= amend_scale_div;
   SetTargetPos(map_pos, map_scale);
 }
 void Xn::TankCraft::MapComponent::OnDestory() {}
@@ -85,17 +102,9 @@ void Xn::TankCraft::MapComponent::SetTargetPos(const Vector2& pos,
 void Xn::TankCraft::MapComponent::SetMap(const wchar* const& map_data,
                                          const uint& x_side_length,
                                          const uint& y_side_length) {
-  for (uint i = 0; i < y_side_length; ++i) {
-    for (uint j = 0; j < 2.0f * x_side_length / (8 * sizeof(wchar)); ++j) {
-      union {};
-      auto wall = (WallComponent*)听君语::Get()
-                      .GetObjectManager()
-                      ->CreateXnObject(Vector2::ZERO, GetXnObject())
-                      ->AddComponent(std::make_unique<WallComponent>());
-      wall->SetPos({j, i},
-                   (rand() & 1) ? Vector2(j + 1, i) : Vector2(j, i + 1));
-      wall->SetWidth(0.1f);
-      wall->SetColor(Vector4(1, 0.6f, 0.7f, 1));
-    }
-  }
+  x_side_length_ = x_side_length;
+  y_side_length_ = y_side_length;
+  render_component_->rect_ = {-0.3f, -0.3f, x_side_length_ + 0.3f,
+                              y_side_length_ + 0.3f};
+  wall_manager->SetMap(map_data, x_side_length, y_side_length);
 }
