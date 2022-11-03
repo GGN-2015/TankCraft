@@ -22,13 +22,11 @@ XnObject::XnObject(const uint &id, const std::wstring &name, const Vector2 &pos,
       is_active_(true) {}
 
 void XnObject::OnStart() {}
-
 void XnObject::OnUpdate() {
   for (auto &item : components_) item.second->OnUpdate();
   for (auto &item : children_)
     if (item.second->is_active_) item.second->OnUpdate();
 }
-
 void XnObject::OnDestory() {
   for (auto &item : children_)
     if (item.second->is_active_) item.second->OnDestory();
@@ -44,13 +42,10 @@ void Xn::XnObject::OnRender() {
 }
 
 const uint XnObject::GetId() { return id_; }
-
 const std::wstring XnObject::GetName() { return name_; }
 
 Vector2 XnObject::GetPos() { return pos_; }
-
 Vector2 Xn::XnObject::GetScale() { return scale_; }
-
 float Xn::XnObject::GetRotation() { return rotation_; }
 
 Component *XnObject::GetComponent(
@@ -61,15 +56,6 @@ Component *XnObject::GetComponent(
   else
     return iter->second.get();
 }
-
-XnObject *XnObject::AddChild(std::unique_ptr<XnObject> child) {
-  XnObject *xn_object = child.get();
-  const uint id = child->GetId();
-  return children_.insert({id, std::move(child)}).first->second.get();
-}
-
-void XnObject::RemoveChild(const uint &id) { children_.erase(id); }
-
 Component *XnObject::AddComponent(std::unique_ptr<Component> component) {
   component->object_ = this;
 
@@ -81,7 +67,6 @@ Component *XnObject::AddComponent(std::unique_ptr<Component> component) {
 
   return the_component;
 }
-
 void XnObject::RemoveComponet(const Component::ComponentType &component_type) {
   auto iter = components_.find(component_type);
   if (iter == components_.end()) return;
@@ -97,8 +82,20 @@ RenderComponent *Xn::XnObject::SetRenderComponent(
   render_component_->OnStart();
   return render_component_.get();
 }
-
 void Xn::XnObject::RemoveRenderComponet() {
   if (render_component_.get()) render_component_->OnDestory();
   render_component_ = nullptr;
+}
+
+XnObject *XnObject::AddChild(std::unique_ptr<XnObject> child) {
+  XnObject *xn_object = child.get();
+  const uint id = child->GetId();
+  return children_.insert({id, std::move(child)}).first->second.get();
+}
+void Xn::XnObject::RemoveChild(XnObject *&child) {
+  RemoveChild(child->GetId());
+  child = nullptr;
+}
+void Xn::XnObject::RemoveChild(const uint &child_id) {
+  children_.erase(child_id);
 }

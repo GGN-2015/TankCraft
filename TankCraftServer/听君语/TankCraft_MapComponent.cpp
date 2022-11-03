@@ -16,7 +16,7 @@
 #include "听君语.h"
 
 // TODO 目前写死的棋盘大小
-constexpr uint map_side_length = 10;
+const Xn::Int map_side_length(10);
 
 void Xn::TankCraft::MapComponent::OnStart() {
   render_component_ =
@@ -24,21 +24,19 @@ void Xn::TankCraft::MapComponent::OnStart() {
           std::make_unique<Square_RenderComponent>(
               Vector4(0.7f, 1.f, 0.75f, 1)));
 
-  render_component_->rect_ = {-0.3f, -0.3f, map_side_length + 0.3f,
-                              map_side_length + 0.3f};
+  render_component_->rect_ = {-0.3f, -0.3f, map_side_length.ToFloat() + 0.3f,
+                              map_side_length.ToFloat() + 0.3f};
 
   // TODO 目前，仅支持地图上下对齐，左右不管
   {
     Float width = 听君语::Get().GetRenderManager()->GetWidth();
     Float height = 听君语::Get().GetRenderManager()->GetHeight();
 
-    auto small_map_pos =
-        Vector2(width / Float(2) - height * Float(1) / Float(4),
-                height * Float(1) / Float(4));
-    auto small_map_scale = (height / (Float)map_side_length) / Float(2);
+    auto small_map_pos = Vector2(width / 2.0f - height / 4.0f, height / 4.0f);
+    auto small_map_scale = (height / map_side_length.ToFloat()) / 2.0f;
 
-    auto map_pos = Vector2(width / Float(2) - height / Float(2), 0);
-    auto map_scale = height / Float(map_side_length);
+    auto map_pos = Vector2(width / 2.0f - height / 2.0f, 0);
+    auto map_scale = height / map_side_length.ToFloat();
 
     SetPos(small_map_pos, small_map_scale);
     SetTargetPos(map_pos, map_scale);
@@ -67,8 +65,8 @@ void Xn::TankCraft::MapComponent::OnUpdate() {
 
   Float width = 听君语::Get().GetRenderManager()->GetWidth();
   Float height = 听君语::Get().GetRenderManager()->GetHeight();
-  auto map_pos = Vector2(width / Float(2) - height / Float(2), 0);
-  auto map_scale = height / Float(map_side_length);
+  auto map_pos = Vector2(width / 2.0f - height / 2.0f, 0);
+  auto map_scale = height / map_side_length.ToFloat();
   SetTargetPos(map_pos, map_scale);
 }
 void Xn::TankCraft::MapComponent::OnDestory() {}
@@ -88,7 +86,7 @@ void Xn::TankCraft::MapComponent::SetMap(const wchar* const& map_data,
                                          const uint& x_side_length,
                                          const uint& y_side_length) {
   for (uint i = 0; i < y_side_length; ++i) {
-    for (uint j = 0; j < 2 * x_side_length / (8 * sizeof(wchar)); ++j) {
+    for (uint j = 0; j < 2.0f * x_side_length / (8 * sizeof(wchar)); ++j) {
       union {};
       auto wall = (WallComponent*)听君语::Get()
                       .GetObjectManager()

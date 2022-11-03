@@ -38,7 +38,6 @@ class XnObject {
   float GetRotation();
   Component* GetComponent(const Component::ComponentType& component_type);
 
-  void RemoveChild(const uint& id);
   Component* AddComponent(std::unique_ptr<Component> component);
   void RemoveComponet(const Component::ComponentType& component_type);
   RenderComponent* SetRenderComponent(
@@ -47,6 +46,8 @@ class XnObject {
 
  private:
   XnObject* AddChild(std::unique_ptr<XnObject> child);
+  void RemoveChild(XnObject*& child);
+  void RemoveChild(const uint& child_id);
 
  public:
   Vector2 pos_;     // 物体的位置

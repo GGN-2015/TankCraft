@@ -2,6 +2,11 @@
 
 using namespace Xn;
 
+// Int.h
+const Int Int::ZERO = Int();
+const Int Int::ONE = Int(1.0f);
+const Int Int::MAX = Int(0x7FFF);
+
 // Float.h
 const Float Float::ZERO = Float();
 const Float Float::ONE = Float(1.0f);

@@ -23,7 +23,7 @@ class TestComponent2 : public Component {
         (Square_RenderComponent*)GetXnObject()->SetRenderComponent(
             std::make_unique<Square_RenderComponent>(Vector4(1, 1, 1, 1)));
 
-    one_move_t_ = 1.5;
+    one_move_t_ = 1.5f;
     though_t_ = 0;
 
     start_pos_ = GetXnObject()->GetPos();

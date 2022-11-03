@@ -132,6 +132,9 @@
     <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\其他实体">
       <UniqueIdentifier>{a8fd8f24-ad77-4d31-8f14-d39654e01889}</UniqueIdentifier>
     </Filter>
+    <Filter Include="代码文件\司\数\对象组件\渲染组件\仅变换">
+      <UniqueIdentifier>{643950fa-b3f0-4a78-8cea-0d167454cd17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXSampleHelper.h">
@@ -251,6 +254,15 @@
     <ClInclude Include="TankCraft_BulletComponent.h">
       <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\子弹</Filter>
     </ClInclude>
+    <ClInclude Include="Math-NumberBase.h">
+      <Filter>代码文件\器\数学\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TankCraft_WallManager_Component.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\墙</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform_RenderComponent.h">
+      <Filter>代码文件\司\数\对象组件\渲染组件\仅变换</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -318,6 +330,9 @@
     </ClCompile>
     <ClCompile Include="TankCraft_BulletComponent.cpp">
       <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\子弹</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform_RenderComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\渲染组件\仅变换</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
