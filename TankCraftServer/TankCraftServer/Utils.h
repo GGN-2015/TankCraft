@@ -18,5 +18,6 @@ public:
 	static double GetRandomDouble();                                                        /* 生成随机实数 */
 	static char GetCharFromBools(
 		bool b0, bool b1, bool b2, bool b3,
-		bool b4, bool b5, bool b6, bool b7); /* 从 bool 获得 char */
+		bool b4, bool b5, bool b6, bool b7);    /* 从 bool 获得 char */
+	static unsigned char GetRandUnsignedChar(); /* 获得随机无符号字符 */
 };

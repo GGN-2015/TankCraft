@@ -8,8 +8,13 @@
 
 ThreadBuffer::ThreadBuffer()
 {
-	mUserID = -1;
+	mMaxSentId = mUserID = -1;
 	mLastGetGraphTime = mLastKillListTime = mLastShootTime = -1;
+}
+
+ThreadBuffer::~ThreadBuffer()
+{
+	FreeGraphTcpDataCache();
 }
 
 void ThreadBuffer::DumpMessage(IMessage* iMessage)
@@ -56,8 +61,10 @@ void ThreadBuffer::GetTcpDataFromDumpedMessage(TcpData* pTcpDataGet)
 	/* 载入总校系数 */
 	char evenAns = 0, oddAns = 0;
 	Utils::GetSanityInteger(buffer, pos, &evenAns, &oddAns); /* 校验系数不计算 pos 处 */
-	buffer[pos + 0] = (char)evenAns;
-	buffer[pos + 1] = (char)oddAns ; pos += 2;
+	if (pos + 2 <= totalLen) {
+		buffer[pos + 0] = (char)evenAns;
+		buffer[pos + 1] = (char)oddAns; pos += 2;
+	}
 	assert(pos == totalLen); /* 此时数据必须恰好填满了 */
 
 	pTcpDataGet->SetData(buffer, totalLen);
@@ -87,7 +94,7 @@ bool ThreadBuffer::HasGraphTcpDataCache() const
 void ThreadBuffer::DumpGraphTcpDataIntoMessageList(GameDatabase* Gdb)
 {
 	/* 试图缓存数据 */
-	if (!HasGraphTcpDataCache() || GraphTcpDataCacheOutofData()) {
+	if (!HasGraphTcpDataCache() || GraphTcpDataCacheOutofData(Gdb)) {
 		FreeGraphTcpDataCache();
 
 		Gdb->lock();
@@ -117,4 +124,14 @@ void ThreadBuffer::FreeGraphTcpDataCache()
 {
 	delete mGraphTcpDataCache;
 	mGraphTcpDataCache = nullptr;
+}
+
+void ThreadBuffer::SetMaxSentUserId(int nMaxSentId)
+{
+	mMaxSentId = nMaxSentId;
+}
+
+int ThreadBuffer::GetMaxSentUserId() const
+{
+	return mMaxSentId;
 }

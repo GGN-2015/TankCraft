@@ -6,6 +6,7 @@ class ThreadBuffer
 {
 public:
 	ThreadBuffer();
+	~ThreadBuffer();
 
 	void DumpMessage(IMessage* iMessage); /* 向缓冲区中缓冲一条消息 */
 	void ClearDumpedMessage();            /* 清空所有待发送的消息 */
@@ -24,6 +25,9 @@ public:
 	bool GraphTcpDataCacheOutofData(GameDatabase* Gdb) const; /* 检测当前的地图是否过期 */
 	void FreeGraphTcpDataCache(); /* 清空缓存的地图信息 */
 
+	void SetMaxSentUserId(int nMaxSentId);
+	int GetMaxSentUserId() const; /* 获取发送过的最大用户 ID */
+
 private:
 
 	IMessageList mIMessageList; /* 待发送的消息队列，服务端有义务在清空这个队列时对其中内容进行释放 */
@@ -39,4 +43,5 @@ private:
 	double mLastGetGraphTime; /* 上次获取地图的时间 */
 
 	TcpData* mGraphTcpDataCache = nullptr;
+	int mMaxSentId;          /* 曾经获取过用户信息的最大用户 ID */
 };

@@ -11,6 +11,8 @@ GameGraph::GameGraph()
 {
 	mHeight = mWidth = 0;
 	memset(mGameGraph, 0x00, sizeof(mGameGraph));
+
+	SetSize(8, 8, 0.4);
 }
 
 void GameGraph::SetSize(int nHeight, int nWidth, double alpha)
@@ -49,6 +51,7 @@ void GameGraph::GenerateRandMap(double alpha)
 	int endTime = clock();
 
 	std::cerr << "GameGraph::GenerateRandMap() timeCost = " << (endTime - getTime) << std::endl;
+	mCreateTime = Utils::GetClockTime(); /* 记录新地图的创建时间 */
 }
 
 void GameGraph::GetTcpData(TcpData* tcpDataGet) const
@@ -185,6 +188,11 @@ const GameGraphEdges& GameGraph::GetPos(int posX, int posY) const
 	return mGameGraph[posX][posY];
 }
 
+double GameGraph::GetCreateTime() const
+{
+	return mCreateTime;
+}
+
 int GameGraph::GetNodeId(int posX, int posY) const
 {
 	assert(InGraph(posX, posY));
@@ -199,4 +207,9 @@ void GameGraph::GetNodePos(int nodeId, int& x, int& y) const
 	x = nodeId / mWidth;
 
 	assert(InGraph(x, y));
+}
+
+void GameGraphEdges::DebugShow() const
+{
+	std::cerr << "(" << (int)hasLeft << ", " << (int)hasTop << ") ";
 }
