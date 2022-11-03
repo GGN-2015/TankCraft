@@ -127,9 +127,14 @@ void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::Net
 				TcpData tcpDataRequest;
 				TcpUtils::CompactTcpDataListToTcpDataRequest(&tcpDataList, &tcpDataRequest);
 
+
+				int sendTime = clock();
+				std::cerr << "[Client] sendTime = " << sendTime << std::endl;
 				/* 发送打包后的请求，获取消息 */
 				TcpData tcpDataMessage;
 				tcpClient.Request(&tcpDataRequest, &tcpDataMessage);
+				int getTime = clock();
+				std::cerr << "[Client] getTime = " << getTime << std::endl;
 
 				/* 检测是否与服务器断开连接 */
 				if (tcpDataMessage.IsEnd()) {

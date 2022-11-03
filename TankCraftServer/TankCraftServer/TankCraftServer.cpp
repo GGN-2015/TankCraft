@@ -102,33 +102,38 @@ void TestTcpNetManager() {
     nmComponent.OnStart();
     nmComponent.ConnectToServer(L"127.0.0.1", L"12345");
 
+    bool first = true;
+
     while (true) {
-        int nbytes; std::cout << "nbytes = "; std::cin >> nbytes;
-
-        if (nbytes == 0) break; /* 关闭客户端 */
-
-        std::cout << "data = ";
-
-        /* 输入数据 */
-        char* buf = new char[nbytes];
-        for (int i = 0; i < nbytes; i += 1) {
-            int val; std::cin >> val;
-            buf[i] = val;
-        }
-
         /* 把数据填写进缓冲区中 */
         TcpData tcpDataSend, tcpDataGet;
-        tcpDataSend.SetData(buf, nbytes);
-        delete[] buf;
+
+        if (first) {
+            first = false;
+
+            wchar_t buf[] = { 0, 2, 12345 };
+            tcpDataSend.SetData((char*)buf, 6); /* 第一轮发送 ping */
+        } else{
+            int nbytes; std::cout << "nbytes = "; std::cin >> nbytes;
+            if (nbytes == 0) break; /* 关闭客户端 */
+            std::cout << "data = ";
+
+            /* 输入数据 */
+            char* buf = new char[nbytes];
+            for (int i = 0; i < nbytes; i += 1) {
+                int val; std::cin >> val;
+                buf[i] = val;
+            }
+
+            tcpDataSend.SetData(buf, nbytes);
+            delete[] buf;
+        }
 
         /* 缓冲区送入发送队列 */
         auto requestBufferArr = nmComponent.TryGetClientToServerMessageBuffer();
         std::unique_ptr<Xn::TankCraft::NetMessageBaseData> pnmbd1(new Xn::TankCraft::NetMessageBaseData);
         pnmbd1->MoveDataFrom(&tcpDataSend);
         requestBufferArr->Push(std::move(pnmbd1));
-
-        /* 等待一段时间保证数据送到 */
-        Sleep(600);
         
         /* 获取客户收到的数据 */
         auto msgBufferArr = nmComponent.TryGetServerToClientMessageBuffer();
@@ -139,6 +144,8 @@ void TestTcpNetManager() {
             );
 
             pnmbd2->DebugShow();
+            int getTime = clock();
+            std::cerr << "[ClientMain] getTime = " << getTime << std::endl;
         }
     }
 

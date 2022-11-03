@@ -36,9 +36,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TankCraftServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="TcpServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -98,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="TankCraft_NetManager_Component.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraftServer.cpp">
+      <Filter>头文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
