@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <string>
+
+#include "GameGraph.h"
 #include "MyMutex.h"
 
 // TODO: LOCK BEFORE USE GAME_DATABASE
@@ -25,11 +27,15 @@ public:
 	void AddUser(int nUserId, std::wstring nUserName); /* 将玩家加入游戏中 */
 	void DelUser(int nUserId); /* 删除一个玩家 */
 
+	/* alpha: 0 ~ 1 之间，描述地图的稠密程度: 0 稠密, 1 稀疏 */
+	void GenerateNewMap(int mHeight, int mWidth, double alpha); /* 生成一个新的地图 */
+
 private:
 	GameDatabase();
 
 	int mUserIdNow; /* 当前最大用户 ID */
 	UserInfoList mUserInfoList; /* 用户信息列表 */
 
+	GameGraph mGameGraph;
 	static GameDatabase* pGlobalGameDatabase; /* 指针单例 */
 };

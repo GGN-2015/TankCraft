@@ -7,6 +7,10 @@
 struct GameGraphEdges {
 	bool hasLeft; /* 当前位置左侧是否有墙 */
 	bool hasTop;  /* 当前位置上方是否有墙 */
+
+	void DebugShow() const {
+		std::cerr << "(" << (int)hasLeft <<", " << (int)hasTop << ") ";
+	}
 };
 
 class TcpData;
@@ -15,14 +19,22 @@ class GameGraph
 public:
 	GameGraph();
 
-	void SetSize(int nHeight, int nWidth);
-	void GenerateRandMap(); /* 生成随机地图 */
+	void SetSize(int nHeight, int nWidth, double alpha);
+	void GenerateRandMap(double alpha);
 	void GetTcpData(TcpData* tcpDataGet); /* 将地图导出为二进制数据 */
 
+	bool InGraph(int posX, int posY) const;
+	void DebugShow() const;
+
+	const GameGraphEdges& GetPos(int posX, int posY) const;
+
 private:
+	void GenerateRandMap(GameGraphEdges(*pGameGraph)[GAME_GRAPH_MAX_HEIGHT][GAME_GRAPH_MAX_WIDTH]); /* 生成随机地图 */
+
 	int mHeight, mWidth;
 
-	int GetNodeId(int posX, int posY) const; /* pos 从零开始，但是 NodeId 从 1 开始 */
+	int GetNodeId(int posX, int posY) const;           /* pos 从零开始，但是 NodeId 从 1 开始 */
+	void GetNodePos(int nodeId, int& x, int& y) const; /* 还原回坐标 */
 
 	/* 记录所有墙的位置 */
 	GameGraphEdges mGameGraph[GAME_GRAPH_MAX_HEIGHT][GAME_GRAPH_MAX_WIDTH];

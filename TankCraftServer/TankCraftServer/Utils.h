@@ -15,4 +15,5 @@ public:
 	static std::wstring GetWstringFromCharBuffer(const char* buf, int charCnt);             /* charCnt 必须是偶数 */
 	static void DumpRawStringToBuffer(char* buf, int pos, const char* raw, int len);        /* 字符串载入 */
 	static void DumpIntToBuffer(char* buf, int pos, int val);                               /* 整数载入 */
+	static double GetRandomDouble();                                                        /* 生成随机实数 */
 };

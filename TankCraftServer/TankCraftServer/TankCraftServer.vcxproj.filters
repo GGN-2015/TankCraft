@@ -99,6 +99,9 @@
     <ClCompile Include="TankCraftServer.cpp">
       <Filter>头文件</Filter>
     </ClCompile>
+    <ClCompile Include="UnionFindSet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="TankCraft_NetManager_Component.h">
       <Filter>头文件\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="UnionFindSet.h">
+      <Filter>头文件\Algo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

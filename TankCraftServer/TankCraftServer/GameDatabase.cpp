@@ -63,6 +63,11 @@ void GameDatabase::DelUser(int nUserId)
 	mUserInfoList.erase(mUserInfoList.begin() + pos);
 }
 
+void GameDatabase::GenerateNewMap(int mHeight, int mWidth, double alpha)
+{
+	mGameGraph.SetSize(mHeight, mWidth, alpha);
+}
+
 GameDatabase::GameDatabase() {
 	mUserIdNow = 0;
 }

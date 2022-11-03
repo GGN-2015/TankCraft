@@ -2,6 +2,7 @@
 #include <iostream>
 #include <windows.h>
 
+#include "GameGraph.h"
 #include "GameTcpServer.h"
 #include "TankCraft_NetManager_Component.h"
 #include "TcpData.h"
@@ -14,7 +15,7 @@ int main()
     /* 初始化随机种子 */
     srand((unsigned int)time(NULL));
 
-    TestTcpNetManager();
+    TestGameGraph();
 }
 
 void TestTcpServer() {
@@ -151,4 +152,10 @@ void TestTcpNetManager() {
 
     nmComponent.DisConnect();
     nmComponent.OnDestory();
+}
+
+void TestGameGraph() {
+    GameGraph gg;
+    gg.SetSize(40, 40, 0.4);
+    gg.DebugShow();
 }

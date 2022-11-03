@@ -160,6 +160,7 @@
     <ClCompile Include="TcpServer.cpp" />
     <ClCompile Include="TcpUtils.cpp" />
     <ClCompile Include="ThreadBuffer.cpp" />
+    <ClCompile Include="UnionFindSet.cpp" />
     <ClCompile Include="UserInfo.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -185,6 +186,7 @@
     <ClInclude Include="TcpUtils.h" />
     <ClInclude Include="TestPrograms.h" />
     <ClInclude Include="ThreadBuffer.h" />
+    <ClInclude Include="UnionFindSet.h" />
     <ClInclude Include="UserInfo.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

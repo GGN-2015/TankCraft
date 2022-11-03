@@ -89,3 +89,10 @@ void Utils::DumpIntToBuffer(char* buf, int pos, int val)
 		UNSIGNED(buf[pos + i]) = p[i]; /* Êý¾ÝÐ´Èë */
 	}
 }
+
+double Utils::GetRandomDouble()
+{
+	int RND = (rand() << 15) | rand();
+	int MAX = (32767 << 15) | (32767);
+	return RND / (1.0 * MAX);
+}
