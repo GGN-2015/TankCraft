@@ -16,7 +16,16 @@ public:
 	bool InGame() const; /* 检测当前该客户是否在游玩 */
 	int GetUserID() const; /* 获取用户编号 */
 
+	bool HasGraphTcpDataCache() const; /* 检测是否有缓存的地图数据 */
+
+	void DumpGraphTcpDataIntoMessageList(GameDatabase* Gdb);
+	void SetGraphTimer(); /* 记录当前时刻以为更新地图做准备 */
+
+	bool GraphTcpDataCacheOutofData(GameDatabase* Gdb) const; /* 检测当前的地图是否过期 */
+	void FreeGraphTcpDataCache(); /* 清空缓存的地图信息 */
+
 private:
+
 	IMessageList mIMessageList; /* 待发送的消息队列，服务端有义务在清空这个队列时对其中内容进行释放 */
 
 	/* 描述当前玩家是否已经加入游戏 */
@@ -27,4 +36,7 @@ private:
 
 	double mLastKillListTime; /* 上一次获取 KillList 的时间 */
 	double mLastShootTime;    /* 上次发射炮弹的时间 */
+	double mLastGetGraphTime; /* 上次获取地图的时间 */
+
+	TcpData* mGraphTcpDataCache = nullptr;
 };

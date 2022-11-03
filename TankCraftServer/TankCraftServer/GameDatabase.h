@@ -29,6 +29,7 @@ public:
 
 	/* alpha: 0 ~ 1 之间，描述地图的稠密程度: 0 稠密, 1 稀疏 */
 	void GenerateNewMap(int mHeight, int mWidth, double alpha); /* 生成一个新的地图 */
+	void GetGraphTcpData(TcpData* mGraphTcpDataCache) const; /* 获取 地图数据 */
 
 private:
 	GameDatabase();

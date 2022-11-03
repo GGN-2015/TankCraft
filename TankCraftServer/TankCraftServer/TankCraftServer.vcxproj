@@ -150,6 +150,9 @@
     <ClCompile Include="LoginMessage.cpp" />
     <ClCompile Include="LoginRequest.cpp" />
     <ClCompile Include="LoginRequestParser.cpp" />
+    <ClCompile Include="MapMessage.cpp" />
+    <ClCompile Include="MapRequest.cpp" />
+    <ClCompile Include="MapRequestParser.cpp" />
     <ClCompile Include="MyMutex.cpp" />
     <ClCompile Include="PingMessage.cpp" />
     <ClCompile Include="PingParser.cpp" />
@@ -175,6 +178,9 @@
     <ClInclude Include="LoginMessage.h" />
     <ClInclude Include="LoginRequest.h" />
     <ClInclude Include="LoginRequestParser.h" />
+    <ClInclude Include="MapMessage.h" />
+    <ClInclude Include="MapRequest.h" />
+    <ClInclude Include="MapRequestParser.h" />
     <ClInclude Include="MyMutex.h" />
     <ClInclude Include="PingMessage.h" />
     <ClInclude Include="PingParser.h" />

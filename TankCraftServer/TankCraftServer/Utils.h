@@ -16,4 +16,7 @@ public:
 	static void DumpRawStringToBuffer(char* buf, int pos, const char* raw, int len);        /* 字符串载入 */
 	static void DumpIntToBuffer(char* buf, int pos, int val);                               /* 整数载入 */
 	static double GetRandomDouble();                                                        /* 生成随机实数 */
+	static char GetCharFromBools(
+		bool b0, bool b1, bool b2, bool b3,
+		bool b4, bool b5, bool b6, bool b7); /* 从 bool 获得 char */
 };

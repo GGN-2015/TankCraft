@@ -102,6 +102,15 @@
     <ClCompile Include="UnionFindSet.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MapRequestParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MapRequest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MapMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -175,6 +184,15 @@
     </ClInclude>
     <ClInclude Include="UnionFindSet.h">
       <Filter>头文件\Algo</Filter>
+    </ClInclude>
+    <ClInclude Include="MapRequestParser.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="MapRequest.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="MapMessage.h">
+      <Filter>头文件\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -156,6 +156,10 @@ void TestTcpNetManager() {
 
 void TestGameGraph() {
     GameGraph gg;
-    gg.SetSize(40, 40, 0.4);
-    gg.DebugShow();
+    gg.SetSize(8, 8, 0.4);
+
+    TcpData tcpData;
+    gg.GetTcpData(&tcpData);
+
+    tcpData.DebugShow("[Graph] ");
 }

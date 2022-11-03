@@ -51,6 +51,49 @@ void GameGraph::GenerateRandMap(double alpha)
 	std::cerr << "GameGraph::GenerateRandMap() timeCost = " << (endTime - getTime) << std::endl;
 }
 
+void GameGraph::GetTcpData(TcpData* tcpDataGet) const
+{
+	int bitCnt = mHeight * mWidth * 2;
+	assert(bitCnt % 8 == 0 && mWidth % 4 == 0);
+
+	int byteCnt = bitCnt / 8;
+
+	int tcpDataLen = byteCnt + 6;
+	char* buf = new char[tcpDataLen];
+
+	Utils::DumpUnsignedShortToBuffer(buf, 0, 2);                       /* 2 号消息表示地图消息 */
+	Utils::DumpUnsignedShortToBuffer(buf, 2, byteCnt + 2);             /* 数据部分长度 */
+	Utils::DumpUnsignedShortToBuffer(buf, 4, mHeight | (mWidth << 8)); /* 地图尺寸 */
+
+	int pos = 6;
+
+	for (int i = 0; i < mHeight; i += 1) {
+		for (int j = 0; j < mWidth; j += 4) {
+			char val = Utils::GetCharFromBools(
+				mGameGraph[i][j + 0].hasLeft ,
+				mGameGraph[i][j + 0].hasTop  ,
+				mGameGraph[i][j + 1].hasLeft ,
+				mGameGraph[i][j + 1].hasTop  ,
+				mGameGraph[i][j + 2].hasLeft ,
+				mGameGraph[i][j + 2].hasTop  ,
+				mGameGraph[i][j + 3].hasLeft ,
+				mGameGraph[i][j + 3].hasTop
+			);
+
+			if (pos < tcpDataLen) { /* 避免缓冲区溢出? */
+				buf[pos++] = (char)val;
+			}
+			else {
+				assert(false);
+			}
+		}
+	}
+	assert(pos == tcpDataLen);
+
+	tcpDataGet->SetData(buf, tcpDataLen);
+	delete[] buf;
+}
+
 struct EdgeMsg { /* 记录 Kruscal 算法需要使用的边 */
 	int nodeIdA, nodeIdB;
 	long long randVal;

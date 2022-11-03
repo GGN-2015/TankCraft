@@ -59,7 +59,7 @@ std::wstring Utils::GetWstringFromCharBuffer(const char* buf, int charCnt)
 	assert(charCnt % 2 == 0);
 	int wcharCnt = charCnt / 2;
 
-	wchar_t* wbuf = new wchar_t[wcharCnt + 1];
+	wchar_t* wbuf = new wchar_t[(long long)wcharCnt + 1];
 	memcpy(wbuf, buf, charCnt);
 	wbuf[wcharCnt] = '\0'; /* 最后补一个 '\0' */
 
@@ -95,4 +95,16 @@ double Utils::GetRandomDouble()
 	int RND = (rand() << 15) | rand();
 	int MAX = (32767 << 15) | (32767);
 	return RND / (1.0 * MAX);
+}
+
+char Utils::GetCharFromBools(bool b0, bool b1, bool b2, bool b3, bool b4, bool b5, bool b6, bool b7)
+{
+	bool boolList[] = { b0, b1, b2, b3, b4, b5, b6, b7 };
+	int ans = 0;
+	for (int i = 0; i < 8; i += 1) {
+		if (boolList[i]) {
+			ans = ans | (1 << i);
+		}
+	}
+	return *(char*)&ans;
 }

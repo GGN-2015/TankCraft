@@ -21,7 +21,7 @@ public:
 
 	void SetSize(int nHeight, int nWidth, double alpha);
 	void GenerateRandMap(double alpha);
-	void GetTcpData(TcpData* tcpDataGet); /* 将地图导出为二进制数据 */
+	void GetTcpData(TcpData* tcpDataGet) const; /* 将地图导出为二进制数据 */
 
 	bool InGraph(int posX, int posY) const;
 	void DebugShow() const;

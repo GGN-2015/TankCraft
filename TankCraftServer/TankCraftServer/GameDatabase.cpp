@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "GameDatabase.h"
+#include "GameGraph.h"
 #include "UserInfo.h"
 #include <cassert>
 
@@ -66,6 +67,11 @@ void GameDatabase::DelUser(int nUserId)
 void GameDatabase::GenerateNewMap(int mHeight, int mWidth, double alpha)
 {
 	mGameGraph.SetSize(mHeight, mWidth, alpha);
+}
+
+void GameDatabase::GetGraphTcpData(TcpData* pGraphTcpDataCache) const
+{
+	mGameGraph.GetTcpData(pGraphTcpDataCache);
 }
 
 GameDatabase::GameDatabase() {

@@ -1,13 +1,15 @@
 #include <cassert>
 
+#include "GameDatabase.h"
 #include "IMessage.h"
+#include "MapMessage.h"
 #include "ThreadBuffer.h"
 #include "Utils.h"
 
 ThreadBuffer::ThreadBuffer()
 {
 	mUserID = -1;
-	mLastKillListTime = mLastShootTime = -1;
+	mLastGetGraphTime = mLastKillListTime = mLastShootTime = -1;
 }
 
 void ThreadBuffer::DumpMessage(IMessage* iMessage)
@@ -75,4 +77,44 @@ bool ThreadBuffer::InGame() const
 int ThreadBuffer::GetUserID() const
 {
 	return mUserID;
+}
+
+bool ThreadBuffer::HasGraphTcpDataCache() const
+{
+	return mGraphTcpDataCache != nullptr;
+}
+
+void ThreadBuffer::DumpGraphTcpDataIntoMessageList(GameDatabase* Gdb)
+{
+	/* 试图缓存数据 */
+	if (!HasGraphTcpDataCache() || GraphTcpDataCacheOutofData()) {
+		FreeGraphTcpDataCache();
+
+		Gdb->lock();
+
+		mGraphTcpDataCache = new TcpData;
+		Gdb->GetGraphTcpData(mGraphTcpDataCache);
+
+		Gdb->unlock();
+	}
+
+	/* 注：这个消息不允许被 vector 容器析构 */
+	DumpMessage(new MapMessage(mGraphTcpDataCache));
+}
+
+void ThreadBuffer::SetGraphTimer()
+{
+	mLastGetGraphTime = Utils::GetClockTime();
+}
+
+bool ThreadBuffer::GraphTcpDataCacheOutofData(GameDatabase* Gdb) const
+{
+	double genTime = Gdb->GetLastGraphGenerateTime();
+	return genTime > mLastGetGraphTime;
+}
+
+void ThreadBuffer::FreeGraphTcpDataCache()
+{
+	delete mGraphTcpDataCache;
+	mGraphTcpDataCache = nullptr;
 }
