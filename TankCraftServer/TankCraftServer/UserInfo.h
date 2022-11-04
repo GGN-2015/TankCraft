@@ -1,4 +1,5 @@
 #pragma once
+#include <map>
 #include <string>
 
 struct UserColor { /* 描述用户的颜色 */
@@ -9,7 +10,19 @@ struct UserColor { /* 描述用户的颜色 */
 	static UserColor GetRandomColor();
 };
 
+struct TankPos {
+	float posX, posY, dirR; /* X 向右, Y 向下, dir 向右=0, 顺时针弧度制 */
+
+	TankPos() {
+		posX = posY = dirR = 0; /* posX = posY = 0 表示玩家未知未定义 */
+	}
+	TankPos(const TankPos& nTankPos); /* 拷贝构造函数 */
+
+	void RandomPosition(int mHeight, int mWidth); /* 随机坦克位置 */
+};
+
 class TcpData;
+typedef std::map<int, TankPos> TankPosMap; /* 从用户 ID 到坦克位置的映射 */
 
 /* 每一个正在游戏中游玩的用户都对应着一个 UserInfo, 该信息存储与 GameDatabase 的 mUserInfoList 之中 */
 class UserInfo
@@ -29,10 +42,16 @@ public:
 	/* 获取用户对应的 TcpData 数据, 详见“用户信息格式” */
 	void GetUserInfoTcpData(TcpData* tcpData) const;
 
+	void GetTankPos(TankPosMap* nTankPosMap);         /* 获取所有玩家的坦克位置 */
+	void SetTankPos(const TankPosMap* nTankPosMap);   /* 更新坦克位置 */
+	void SetTankPosRandomly(int mHeight, int mWidth); /* 随机更新坦克位置 */
+
 private:
 	int mUserId;
 	std::wstring mUserName; /* 登录名 */
 
-	int mKillCnt;
-	UserColor mUserColor;
+	int       mKillCnt  ; /* 击杀数 */
+	UserColor mUserColor; /* 用户颜色 */
+	TankPos   mTankPos  ; /* 坦克位置 */
+	double    mLastKilledTime; /* 上次被杀死的时间 */
 };

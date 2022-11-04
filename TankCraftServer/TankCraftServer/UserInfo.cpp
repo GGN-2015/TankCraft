@@ -2,10 +2,13 @@
 #include "UserInfo.h"
 #include "Utils.h"
 
+const double inf = 1e300;
+
 UserInfo::UserInfo(int nUserId)
 {
     mUserId = nUserId;
     mKillCnt = 0;
+    mLastKilledTime = -inf;
 }
 
 int UserInfo::GetUserId() const
@@ -66,6 +69,25 @@ void UserInfo::GetUserInfoTcpData(TcpData* tcpData) const
     delete[] buf;
 }
 
+void UserInfo::GetTankPos(TankPosMap* nTankPosMap) /* 将坦克未知存入 Map */
+{
+    (* nTankPosMap)[GetUserId()] = mTankPos;
+}
+
+void UserInfo::SetTankPos(const TankPosMap* nTankPosMap)
+{
+    auto pTankMsg = (*nTankPosMap).find(GetUserId());
+
+    if (pTankMsg != nTankPosMap->end()) { /* 如果表中没找到则说明可能不变 */
+        mTankPos = pTankMsg->second;
+    }
+}
+
+void UserInfo::SetTankPosRandomly(int mHeight, int mWidth)
+{
+    mTankPos.RandomPosition(mHeight, mWidth);
+}
+
 UserColor::UserColor(unsigned char nR, unsigned char nG, unsigned char nB, unsigned char nA)
 {
     R = nR;
@@ -81,4 +103,18 @@ UserColor UserColor::GetRandomColor()
         ucList[i] = Utils::GetRandUnsignedChar();
     }
     return UserColor(ucList[0], ucList[1], ucList[2], 255);
+}
+
+TankPos::TankPos(const TankPos& nTankPos)
+{
+    posX = nTankPos.posX;
+    posY = nTankPos.posY;
+    dirR = nTankPos.dirR;
+}
+
+void TankPos::RandomPosition(int mHeight, int mWidth)
+{
+    posX = (Utils::GetRandLongLong() %  mWidth) + 0.5; /* 随机位置 */
+    posY = (Utils::GetRandLongLong() % mHeight) + 0.5;
+    dirR = Utils::GetRandomDouble() * 2 * acos(-1.0);   /* 随即方向 */
 }
