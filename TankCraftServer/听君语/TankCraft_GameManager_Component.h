@@ -27,11 +27,13 @@ class GameManagerComponent : public Component {
   virtual void OnDestory() override;
 
  private:
+  void InternalCommunicationMessage(const uint &code);
   void SetMap(const wchar *const &map_data, const uint &x_side_length,
               const uint &y_side_length);
   void AddUsers(const wchar *const &users_data, const uint &user_count);
   void SetTanksState(const wchar *const &tanks_data, const uint &tank_count);
-  void SetUsersKillNumber(const wchar *const &users_kill_number_data,
+  void SetUsersKillNumber(const uint &this_user_kill_number,
+                          const wchar *const &users_kill_number_data,
                           const uint &users_kill_number_count);
   void SetEntitiesState(const wchar *const &entities_data,
                         const uint &entity_count);

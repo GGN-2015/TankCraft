@@ -37,6 +37,10 @@ class MapManagerComponent : public Component {
  private:
   void SetMap(const wchar *const &map_data, const uint &x_side_length,
               const uint &y_side_length);
+  void StartSyncTankState();
+  void SetTankState(const Int &usesr_id, const Vector2 &pos,
+                    const Float &rotation, const Int &state);
+  void EndSyncTankState();
 
  private:
   uint x_side_length_ = 1;

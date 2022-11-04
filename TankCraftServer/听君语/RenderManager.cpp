@@ -279,3 +279,11 @@ void Xn::RenderManager::RenderLine(const Vector2 &start_pos,
                          D2D1::Point2F(end_pos.x, end_pos.y), brush_.Get(),
                          width);
 }
+void Xn::RenderManager::RenderText(const Vector2 &start_pos,
+                                   IDWriteTextLayout *text,
+                                   const Vector4 &color) {
+  brush_->SetColor(D2D1::ColorF(color.asColor.R, color.asColor.G,
+                                color.asColor.B, color.asColor.A));
+  d2d_context_->DrawTextLayout(D2D1::Point2F(start_pos.x, start_pos.y), text,
+                               brush_.Get());
+}

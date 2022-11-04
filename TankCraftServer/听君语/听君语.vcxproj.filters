@@ -72,9 +72,6 @@
     <Filter Include="代码文件\司\数\对象组件\渲染组件">
       <UniqueIdentifier>{9d48e0ec-cdf8-4e29-bd4e-900420c52941}</UniqueIdentifier>
     </Filter>
-    <Filter Include="代码文件\司\形\UI">
-      <UniqueIdentifier>{0ceac60f-3df1-42e0-9a29-8cdda88df4c2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="代码文件\司\数\对象组件\测试组件">
       <UniqueIdentifier>{d4e3d289-9fc7-4cff-a05f-2abb9483d04e}</UniqueIdentifier>
     </Filter>
@@ -143,6 +140,18 @@
     </Filter>
     <Filter Include="代码文件\司\数\对象组件\管理组件\坦克动荡\游戏区相关\实体相关">
       <UniqueIdentifier>{b1715a98-5944-4382-9c8f-e07e283ca12c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\数据">
+      <UniqueIdentifier>{a9c0a052-3955-4c0b-837e-d916d3623ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\数据\坦克动荡">
+      <UniqueIdentifier>{8533cc9c-e111-4255-87f5-137995377c8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\数据\坦克动荡\用户">
+      <UniqueIdentifier>{9f6ce7f0-af23-4958-b2cd-d0b5a2685e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\渲染组件\文字">
+      <UniqueIdentifier>{c5f4eecc-3d81-4e18-92e0-ba0f77ac1592}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +290,12 @@
     <ClInclude Include="TankCraft_TankManager_Component.h">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\游戏区相关\实体相关</Filter>
     </ClInclude>
+    <ClInclude Include="TankCraft_UserData.h">
+      <Filter>代码文件\司\数\数据\坦克动荡\用户</Filter>
+    </ClInclude>
+    <ClInclude Include="Text_RenderComponent.h">
+      <Filter>代码文件\司\数\对象组件\渲染组件\文字</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -363,6 +378,9 @@
     </ClCompile>
     <ClCompile Include="TankCraft_TankManager_Component.cpp">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\游戏区相关\实体相关</Filter>
+    </ClCompile>
+    <ClCompile Include="Text_RenderComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\渲染组件\文字</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

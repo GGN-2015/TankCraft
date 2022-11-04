@@ -19,6 +19,7 @@ using Microsoft::WRL::ComPtr;
 
 class RenderManager : public RenderManagerInterface {
   friend class RenderComponent;
+  friend class Text_RenderComponent;
 
  public:
   RenderManager(const uint &width, const uint &height,
@@ -47,6 +48,8 @@ class RenderManager : public RenderManagerInterface {
                      const float &radius_y, const Vector4 &color);
   void RenderLine(const Vector2 &start_pos, const Vector2 &end_pos,
                   const float &width, const Vector4 &color);
+  void RenderText(const Vector2 &start_pos, IDWriteTextLayout *text,
+                  const Vector4 &color);
 
  private:
   uint width_;
