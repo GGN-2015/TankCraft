@@ -10,6 +10,7 @@
 #include "ObjectManager-XnObject.h"
 #include "RenderComponent.h"
 #include "Square_RenderComponent.h"
+#include "Text_RenderComponent.h"
 #include "Ìý¾ýÓï.h"
 
 namespace Xn {
@@ -20,8 +21,9 @@ class TestComponent2 : public Component {
 
   virtual void OnStart() override {
     render_component_ =
-        (Square_RenderComponent*)GetXnObject()->SetRenderComponent(
-            std::make_unique<Square_RenderComponent>(Vector4(1, 1, 1, 1)));
+        (Text_RenderComponent*)GetXnObject()->SetRenderComponent(
+            std::make_unique<Text_RenderComponent>(Vector2::ZERO, L"Ì¹¿Ë¶¯µ´",
+                                                   Vector2(100, 10), 10.0f));
 
     one_move_t_ = 1.5f;
     though_t_ = 0;
@@ -59,12 +61,11 @@ class TestComponent2 : public Component {
     // 400));
     target_scale_ = Vector2::Random(Vector2(0.5f, 0.5f), Vector2(2, 2));
     target_rotation_ = Float::Random(-45, 45);
-    target_color_ =
-        Vector4::Random(Vector4(1, 0, 0, 1), Vector4(1, 1, 1, 1));
+    target_color_ = Vector4::Random(Vector4(1, 0, 0, 1), Vector4(1, 1, 1, 1));
   }
 
  private:
-  Square_RenderComponent* render_component_ = nullptr;
+  Text_RenderComponent* render_component_ = nullptr;
 
   Float one_move_t_ = 0;
   Float though_t_ = 0;
@@ -88,7 +89,7 @@ class TestComponent : public Component {
     render_component_ =
         (Square_RenderComponent*)GetXnObject()->SetRenderComponent(
             std::make_unique<Square_RenderComponent>(Vector4(1, 1, 1, 1)));
-
+    render_component_->rect_ = {0, 0, 100, 10};
     one_move_t_ = 2;
     though_t_ = 0;
 
@@ -126,8 +127,8 @@ class TestComponent : public Component {
 
   void RollNewTarget() {
     target_pos_ = Vector2::Random(Vector2(100, 100), Vector2(400, 400));
-    target_scale_ = Vector2::Random(Vector2(100, 100), Vector2(400, 400));
-    target_rotation_ = Float::Random(-45, 135);
+    target_scale_ = Vector2::Random(Vector2(10, 10), Vector2(40, 40));
+    target_rotation_ = Float::Random(-15, 75);
     target_color_ =
         Vector4::Random(Vector4(1.f, 0.f, 0.f, 0.5f), Vector4(1, 1, 1, 1));
   }

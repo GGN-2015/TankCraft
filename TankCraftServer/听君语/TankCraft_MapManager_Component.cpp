@@ -113,3 +113,18 @@ void Xn::TankCraft::MapManagerComponent::SetMap(const wchar* const& map_data,
                               y_side_length_ + 0.3f};
   wall_manager->SetMap(map_data, x_side_length, y_side_length);
 }
+
+void Xn::TankCraft::MapManagerComponent::StartSyncTankState() {
+  tank_manager->StartSyncTankState();
+}
+
+void Xn::TankCraft::MapManagerComponent::SetTankState(const Int& usesr_id,
+                                                      const Vector2& pos,
+                                                      const Float& rotation,
+                                                      const Int& state) {
+  tank_manager->SetTankState(usesr_id, pos, rotation, state);
+}
+
+void Xn::TankCraft::MapManagerComponent::EndSyncTankState() {
+  tank_manager->EndSyncTankState();
+}

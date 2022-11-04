@@ -117,10 +117,12 @@
     <ClInclude Include="TankCraft_WallComponent.h" />
     <ClInclude Include="TankCraft_WallManager_Component.h" />
     <ClInclude Include="TestComponent.h" />
+    <ClInclude Include="Text_RenderComponent.h" />
     <ClInclude Include="Transform_RenderComponent.h" />
     <ClInclude Include="typedef.h" />
     <ClInclude Include="Math-Vector2.h" />
     <ClInclude Include="ForDebug-XnException.h" />
+    <ClInclude Include="TankCraft_UserData.h" />
     <ClInclude Include="XnTime.h" />
     <ClInclude Include="听君语.h" />
   </ItemGroup>
@@ -149,6 +151,7 @@
     <ClCompile Include="TankCraft_UserManager_Component.cpp" />
     <ClCompile Include="TankCraft_WallComponent.cpp" />
     <ClCompile Include="TankCraft_WallManager_Component.cpp" />
+    <ClCompile Include="Text_RenderComponent.cpp" />
     <ClCompile Include="Transform_RenderComponent.cpp" />
     <ClCompile Include="XnTime.cpp" />
     <ClCompile Include="听君语.cpp" />
