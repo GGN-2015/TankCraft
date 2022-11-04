@@ -9,14 +9,21 @@
 #include "TcpClient.h"
 #include "TcpServer.h"
 #include "TestPrograms.h"
+#include "Utils.h"
 
 int main()
 {
     /* 初始化随机种子 */
     srand((unsigned int)time(NULL));
 
-    TestTcpNetManager();
+    // TestTcpNetManager();
     // TestGameTcpServer();
+    TestUtils();
+}
+
+void TestUtils() {
+    char buf[] = { 0, 0, 120, 65 };
+    std::cout << Utils::GetFloatFromBuffer(buf, 0) << std::endl;
 }
 
 void TestTcpServer() {

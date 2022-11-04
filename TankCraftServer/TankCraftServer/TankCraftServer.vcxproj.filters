@@ -120,6 +120,9 @@
     <ClCompile Include="UserInfoRequestParser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TankPosMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -210,6 +213,9 @@
       <Filter>头文件\Parser</Filter>
     </ClInclude>
     <ClInclude Include="UserInfoRequestParser.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="TankPosMessage.h">
       <Filter>头文件\Parser</Filter>
     </ClInclude>
   </ItemGroup>

@@ -43,6 +43,7 @@ void GameDatabase::AddUser(int nUserId, std::wstring nUserName)
 	UserInfo* pUserInfo = new UserInfo(nUserId);
 	pUserInfo->SetUserName(nUserName);
 	pUserInfo->SetUserColor(UserColor::GetRandomColor());
+	pUserInfo->SetTankPosRandomly(mGameGraph.GetHeight(), mGameGraph.GetWidth());
 
 	mUserInfoList.push_back(pUserInfo); /* 增加一个用户 */
 #ifdef GAME_DATABASE_DEBUG
@@ -113,6 +114,34 @@ void GameDatabase::GetTcpDataForUserInfoMessage(TcpData* nTcpData)
 	delete[] buf;
 }
 
+void GameDatabase::GetTankPosMessage(TcpData* pTcpData) const
+{
+	int totalDataLen = 6 + 18 * (int)mUserInfoList.size();
+	char* buf = new char[totalDataLen];
+	Utils::DumpUnsignedShortToBuffer(buf, 0, 4); /* 4 号消息表示坦克位置 */
+	Utils::DumpUnsignedShortToBuffer(buf, 2, totalDataLen - 4); /* 数据部分长度 */
+	Utils::DumpUnsignedShortToBuffer(buf, 4, (int)mUserInfoList.size()); /* 坦克数 */
+	int pos = 6;
+	for (auto pUserInfo : mUserInfoList) {
+		TcpData tmpTcpData;
+		pUserInfo->GetTankPosTcpData(&tmpTcpData);
+		Utils::DumpTcpDataToBuffer(buf, pos, &tmpTcpData);
+
+		pos += tmpTcpData.GetLength();
+		assert(tmpTcpData.GetLength() == 18);
+	}
+	assert(pos == totalDataLen);
+
+	pTcpData->SetData(buf, totalDataLen); /* 这句话总忘写 */
+	delete[] buf;
+}
+
+int GameDatabase::GetMaxUserId() const
+{
+	return mUserIdNow;
+}
+
 GameDatabase::GameDatabase() {
 	mUserIdNow = 0;
+	mGameGraph.SetSize(16, 16, 0.4);
 }

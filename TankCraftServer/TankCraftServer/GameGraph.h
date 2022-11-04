@@ -26,6 +26,9 @@ public:
 	const GameGraphEdges& GetPos(int posX, int posY) const;
 	double GetCreateTime() const; /* 计算地图创建时间 */
 
+	int GetHeight() const; /* 获取地图相关的信息 */
+	int GetWidth() const;
+
 private:
 	void GenerateRandMap(double alpha);
 	void GenerateRandMap(GameGraphEdges(*pGameGraph)[GAME_GRAPH_MAX_HEIGHT][GAME_GRAPH_MAX_WIDTH]); /* 生成随机地图 */

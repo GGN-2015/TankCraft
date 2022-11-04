@@ -193,6 +193,16 @@ double GameGraph::GetCreateTime() const
 	return mCreateTime;
 }
 
+int GameGraph::GetHeight() const
+{
+	return mHeight;
+}
+
+int GameGraph::GetWidth() const
+{
+	return mWidth;
+}
+
 int GameGraph::GetNodeId(int posX, int posY) const
 {
 	assert(InGraph(posX, posY));

@@ -113,3 +113,13 @@ unsigned char Utils::GetRandUnsignedChar()
 {
 	return (unsigned char)(GetRandLongLong() % 256);
 }
+
+void Utils::DumpFloatToBuffer(char* buf, int pos, float fVal)
+{
+	(*(float*)&buf[pos]) = fVal; /* 十分草率的写法 */
+}
+
+float Utils::GetFloatFromBuffer(const char* buf, int pos)
+{
+	return *(float*)&buf[pos];
+}

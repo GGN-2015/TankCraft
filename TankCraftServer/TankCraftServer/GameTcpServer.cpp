@@ -35,6 +35,7 @@ void GameTcpServer::GetTcpDataResult(const TcpData* pTcpDataRecv,
 		delete iClientRequest;
 	}
 
+	tb->DumpTankPosMessage(Gdb);                   /* 获取并发送坦克位置信息 */
 	tb->GetTcpDataFromDumpedMessage(pTcpDataSend); /* 获取要被发送的消息 */
 	tb->ClearDumpedMessage();                      /* 清空缓存的要发送的消息 */
 }

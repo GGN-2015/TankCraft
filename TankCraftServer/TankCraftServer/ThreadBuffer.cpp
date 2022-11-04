@@ -1,8 +1,10 @@
 #include <cassert>
+#include <iostream>
 
 #include "GameDatabase.h"
 #include "IMessage.h"
 #include "MapMessage.h"
+#include "TankPosMessage.h"
 #include "ThreadBuffer.h"
 #include "Utils.h"
 
@@ -20,6 +22,18 @@ ThreadBuffer::~ThreadBuffer()
 void ThreadBuffer::DumpMessage(IMessage* iMessage)
 {
 	mIMessageList.push_back(iMessage);
+}
+
+void ThreadBuffer::DumpTankPosMessage(GameDatabase* Gdb)
+{
+	TcpData tmpTcpData;
+	Gdb->GetTankPosMessage(&tmpTcpData);
+
+	/* 向客户端反馈坦克位置信息 */
+	std::cerr << "[DumpTankPosMessage] tmpTcpData.GetLength() = " 
+		<< tmpTcpData.GetLength() << std::endl;
+
+	DumpMessage(new TankPosMessage(&tmpTcpData));
 }
 
 void ThreadBuffer::ClearDumpedMessage()

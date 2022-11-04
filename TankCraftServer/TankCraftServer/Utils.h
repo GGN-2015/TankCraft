@@ -20,4 +20,6 @@ public:
 		bool b0, bool b1, bool b2, bool b3,
 		bool b4, bool b5, bool b6, bool b7);    /* 从 bool 获得 char */
 	static unsigned char GetRandUnsignedChar(); /* 获得随机无符号字符 */
+	static void DumpFloatToBuffer(char* buf, int pos, float fVal);
+	static float GetFloatFromBuffer(const char* buf, int pos);
 };

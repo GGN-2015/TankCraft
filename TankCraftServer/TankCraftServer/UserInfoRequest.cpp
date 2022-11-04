@@ -19,11 +19,13 @@ void UserInfoRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)
 
     TcpData pTcpData;
     Gdb->GetTcpDataForUserInfoMessage(&pTcpData); /* 获取全部用户数据 */
+    int maxUserId = Gdb->GetMaxUserId();
 
     Gdb->unlock();
 
     UserInfoMessage* pUserInfoMessage = new UserInfoMessage(&pTcpData);
     tb->DumpMessage(pUserInfoMessage);
+    tb->SetMaxSentUserId(maxUserId);
 }
 
 void UserInfoRequest::GetRawData(TcpData* tcpData)

@@ -8,8 +8,9 @@ public:
 	ThreadBuffer();
 	~ThreadBuffer();
 
-	void DumpMessage(IMessage* iMessage); /* 向缓冲区中缓冲一条消息 */
-	void ClearDumpedMessage();            /* 清空所有待发送的消息 */
+	void DumpMessage(IMessage* iMessage);       /* 向缓冲区中缓冲一条消息 */
+	void DumpTankPosMessage(GameDatabase* Gdb); /* 向客户端发送坦克位置信息 */
+	void ClearDumpedMessage();                  /* 清空所有待发送的消息 */
 
 	void GetTcpDataFromDumpedMessage(TcpData* pTcpDataGet); /* 获取要被发送的 TcpData */
 	void SetUserID(int nID);                                /* 登录检测通过时获得用户 ID */

@@ -88,6 +88,36 @@ void UserInfo::SetTankPosRandomly(int mHeight, int mWidth)
     mTankPos.RandomPosition(mHeight, mWidth);
 }
 
+/* 坦克状态: 0:无, 1:霸体, 2:激光武器 */
+int UserInfo::GetTankStatus() const
+{
+    return 
+        ((int)mHasLaserWeapon << 1) | (int)CheckSuperArmor();
+}
+
+bool UserInfo::CheckSuperArmor() const
+{
+    double timeNow = Utils::GetClockTime();
+    if (timeNow < mLastKilledTime) {
+        return false;
+    }
+    else {
+        return timeNow - mLastKilledTime <= SUPER_ARMOR_TIME;
+    }
+}
+
+void UserInfo::GetTankPosTcpData(TcpData* pTcpData) const
+{
+    char buf[18] = {};
+    Utils::DumpIntToBuffer  ((char*)buf,  0, GetUserId());
+    Utils::DumpFloatToBuffer((char*)buf,  4, mTankPos.posX);
+    Utils::DumpFloatToBuffer((char*)buf,  8, mTankPos.posY);
+    Utils::DumpFloatToBuffer((char*)buf, 12, mTankPos.dirR);
+    Utils::DumpUnsignedShortToBuffer((char*)buf, 16, GetTankStatus());
+
+    pTcpData->SetData(buf, 18);
+}
+
 UserColor::UserColor(unsigned char nR, unsigned char nG, unsigned char nB, unsigned char nA)
 {
     R = nR;
@@ -116,5 +146,5 @@ void TankPos::RandomPosition(int mHeight, int mWidth)
 {
     posX = (Utils::GetRandLongLong() %  mWidth) + 0.5; /* 随机位置 */
     posY = (Utils::GetRandLongLong() % mHeight) + 0.5;
-    dirR = Utils::GetRandomDouble() * 2 * acos(-1.0);   /* 随即方向 */
+    dirR = Utils::GetRandomDouble() * 2 * acos(-1.0) ; /* 随机方向 */
 }

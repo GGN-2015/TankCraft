@@ -158,6 +158,7 @@
     <ClCompile Include="PingParser.cpp" />
     <ClCompile Include="TankCraftServer.cpp" />
     <ClCompile Include="TankCraft_NetManager_Component.cpp" />
+    <ClCompile Include="TankPosMessage.cpp" />
     <ClCompile Include="TcpClient.cpp" />
     <ClCompile Include="TcpData.cpp" />
     <ClCompile Include="TcpServer.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="PingParser.h" />
     <ClInclude Include="RequestMessageTypes.h" />
     <ClInclude Include="TankCraft_NetManager_Component.h" />
+    <ClInclude Include="TankPosMessage.h" />
     <ClInclude Include="TcpClient.h" />
     <ClInclude Include="TcpData.h" />
     <ClInclude Include="TcpServer.h" />

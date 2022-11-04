@@ -34,6 +34,9 @@ public:
 	double GetLastGraphGenerateTime() const; /* 获取上一次重置地图的时间 */
 	void GetTcpDataForUserInfoMessage(TcpData* nTcpData); /* 获取用户数据 */
 
+	void GetTankPosMessage(TcpData* pTcpData) const; /* 获取所有坦克当前的位置信息 */
+	int GetMaxUserId() const; /* 获得当前最大用户编号 */
+
 private:
 	GameDatabase();
 

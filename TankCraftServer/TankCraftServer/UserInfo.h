@@ -2,6 +2,8 @@
 #include <map>
 #include <string>
 
+#define SUPER_ARMOR_TIME (1.0) /* 重生后的无敌时间长度 */
+
 struct UserColor { /* 描述用户的颜色 */
 	unsigned char R, G, B, A;
 	UserColor() { R = G = B = 0; A = 255; } /* 默认颜色为黑色 */
@@ -10,7 +12,7 @@ struct UserColor { /* 描述用户的颜色 */
 	static UserColor GetRandomColor();
 };
 
-struct TankPos {
+struct TankPos { /* 描述坦克的位置和朝向 */
 	float posX, posY, dirR; /* X 向右, Y 向下, dir 向右=0, 顺时针弧度制 */
 
 	TankPos() {
@@ -19,6 +21,10 @@ struct TankPos {
 	TankPos(const TankPos& nTankPos); /* 拷贝构造函数 */
 
 	void RandomPosition(int mHeight, int mWidth); /* 随机坦克位置 */
+};
+
+struct KeyStatus { /* 描述坦克的键盘操作状态 */
+
 };
 
 class TcpData;
@@ -46,6 +52,11 @@ public:
 	void SetTankPos(const TankPosMap* nTankPosMap);   /* 更新坦克位置 */
 	void SetTankPosRandomly(int mHeight, int mWidth); /* 随机更新坦克位置 */
 
+	int GetTankStatus() const; /* 获取坦克状态：无敌/持有激光武器 */
+	bool CheckSuperArmor() const; /* 检测玩家是否无敌 */
+
+	void GetTankPosTcpData(TcpData* pTcpData) const; /* ID4 位置8 方向4 状态2 */
+
 private:
 	int mUserId;
 	std::wstring mUserName; /* 登录名 */
@@ -53,5 +64,7 @@ private:
 	int       mKillCnt  ; /* 击杀数 */
 	UserColor mUserColor; /* 用户颜色 */
 	TankPos   mTankPos  ; /* 坦克位置 */
-	double    mLastKilledTime; /* 上次被杀死的时间 */
+	double    mLastKilledTime; /* 上次被杀死的时间，根据这个数计算是否处于无敌状态 */
+
+	bool mHasLaserWeapon = 0;
 };
