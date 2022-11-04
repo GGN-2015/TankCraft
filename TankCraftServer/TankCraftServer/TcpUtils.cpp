@@ -113,6 +113,8 @@ void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::Net
 
 		/* 线程主循环 */
 		while (nmComponent->GetConnectStatus() == Xn::TankCraft::NetManager_Component::NET_MANAGER_ONLINE) {
+			
+			/* 如果有请求则直接请求 */
 			if (nmComponent->HasClientRequest()) {
 				std::cerr << "[Client] has request to send." << std::endl;
 
@@ -128,13 +130,14 @@ void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::Net
 				TcpUtils::CompactTcpDataListToTcpDataRequest(&tcpDataList, &tcpDataRequest);
 
 
-				int sendTime = clock();
-				std::cerr << "[Client] sendTime = " << sendTime << std::endl;
 				/* 发送打包后的请求，获取消息 */
+				int sendTime = clock();
 				TcpData tcpDataMessage;
 				tcpClient.Request(&tcpDataRequest, &tcpDataMessage);
 				int getTime = clock();
-				std::cerr << "[Client] getTime = " << getTime << std::endl;
+
+				// TODO: 存储 Ping 值
+
 
 				/* 检测是否与服务器断开连接 */
 				if (tcpDataMessage.IsEnd()) {
@@ -163,6 +166,11 @@ void TcpUtils::ClientThreadFunction(std::string ip, int port, Xn::TankCraft::Net
 					tcpDataList.clear();
 				}
 				else break;
+			}
+			else {
+				/* 如果没有请求也要发送一个 ping 保证自己能够刷新地图 */
+				unsigned short xVal = Utils::GetRandLongLong() % 65536;
+				nmComponent->PushPingMessage(xVal);
 			}
 
 			Sleep(CLIENT_THREAD_SLEEP_TIME);

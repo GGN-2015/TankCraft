@@ -147,9 +147,10 @@ namespace Xn {
 			NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
 
 		public:
-			void PushFailedMessage(int ret); /* 原子：推送出错消息 */
-			void PushSucessMessage();        /* 原子：推送成功消息 */
-			int GetConnectStatus() const;    /* 原子：获取连接状态 */
+			void PushPingMessage(unsigned short xVal); /* 原子发送 Ping 消息*/
+			void PushFailedMessage(int ret);           /* 原子：推送出错消息 */
+			void PushSucessMessage();                  /* 原子：推送成功消息 */
+			int GetConnectStatus() const;              /* 原子：获取连接状态 */
 
 			bool HasClientRequest() const; /* 原子：检测客户端是否要想服务端发送消息 */
 			void MoveClientRequestToNetMessageBaseDataList(

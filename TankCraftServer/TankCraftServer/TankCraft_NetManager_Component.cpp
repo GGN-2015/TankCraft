@@ -109,6 +109,17 @@ Xn::TankCraft::NetManager_Component::TryGetClientToServerMessageBuffer() {
 	return bufferFrom;
 }
 
+void Xn::TankCraft::NetManager_Component::PushPingMessage(unsigned short xVal)
+{
+	/* 发送一条 ping 消息 */
+	wchar_t wbuf[] = {0, 2, xVal};
+	std::unique_ptr<Xn::TankCraft::NetMessageBaseData> newMsg(
+		new Xn::TankCraft::NetMessageBaseData);
+
+	newMsg->SetData(wbuf, 3);
+	TryGetClientToServerMessageBuffer()->Push(std::move(newMsg));
+}
+
 void Xn::TankCraft::NetManager_Component::PushFailedMessage(int ret) {
 	/* 新申请一个数据缓存 */
 	std::unique_ptr<Xn::TankCraft::NetMessageBaseData> newMsg(
