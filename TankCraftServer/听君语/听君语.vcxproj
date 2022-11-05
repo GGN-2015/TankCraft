@@ -127,6 +127,12 @@
     <ClInclude Include="听君语.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\TankCraftServer\MyMutex.cpp" />
+    <ClCompile Include="..\TankCraftServer\TankCraft_NetManager_Component.cpp" />
+    <ClCompile Include="..\TankCraftServer\TcpClient.cpp" />
+    <ClCompile Include="..\TankCraftServer\TcpData.cpp" />
+    <ClCompile Include="..\TankCraftServer\TcpUtils.cpp" />
+    <ClCompile Include="..\TankCraftServer\Utils.cpp" />
     <ClCompile Include="Circular_RenderComponent.cpp" />
     <ClCompile Include="Line_RenderComponent.cpp" />
     <ClCompile Include="Math.cpp" />

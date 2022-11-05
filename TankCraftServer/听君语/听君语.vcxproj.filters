@@ -379,6 +379,24 @@
     <ClCompile Include="Text_RenderComponent.cpp">
       <Filter>代码文件\司\数\对象组件\渲染组件\文字</Filter>
     </ClCompile>
+    <ClCompile Include="..\TankCraftServer\TankCraft_NetManager_Component.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TankCraftServer\TcpData.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TankCraftServer\TcpUtils.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TankCraftServer\MyMutex.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TankCraftServer\TcpClient.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TankCraftServer\Utils.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

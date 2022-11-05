@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "MapRequest.h"
 #include "MapRequestParser.h"
 #include "Utils.h"

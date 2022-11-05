@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "TcpData.h"
 #include "UserInfo.h"
 #include "Utils.h"

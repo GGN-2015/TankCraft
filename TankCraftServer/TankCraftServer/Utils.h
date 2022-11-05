@@ -1,6 +1,6 @@
 #pragma once
+#include <string>
 #include "TcpData.h"
-#include "TcpServer.h"
 
 class Utils
 {
