@@ -1,25 +1,24 @@
 #pragma once
-class TcpData
-{
-public:
-	TcpData();
-	~TcpData();
-	
-	void SetData(const char* data, int len); /* 设置 数据 */
-	const char* GetData() const; /* 获取原始数据 */
-	int GetLength() const;       /* 获取数据长度 */
-	bool IsEnd() const;          /* 检查是否是结尾符 */
-	bool GetSanity() const;      /* 检查校验和 */
-	void FreeData();
+class TcpData {
+ public:
+  TcpData();
+  ~TcpData();
 
-	void DebugShow(const char* prompt) const;         /* 用于对于数据内容的显示 */
+  void SetData(const char* data, int len); /* 设置 数据 */
+  const char* GetData() const;             /* 获取原始数据 */
+  int GetLength() const;                   /* 获取数据长度 */
+  bool IsEnd() const;                      /* 检查是否是结尾符 */
+  bool GetSanity() const;                  /* 检查校验和 */
+  void FreeData();
 
-	unsigned short GetUnsignedShortAt(int pos) const; /* 获取一个无符号短整数 */
-	void IgnoreData(); /* 直接丢弃当前的数据但是不析构 */
+  void DebugShow(const char* prompt) const; /* 用于对于数据内容的显示 */
 
-	void DirectSet(char* nData, int nLen); /* 直接过继一个数据 */
+  unsigned short GetUnsignedShortAt(int pos) const; /* 获取一个无符号短整数 */
+  void IgnoreData(); /* 直接丢弃当前的数据但是不析构 */
 
-private:
-	int   mLength;
-	char* mRawData;
+  void DirectSet(char* nData, int nLen); /* 直接过继一个数据 */
+
+ private:
+  int mLength;
+  char* mRawData;
 };
