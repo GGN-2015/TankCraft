@@ -44,6 +44,8 @@ class XnObject {
       std::unique_ptr<RenderComponent> render_component);
   void RemoveRenderComponet();
 
+  void SetActive(const bool& is_active);
+
  private:
   XnObject* AddChild(std::unique_ptr<XnObject> child);
 

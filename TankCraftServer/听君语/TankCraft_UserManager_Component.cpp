@@ -4,7 +4,6 @@ using namespace Xn;
 using namespace TankCraft;
 
 void Xn::TankCraft::UserManagerComponent::OnStart() {}
-
 void Xn::TankCraft::UserManagerComponent::OnDestory() { RemoveAllUser(); }
 
 UserData* const& Xn::TankCraft::UserManagerComponent::GetUser(
@@ -13,7 +12,6 @@ UserData* const& Xn::TankCraft::UserManagerComponent::GetUser(
   if (user == users_.end()) return nullptr;
   return user->second.get();
 }
-
 UserData* const& Xn::TankCraft::UserManagerComponent::AddUser(
     Int user_id, std::wstring user_name, Vector4 color, Int kill_number) {
   auto user_data =
@@ -22,9 +20,7 @@ UserData* const& Xn::TankCraft::UserManagerComponent::AddUser(
   users_.insert({user_id, std::move(user_data)});
   return ret;
 }
-
 void Xn::TankCraft::UserManagerComponent::RemoveUser(const Int& user_id) {
   users_.erase(user_id);
 }
-
 void Xn::TankCraft::UserManagerComponent::RemoveAllUser() { users_.clear(); }

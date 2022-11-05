@@ -15,6 +15,8 @@ namespace Xn {
 
 namespace TankCraft {
 
+struct UserData;
+
 class MapManagerComponent;
 class TankComponent;
 
@@ -29,9 +31,10 @@ class TankManagerComponent : public Component {
 
  private:
   void StartSyncTankState();
-  void SetTankState(const Int &usesr_id, const Vector2 &pos,
+  void SetTankState(const Int &user_id, const Vector2 &pos,
                     const Float &rotation, const Int &state);
   void EndSyncTankState();
+  void TryBindUser(const UserData *const &user_data);
 
   std::map<Int, TankComponent *> unsynced_tanks;
   std::map<Int, TankComponent *> synced_tanks;

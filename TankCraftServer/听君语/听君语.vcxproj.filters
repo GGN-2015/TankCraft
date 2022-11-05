@@ -346,9 +346,6 @@
     <ClCompile Include="Circular_RenderComponent.cpp">
       <Filter>代码文件\司\数\对象组件\渲染组件\基础图形</Filter>
     </ClCompile>
-    <ClCompile Include="TankCraft_NetManager_Component.cpp">
-      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
-    </ClCompile>
     <ClCompile Include="TankCraft_TankComponent.cpp">
       <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\坦克</Filter>
     </ClCompile>

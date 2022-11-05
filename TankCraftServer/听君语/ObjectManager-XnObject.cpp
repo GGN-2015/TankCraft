@@ -87,6 +87,8 @@ void Xn::XnObject::RemoveRenderComponet() {
   render_component_ = nullptr;
 }
 
+void Xn::XnObject::SetActive(const bool &is_active) { is_active_ = is_active; }
+
 XnObject *XnObject::AddChild(std::unique_ptr<XnObject> child) {
   XnObject *xn_object = child.get();
   const uint id = child->GetId();

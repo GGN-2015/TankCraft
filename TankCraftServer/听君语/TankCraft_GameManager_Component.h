@@ -15,7 +15,7 @@ namespace TankCraft {
 
 class MapManagerComponent;
 class UserManagerComponent;
-// class NetManagerComponent;
+class NetManager_Component;
 
 // 以x（Vector2::X）为前方向
 class GameManagerComponent : public Component {
@@ -49,6 +49,7 @@ class GameManagerComponent : public Component {
  private:
   MapManagerComponent *map_manager = nullptr;
   UserManagerComponent *user_manager = nullptr;
+  NetManager_Component *net_manager = nullptr;
 };
 
 }  // namespace TankCraft

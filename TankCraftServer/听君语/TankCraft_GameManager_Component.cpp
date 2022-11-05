@@ -3,6 +3,7 @@
 #include "ObjectManager-XnObject.h"
 #include "ObjectManager.h"
 #include "TankCraft_MapManager_Component.h"
+#include "TankCraft_NetManager_Component.h"
 #include "TankCraft_UserManager_Component.h"
 #include "Ìý¾ýÓï.h"
 
@@ -11,6 +12,8 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
       std::make_unique<MapManagerComponent>());
   user_manager = (UserManagerComponent*)GetXnObject()->AddComponent(
       std::make_unique<UserManagerComponent>());
+  net_manager = (NetManager_Component*)GetXnObject()->AddComponent(
+      std::make_unique<NetManager_Component>());
 }
 void Xn::TankCraft::GameManagerComponent::OnUpdate() {}
 void Xn::TankCraft::GameManagerComponent::OnDestory() {
@@ -139,7 +142,10 @@ void Xn::TankCraft::GameManagerComponent::AddUser(
   std::wstring name(user_name_length, '\0');
   memcpy(name.data(), user_name, size_t(2 * user_name_length));
 
-  user_manager->AddUser(user_id, name, user_color, user_kill_number);
+  const auto user_data =
+      user_manager->AddUser(user_id, name, user_color, user_kill_number);
+
+  map_manager->TryBindUser(user_data);
 }
 void Xn::TankCraft::GameManagerComponent::SetBulletState(const uint& id,
                                                          const Vector2& pos) {

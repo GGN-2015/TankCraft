@@ -128,3 +128,8 @@ void Xn::TankCraft::MapManagerComponent::SetTankState(const Int& usesr_id,
 void Xn::TankCraft::MapManagerComponent::EndSyncTankState() {
   tank_manager->EndSyncTankState();
 }
+
+void Xn::TankCraft::MapManagerComponent::TryBindUser(
+    const UserData* const& user_data) {
+  tank_manager->TryBindUser(user_data);
+}

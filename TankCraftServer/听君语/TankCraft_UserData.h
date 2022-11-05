@@ -15,7 +15,7 @@ struct UserData {
         color(color),
         kill_number(kill_number) {}
 
-  Int user_id;
+  const Int user_id;
   std::wstring user_name;
   Vector4 color;
   Int kill_number;

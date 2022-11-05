@@ -7,6 +7,7 @@
 
 #include "Component.h"
 #include "Math.h"
+#include "TankCraft_UserData.h"
 
 namespace Xn {
 
@@ -15,8 +16,12 @@ class Square_RenderComponent;
 
 namespace TankCraft {
 
+class TankManagerComponent;
+
 // 以x（Vector2::X）为前方向
 class TankComponent : public Component {
+  friend class TankManagerComponent;
+
  public:
   TankComponent() : Component(L"TanksFight_TankComponent") {}
 
@@ -28,10 +33,8 @@ class TankComponent : public Component {
   void SetPos(const Vector2 &pos, const Float &rotation);
   void SetTargetPos(const Vector2 &pos, const Float &rotation);
   void SetRadio(const Float &radius);
-  void SetColor(const Vector3 &color);
-  void SetColor(const Vector4 &color);
 
-  void BindUser();  // TODO
+  void BindUser(const UserData *const &user_data);
 
  private:
   Float web_delay_time_;
@@ -43,6 +46,11 @@ class TankComponent : public Component {
   Float start_rotation_;
   Float target_rotation_;
 
+  Int state_;
+
+  const UserData *user_data_ = nullptr;
+
+ private:
   Circular_RenderComponent *render_component_ = nullptr;
   Square_RenderComponent *gun_barrel_render_component_ = nullptr;
 };

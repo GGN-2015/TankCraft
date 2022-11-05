@@ -145,7 +145,6 @@
     <ClCompile Include="TankCraft_BulletComponent.cpp" />
     <ClCompile Include="TankCraft_GameManager_Component.cpp" />
     <ClCompile Include="TankCraft_MapManager_Component.cpp" />
-    <ClCompile Include="TankCraft_NetManager_Component.cpp" />
     <ClCompile Include="TankCraft_TankComponent.cpp" />
     <ClCompile Include="TankCraft_TankManager_Component.cpp" />
     <ClCompile Include="TankCraft_UserManager_Component.cpp" />

@@ -9,6 +9,7 @@
 #include "ObjectManager-XnObject.h"
 #include "ObjectManager.h"
 #include "Square_RenderComponent.h"
+#include "TankCraft_UserManager_Component.h"
 #include "听君语.h"
 
 using namespace Xn;
@@ -18,6 +19,8 @@ void TankComponent::OnStart() {
   render_component_ =
       (Circular_RenderComponent *)GetXnObject()->SetRenderComponent(
           std::make_unique<Circular_RenderComponent>());
+  render_component_->color_ =
+      Vector4(Vector3(200 / 255.f, 212 / 255.f, 230 / 255.f), 1.f);
 
   though_t_ = 0;
 
@@ -32,7 +35,6 @@ void TankComponent::OnStart() {
 
 #if _DEBUG && 1
   SetPos(Vector2::Random({0, 0}, {10, 10}), 0.f);
-  SetColor(Vector3::Random(Vector3(0.6f, 0.6f, 0.6f), Vector3::ONE));
   SetLerpTime(Float::Random(0.07f, 0.1f));
   SetRadio(0.2f);
   web_delay_time_ = Float::Random(0.03f, 0.1f);
@@ -52,6 +54,10 @@ void TankComponent::OnUpdate() {
     SetTargetPos(new_target_pos_, 45);
   }
 #endif  // Test
+
+  if (user_data_) {
+    render_component_->color_ = user_data_->color;
+  }
 }
 void TankComponent::OnDestory() {}
 
@@ -72,13 +78,7 @@ void TankComponent::SetTargetPos(const Vector2 &pos, const Float &rotation) {
 void TankComponent::SetRadio(const Float &radius) {
   render_component_->radius_ = radius;
 }
-void TankComponent::SetColor(const Vector3 &color) {
-  SetColor(Vector4(color, 1));
-}
-void TankComponent::SetColor(const Vector4 &color) {
-  render_component_->color_ = color;
-}
 
-void TankComponent::BindUser() {
-  // TODO 绑定用户信息
+void TankComponent::BindUser(const UserData *const &user_data) {
+  user_data_ = user_data;
 }

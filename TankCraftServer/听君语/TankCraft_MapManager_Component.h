@@ -16,6 +16,8 @@ class Square_RenderComponent;
 
 namespace TankCraft {
 
+struct UserData;
+
 class GameManagerComponent;
 class WallManagerComponent;
 class TankManagerComponent;
@@ -41,6 +43,7 @@ class MapManagerComponent : public Component {
   void SetTankState(const Int &usesr_id, const Vector2 &pos,
                     const Float &rotation, const Int &state);
   void EndSyncTankState();
+  void TryBindUser(const UserData *const &user_data);
 
  private:
   uint x_side_length_ = 1;
