@@ -24,6 +24,11 @@ void TankComponent::OnStart() {
 
   though_t_ = 0;
 
+  // ÉèÖÃ°ë¾¶
+  SetRadio(0.3f);
+
+  SetLerpTime( 0.1f);
+
   // ÉèÖÃÅÚ¹ÜÎ»ÖÃ
   gun_barrel_render_component_ =
       (Square_RenderComponent *)Ìý¾ýÓï::Get()
@@ -33,10 +38,8 @@ void TankComponent::OnStart() {
               Vector4(162.f / 255.f, 168.f / 255.f, 160.f / 255.f, 1)));
   gun_barrel_render_component_->rect_ = Vector4(-0.05f, 0.05f, 0.23f, -0.05f);
 
-#if _DEBUG && 1
+#if _DEBUG && 0
   SetPos(Vector2::Random({0, 0}, {10, 10}), 0.f);
-  SetLerpTime(Float::Random(0.07f, 0.1f));
-  SetRadio(0.2f);
   web_delay_time_ = Float::Random(0.03f, 0.1f);
 #endif  // Test
 }
@@ -45,7 +48,7 @@ void TankComponent::OnUpdate() {
   auto t = though_t_.ScaleFromTo(0, lerp_time_, 0, 1);
   GetXnObject()->pos_ = Vector2::Lerp(start_pos_, target_pos_, t);
   GetXnObject()->rotation_ = Float::Lerp(start_rotation_, target_rotation_, t);
-#if _DEBUG && 1
+#if _DEBUG && 0
   if (though_t_ >= web_delay_time_) {
     auto new_target_pos_ =
         target_pos_ + Vector2::Random({-0.5f, -0.5f}, {0.5f, 0.5f});

@@ -153,6 +153,9 @@
     <Filter Include="代码文件\司\数\对象组件\渲染组件\文字">
       <UniqueIdentifier>{c5f4eecc-3d81-4e18-92e0-ba0f77ac1592}</UniqueIdentifier>
     </Filter>
+    <Filter Include="代码文件\司\数\对象组件\管理组件\坦克动荡\GGN">
+      <UniqueIdentifier>{80aedd2f-03b5-495a-abaf-7fee521fb2ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXSampleHelper.h">
@@ -379,23 +382,23 @@
     <ClCompile Include="Text_RenderComponent.cpp">
       <Filter>代码文件\司\数\对象组件\渲染组件\文字</Filter>
     </ClCompile>
-    <ClCompile Include="..\TankCraftServer\TankCraft_NetManager_Component.cpp">
-      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
-    </ClCompile>
-    <ClCompile Include="..\TankCraftServer\TcpData.cpp">
-      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
-    </ClCompile>
-    <ClCompile Include="..\TankCraftServer\TcpUtils.cpp">
-      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
-    </ClCompile>
     <ClCompile Include="..\TankCraftServer\MyMutex.cpp">
-      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TankCraftServer\TankCraft_NetManager_Component.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
     </ClCompile>
     <ClCompile Include="..\TankCraftServer\TcpClient.cpp">
-      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TankCraftServer\TcpData.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TankCraftServer\TcpUtils.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
     </ClCompile>
     <ClCompile Include="..\TankCraftServer\Utils.cpp">
-      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\网络相关</Filter>
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

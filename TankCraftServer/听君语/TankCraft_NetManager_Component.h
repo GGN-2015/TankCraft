@@ -1,4 +1,5 @@
 #pragma once
+
 #include <cassert>
 #include <memory>
 #include <queue>
@@ -87,94 +88,98 @@ class NetMessageBaseDataBuffer {
 };
 
 class NetManager_Component : public Component {
-  // public:
-  //  static const uint FROM_SERVER_DATA_BUFFER_COUNNT_ = 2;
-  //  static const uint FROM_CLIENT_DATA_BUFFER_COUNNT_ = 2;
+ public:
+  static const uint FROM_SERVER_DATA_BUFFER_COUNNT_ = 2;
+  static const uint FROM_CLIENT_DATA_BUFFER_COUNNT_ = 2;
 
-  // static const int NET_MANAGER_OFFLINE = (0); /* mConnectStatus 的可能取值 */
-  // static const int NET_MANAGER_ONLINE = (1);
+  static const int NET_MANAGER_OFFLINE = (0); /* mConnectStatus 的可能取值 */
+  static const int NET_MANAGER_ONLINE = (1);
 
  public:
-  NetManager_Component() : Component(L"NetManager_Component") {}
+  NetManager_Component()
+      : Component(L"NetManager_Component"),
+        mConnectStatus(NET_MANAGER_OFFLINE) {
+    from_server_datas_buffer_index_ = 0;
+    from_client_datas_buffer_index_ = 0;
+  }
 
-  // // 通过 Component 继承
-  // virtual void OnStart() override;
-  // virtual void OnDestory() override;
+  // 通过 Component 继承
+  virtual void OnStart() override;
+  virtual void OnDestory() override;
 
-  // public:
-  //  // 连接到服务器
-  //  // 返回:
-  //  //   - 0     : 成功
-  //  //   - not 0 : 失败
-  //  uint ConnectToServer(const uint16& ipV4_1, const uint16& ipV4_2,
-  //                       const uint16& ipV4_3, const uint16& ipV4_4,
-  //                       const uint& port);
+ public:
+  // 连接到服务器
+  // 返回:
+  //   - 0     : 成功
+  //   - not 0 : 失败
+  uint ConnectToServer(const uint16& ipV4_1, const uint16& ipV4_2,
+                       const uint16& ipV4_3, const uint16& ipV4_4,
+                       const uint& port);
 
-  // // 连接到服务器
-  // // 参数:
-  // //   - ipV4 [wstring] : 格式为 [L"1:2:3:4"]，
-  // //         1、2、3、4分别代表0~255中的一个值的宽字符串格式
-  // //   - port [wstring] : 格式为 [L"10086"]
-  // // 返回:
-  // //   - 0     : 成功
-  // //   - not 0 : 失败
-  // uint ConnectToServer(std::wstring ipV4, std::wstring port);
+  // 连接到服务器
+  // 参数:
+  //   - ipV4 [wstring] : 格式为 [L"1:2:3:4"]，
+  //         1、2、3、4分别代表0~255中的一个值的宽字符串格式
+  //   - port [wstring] : 格式为 [L"10086"]
+  // 返回:
+  //   - 0     : 成功
+  //   - not 0 : 失败
+  uint ConnectToServer(std::wstring ipV4, std::wstring port);
 
-  // // 关闭连接
-  // void DisConnect();
+  // 关闭连接
+  void DisConnect();
 
-  // // 取得服务器到客户端的消息缓冲
-  // // 约定:
-  // //   - 取得缓冲后，前一次取得的缓冲指针不再使用
-  // // 返回:
-  // //   - nullptr     : 获取失败，可能因为加锁什么的
-  // //   - not nullptr : 获取成功，指向NetMessageBaseDataBuffer的指针
-  // NetMessageBaseDataBuffer* TryGetServerToClientMessageBuffer();
+  // 取得服务器到客户端的消息缓冲
+  // 约定:
+  //   - 取得缓冲后，前一次取得的缓冲指针不再使用
+  // 返回:
+  //   - nullptr     : 获取失败，可能因为加锁什么的
+  //   - not nullptr : 获取成功，指向NetMessageBaseDataBuffer的指针
+  NetMessageBaseDataBuffer* TryGetServerToClientMessageBuffer();
 
-  // // 取得客户端到服务器的消息缓冲
-  // // 约定:
-  // //   - 取得缓冲后，前一次取得的缓冲指针不再使用
-  // // 返回:
-  // //   - nullptr     : 获取失败，可能因为加锁什么的
-  // //   - not nullptr : 获取成功，指向NetMessageBaseDataBuffer的指针
-  // NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
+  // 取得客户端到服务器的消息缓冲
+  // 约定:
+  //   - 取得缓冲后，前一次取得的缓冲指针不再使用
+  // 返回:
+  //   - nullptr     : 获取失败，可能因为加锁什么的
+  //   - not nullptr : 获取成功，指向NetMessageBaseDataBuffer的指针
+  NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
 
-  // public:
-  //  void PushPingMessage(unsigned short xVal); /* 原子发送 Ping 消息*/
-  //  void PushFailedMessage(int ret);           /* 原子：推送出错消息 */
-  //  void PushSucessMessage();                  /* 原子：推送成功消息 */
-  //  int GetConnectStatus() const;              /* 原子：获取连接状态 */
+ public:
+  void PushPingMessage(unsigned short xVal); /* 原子发送 Ping 消息*/
+  void PushFailedMessage(int ret);           /* 原子：推送出错消息 */
+  void PushSucessMessage();                  /* 原子：推送成功消息 */
+  int GetConnectStatus() const;              /* 原子：获取连接状态 */
 
-  // bool HasClientRequest() const; /* 原子：检测客户端是否要想服务端发送消息 */
-  // void MoveClientRequestToNetMessageBaseDataList(
-  //     NetMessageBaseDataList* nmBaseDataList); /* 原子：数据转移 */
+  bool HasClientRequest() const; /* 原子：检测客户端是否要想服务端发送消息 */
+  void MoveClientRequestToNetMessageBaseDataList(
+      NetMessageBaseDataList* nmBaseDataList); /* 原子：数据转移 */
 
-  // void PushServerMessageTcpData(
-  //     TcpData* pTcpData); /* 原子：向来自服务器的消息序列追加数据 */
+  void PushServerMessageTcpData(
+      TcpData* pTcpData); /* 原子：向来自服务器的消息序列追加数据 */
 
-  // private:
-  //  /* 原子：相当于一条来自服务器的消息，但是实际上是本机推送的 */
-  //  void PushToFromServerList(std::unique_ptr<NetMessageBaseData> nmData);
+ private:
+  /* 原子：相当于一条来自服务器的消息，但是实际上是本机推送的 */
+  void PushToFromServerList(std::unique_ptr<NetMessageBaseData> nmData);
 
-  // protected:
-  //  void Lock() const; /* 加锁/解锁 */
-  //  void Unlock() const;
+ protected:
+  void Lock() const; /* 加锁/解锁 */
+  void Unlock() const;
 
-  // private:
-  //  int mConnectStatus; /* 子线程根据这一标致退出 */
+ private:
+  int mConnectStatus; /* 子线程根据这一标致退出 */
 
-  // uint
-  //     from_server_datas_buffer_index_; /* 这里的 index
-  //     指的是当前本类正在使用的
-  //                                                                                 index */
-  // uint from_client_datas_buffer_index_;
-  // NetMessageBaseDataBuffer from_server_datas_buffers_
-  //     [FROM_SERVER_DATA_BUFFER_COUNNT_];  // 发送自服务端的缓冲
-  // NetMessageBaseDataBuffer from_client_datas_buffers_
-  //     [FROM_CLIENT_DATA_BUFFER_COUNNT_];  // 发送自客户端的缓冲
+  uint
+      from_server_datas_buffer_index_; /* 这里的 index 指的是当前本类正在使用的
+                                                                                  index */
+  uint from_client_datas_buffer_index_;
+  NetMessageBaseDataBuffer from_server_datas_buffers_
+      [FROM_SERVER_DATA_BUFFER_COUNNT_];  // 发送自服务端的缓冲
+  NetMessageBaseDataBuffer from_client_datas_buffers_
+      [FROM_CLIENT_DATA_BUFFER_COUNNT_];  // 发送自客户端的缓冲
 
-  // MyMutex mMyMutex;                     /* 数据互斥锁 */
-  // std::thread* mClientThread = nullptr; /* 客户通信线程 */
+  MyMutex mMyMutex;                     /* 数据互斥锁 */
+  std::thread* mClientThread = nullptr; /* 客户通信线程 */
 };
 
 }  // namespace TankCraft

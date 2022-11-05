@@ -14,10 +14,65 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
       std::make_unique<UserManagerComponent>());
   net_manager = (NetManager_Component*)GetXnObject()->AddComponent(
       std::make_unique<NetManager_Component>());
+
+  net_manager->ConnectToServer(49, 140, 58, 248, 10086);
 }
-void Xn::TankCraft::GameManagerComponent::OnUpdate() {}
+void Xn::TankCraft::GameManagerComponent::OnUpdate() {
+  if (const auto buffer = net_manager->TryGetServerToClientMessageBuffer()) {
+    NetMessageDeal(net_manager->TryGetClientToServerMessageBuffer(), buffer);
+  }
+}
 void Xn::TankCraft::GameManagerComponent::OnDestory() {
   GetXnObject()->RemoveAllChild();
+}
+
+void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
+    NetMessageBaseDataBuffer* const& client_to_server,
+    NetMessageBaseDataBuffer* const& server_to_client) {
+  for (auto message = server_to_client->Pop(); message.get();
+       message = server_to_client->Pop()) {
+    const wchar* data = message->data;
+    uint index = 0;
+
+    const uint msg_type = *(uint16*)&data[0];
+    switch (msg_type) {
+      case 65535: {
+        const uint error_code = *(uint16*)&data[2];
+        InternalCommunicationMessage(error_code);
+      } break;
+
+      case 0: {
+        const uint return_x = *(uint16*)&data[2];
+        // TODO Ping²»¹Ü
+      } break;
+
+      case 1: {
+        const uint login_error_code = *(uint16*)&data[2];
+        const uint user_id = *(uint*)&data[3];
+        // TODO
+      } break;
+
+      case 2: {
+        const uint wh = *(uint16*)&data[2];
+        const uint width = (wh >> 4) & 4;
+        const uint height = wh & 4;
+        SetMap(&data[3], width, height);
+      } break;
+
+      case 3: {
+        const uint user_count = *(uint16*)&data[2];
+        AddUsers(&data[3], user_count);
+      } break;
+
+      case 4: {
+      } break;
+
+        // TODO
+
+      default:
+        break;
+    }
+  }
 }
 
 void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
