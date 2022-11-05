@@ -17,8 +17,8 @@ int main()
     srand((unsigned int)time(NULL));
 
     // TestTcpNetManager();
-    // TestGameTcpServer();
-    TestUtils();
+    TestGameTcpServer();
+    // TestUtils();
 }
 
 void TestUtils() {

@@ -125,10 +125,10 @@ void GameGraph::GenerateRandMap(GameGraphEdges (*pGameGraph)[GAME_GRAPH_MAX_HEIG
 	/* 每个点向左向上连边 */
 	for (int i = 0; i < mHeight; i += 1) {
 		for (int j = 0; j < mWidth; j += 1) {
-			if (InGraph(i, j - 1)) { /* 向左连边 */
+			if (InGraphGrid(i, j - 1)) { /* 向左连边 */
 				allEdges.push_back({ GetNodeId(i, j), GetNodeId(i, j - 1), Utils::GetRandLongLong() });
 			}
-			if (InGraph(i - 1, j)) { /* 向上连边 */
+			if (InGraphGrid(i - 1, j)) { /* 向上连边 */
 				allEdges.push_back({ GetNodeId(i, j), GetNodeId(i - 1, j), Utils::GetRandLongLong() });
 			}
 		}
@@ -162,7 +162,7 @@ void GameGraph::GenerateRandMap(GameGraphEdges (*pGameGraph)[GAME_GRAPH_MAX_HEIG
 	}
 }
 
-bool GameGraph::InGraph(int posX, int posY) const
+bool GameGraph::InGraphGrid(int posX, int posY) const
 {
 	return
 		0 <= posX && posX < mHeight &&
@@ -184,7 +184,7 @@ void GameGraph::DebugShow() const
 
 const GameGraphEdges& GameGraph::GetPos(int posX, int posY) const
 {
-	assert(InGraph(posX, posY));
+	assert(InGraphGrid(posX, posY));
 
 	return mGameGraph[posX][posY];
 }
@@ -204,9 +204,16 @@ int GameGraph::GetWidth() const
 	return mWidth;
 }
 
+bool GameGraph::InGraph(double posX, double posY, double r) const
+{
+	return 
+		0 <= posY - r && posY + r <= mHeight &&
+		0 <= posX - r && posX + r <= mWidth;
+}
+
 int GameGraph::GetNodeId(int posX, int posY) const
 {
-	assert(InGraph(posX, posY));
+	assert(InGraphGrid(posX, posY));
 
 	return posX * mWidth + posY + 1; /* 下标从 1 开始 */
 }
@@ -217,7 +224,7 @@ void GameGraph::GetNodePos(int nodeId, int& x, int& y) const
 	y = nodeId % mWidth;
 	x = nodeId / mWidth;
 
-	assert(InGraph(x, y));
+	assert(InGraphGrid(x, y));
 }
 
 void GameGraphEdges::DebugShow() const

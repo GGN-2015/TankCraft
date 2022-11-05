@@ -20,7 +20,7 @@ public:
 	void SetSize(int nHeight, int nWidth, double alpha);
 	void GetTcpData(TcpData* tcpDataGet) const; /* 将地图导出为二进制数据 */
 
-	bool InGraph(int posX, int posY) const;
+	bool InGraphGrid(int posX, int posY) const;
 	void DebugShow() const;
 
 	const GameGraphEdges& GetPos(int posX, int posY) const;
@@ -28,6 +28,9 @@ public:
 
 	int GetHeight() const; /* 获取地图相关的信息 */
 	int GetWidth() const;
+
+	/* 实体的坐标是 posX 向右 posY 向下的，与地图描述不同 */
+	bool InGraph(double posX, double posY, double r) const; /* 判断一个圆是否完全在地图中 */
 
 private:
 	void GenerateRandMap(double alpha);
