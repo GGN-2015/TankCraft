@@ -16,6 +16,7 @@ namespace TankCraft {
 class MapManagerComponent;
 class UserManagerComponent;
 class NetManager_Component;
+class NetMessageBaseDataBuffer;
 
 // 以x（Vector2::X）为前方向
 class GameManagerComponent : public Component {
@@ -27,6 +28,8 @@ class GameManagerComponent : public Component {
   virtual void OnDestory() override;
 
  private:
+  void NetMessageDeal(NetMessageBaseDataBuffer *const &client_to_server,
+                      NetMessageBaseDataBuffer *const &server_to_client);
   void InternalCommunicationMessage(const uint &code);
   void SetMap(const wchar *const &map_data, const uint &x_side_length,
               const uint &y_side_length);
