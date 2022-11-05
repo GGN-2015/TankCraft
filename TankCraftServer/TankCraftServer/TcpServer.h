@@ -15,6 +15,10 @@ class TcpServer
 	friend TcpUtils;
 
 public:
+	static void DealWithClient(void* socketClient, TcpServer* tcpServer);
+	static void CreateProcessForClient(void* socketClient, TcpServer* tcpServer);
+
+public:
 	TcpServer(const std::string& IP, int port); /* 创建一个服务器对象 */
 	~TcpServer();
 

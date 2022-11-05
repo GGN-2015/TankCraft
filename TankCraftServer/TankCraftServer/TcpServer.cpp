@@ -6,8 +6,10 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <WinSock2.h> /* 使用 Socket.TCP 通信 */
 
+#include "GameDatabase.h"
 #include "TcpServer.h"
 #include "TcpData.h"
+#include "ThreadBuffer.h"
 #include "Utils.h"
 
 #define TCP_SERVER_DEBUG                /* 注释这一行关闭调试模式 */
@@ -16,6 +18,75 @@
 TcpServer::~TcpServer()
 {
 }
+
+/* 客户端线程主体函数 */
+void TcpServer::DealWithClient(void* socketClient, TcpServer* tcpServer)
+{
+	ThreadBuffer threadBuffer; /* 当前线程的缓存数据，用来储存对客户端的认识 */
+
+	/* 如果客户端数量没有达到最大值 */
+	/* 注统计的时候需要注意互斥问题 */
+	if (tcpServer->GetClientCnt() < TCP_SERVER_CLIENT_MAX) {
+
+		/* 处理该客户端信息，统计数目 += 1 */
+		tcpServer->IncClientCnt();
+		while (tcpServer->GetRunStatus() == TCP_SERVER_RUN) {
+			TcpData tcpDataRecv, tcpDataSend;
+
+			/* 从客户端获取数据 */
+			TcpUtils::GetTcpDataFromSocket(socketClient, &tcpDataRecv);
+			if (tcpDataRecv.IsEnd()) { /* 长度为零的消息是结束消息 */
+				break;
+			}
+
+			/* 多态 */
+			if (tcpServer->GetRunStatus() == TCP_SERVER_RUN) {
+
+				/* 获取 TCP 的结果的同时可能会对服务器上的数据进行修改 */
+				tcpServer->GetTcpDataResult(&tcpDataRecv, &tcpDataSend,
+					&threadBuffer, GameDatabase::GetGlobalGameDatabase());
+
+				int ret = TcpUtils::SendTcpDataToSocket(&tcpDataSend, socketClient);
+
+				/* 数据发送失败，说明对方可能已经断开连接 */
+				if (ret == -1) {
+					break;
+				}
+			}
+			else {
+				break; /* 直接断开连接 */
+			}
+		}
+
+		/* 让游戏中的玩家下线 */
+		if (threadBuffer.InGame()) {
+			/* 一定要记得用前上锁 */
+			GameDatabase::GetGlobalGameDatabase()->lock();
+			GameDatabase::GetGlobalGameDatabase()->DelUser(threadBuffer.GetUserID());
+			GameDatabase::GetGlobalGameDatabase()->unlock();
+		}
+
+		/* 统计数目 -= */
+		tcpServer->DecClientCnt();
+	}
+	else {
+		/* 用户数量过多，拒绝处理*/
+	}
+
+	/* 关闭连接 */
+	closesocket((SOCKET)socketClient);
+}
+
+
+void TcpServer::CreateProcessForClient(void* socketClient, TcpServer* tcpServer)
+{
+	/* 使用新的线程处理这个客户端的事件 */
+	std::thread* pthread = new std::thread(DealWithClient, socketClient, tcpServer);
+	pthread->detach();
+
+	// TODO: 将 pthread 放入线程池并进行管理
+}
+
 
 TcpServer::TcpServer(const std::string& IP, int port): mIP(IP), mPort(port)
 {
@@ -76,7 +147,7 @@ int TcpServer::RunServer() {
 		}
 
 		/* 创建线程处理客户询问 */
-		TcpUtils::CreateProcessForClient((void*)socketClient, this);
+		TcpServer::CreateProcessForClient((void*)socketClient, this);
 	}
 
 	/* 关闭服务器并释放资源 */
