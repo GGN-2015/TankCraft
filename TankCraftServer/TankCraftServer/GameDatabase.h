@@ -11,7 +11,9 @@
 #define GAME_DATABASE_DEBUG
 #define GAME_DATABASE_USER_MAX (8)
 
-#define GAME_DATABASE_PHISICALDRAWPERIOD (30) /* 每 30ms 启动一次物理引擎 */
+#define GAME_DATABASE_PHISICAL_FRAME_PERIOD \
+  (30) /* 每 30ms 启动一次物理引擎 \
+        */
 
 #define GAME_DATABASE_RUN (1)
 #define GAME_DATABASE_STOP (0)

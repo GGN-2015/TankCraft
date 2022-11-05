@@ -62,6 +62,10 @@ void UserInfo::GetTankPos(TankPosMap* nTankPosMap) /* 将坦克未知存入 Map */
   (*nTankPosMap)[GetUserId()] = mTankPos;
 }
 
+void UserInfo::GetTankKeyStatus(KeyStatusMap* nKeyStatusMap) {
+  (*nKeyStatusMap)[GetUserId()] = mKeyStatus;
+}
+
 void UserInfo::SetTankPos(const TankPosMap* nTankPosMap) {
   auto pTankMsg = (*nTankPosMap).find(GetUserId());
 
@@ -126,3 +130,36 @@ void TankPos::RandomPosition(int mHeight, int mWidth) {
   posY = (Utils::GetRandLongLong() % mHeight) + 0.5;
   dirR = Utils::GetRandomDouble() * 2 * acos(-1.0); /* 随机方向 */
 }
+
+KeyStatus::KeyStatus() { /* 所有键都没按下 */
+  shoot = TANK_KEY_UP;
+  turnRight = TANK_KEY_UP;
+  forward = TANK_KEY_UP;
+  turnLeft = TANK_KEY_UP;
+  backward = TANK_KEY_UP;
+}
+
+bool& KeyStatus::GetStatusById(int mStatusId) {
+  assert(0 <= mStatusId && mStatusId <= 4);
+
+  switch (mStatusId) {
+    case 0:
+      return shoot;
+    case 1:
+      return turnRight;
+    case 2:
+      return forward;
+    case 3:
+      return turnLeft;
+    case 4:
+      return backward;
+  }
+}
+
+bool KeyStatus::TurnLeft() const { return turnLeft && !turnRight; }
+
+bool KeyStatus::TurnRight() const { return turnRight && !turnLeft; }
+
+bool KeyStatus::MoveForward() const { return forward && !backward; }
+
+bool KeyStatus::MoveBackward() const { return backward && !forward; }

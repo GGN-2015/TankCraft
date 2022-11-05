@@ -25,11 +25,28 @@ struct TankPos {           /* 描述坦克的位置和朝向 */
   void RandomPosition(int mHeight, int mWidth); /* 随机坦克位置 */
 };
 
+#define TANK_KEY_DOWN (true)
+#define TANK_KEY_UP (false)
+
 struct KeyStatus { /* 描述坦克的键盘操作状态 */
+  bool shoot;
+  bool turnRight;
+  bool forward;
+  bool turnLeft;
+  bool backward;
+
+  KeyStatus();
+
+  bool& GetStatusById(int mStatusId);
+  bool TurnLeft() const; /* 获取坦克的移动方向 */
+  bool TurnRight() const;
+  bool MoveForward() const;
+  bool MoveBackward() const;
 };
 
 class TcpData;
 typedef std::map<int, TankPos> TankPosMap; /* 从用户 ID 到坦克位置的映射 */
+typedef std::map<int, KeyStatus> KeyStatusMap; /* 从用户 ID 到键盘状态的映射 */
 
 /* 每一个正在游戏中游玩的用户都对应着一个 UserInfo, 该信息存储与 GameDatabase 的
  * mUserInfoList 之中 */
@@ -51,6 +68,7 @@ class UserInfo {
   void GetUserInfoTcpData(TcpData* tcpData) const;
 
   void GetTankPos(TankPosMap* nTankPosMap); /* 获取所有玩家的坦克位置 */
+  void GetTankKeyStatus(KeyStatusMap* nKeyStatusMap); /* 获取玩家键盘操作状态 */
   void SetTankPos(const TankPosMap* nTankPosMap);   /* 更新坦克位置 */
   void SetTankPosRandomly(int mHeight, int mWidth); /* 随机更新坦克位置 */
 
@@ -67,6 +85,7 @@ class UserInfo {
   UserColor mUserColor; /* 用户颜色 */
   TankPos mTankPos;     /* 坦克位置 */
   double mLastKilledTime; /* 上次被杀死的时间，根据这个数计算是否处于无敌状态 */
+  KeyStatus mKeyStatus; /* 键盘状态 */
 
   bool mHasLaserWeapon = 0;
 };

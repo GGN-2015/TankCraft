@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 
+#include "GameDatabase.h"
 #include "GameGraph.h"
 #include "GameTcpServer.h"
 #include "TankCraft_NetManager_Component.h"
@@ -16,8 +17,8 @@ int main() {
   /* 初始化随机种子 */
   srand((unsigned int)time(NULL));
 
-  // TestTcpNetManager();
-  TestGameTcpServer();
+  TestTcpNetManager();
+  // TestGameTcpServer();
   // TestUtils();
 }
 
@@ -65,6 +66,8 @@ void TestTcpClient() {
 }
 
 void TestGameTcpServer() {
+  GameDatabase::GetGlobalGameDatabase(); /* 实例化一个 */
+
   GameTcpServer gameTcpServer("127.0.0.1", 12345);
   int ret = gameTcpServer.RunServer();
 

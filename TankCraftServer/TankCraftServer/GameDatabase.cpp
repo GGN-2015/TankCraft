@@ -3,6 +3,7 @@
 #include <windows.h>
 
 #include <cassert>
+#include <chrono>
 #include <iostream>
 
 #include "GameGraph.h"
@@ -155,9 +156,10 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
 
     /* 计算时间差 */
     double timeNow = Utils::GetClockTime();
-    double dT = timeNow - pGameDatabase->GetLastFrameTime(); /* 计算上一帧的计算时间 */
+    double dT =
+        timeNow - pGameDatabase->GetLastFrameTime(); /* 计算上一帧的计算时间 */
 
-    std::cerr << "[PhsicalEngineThreadFunction] dT = " << dT << std::endl;
+    // std::cerr << "[PhsicalEngineThreadFunction] dT = " << dT << std::endl;
 
     /* 随机枚举一个方向然后走过去, 直接在 tankPosMap 上修改 */
     for (auto& pTankPos : tankPosMap) {
@@ -169,8 +171,8 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
       pTankPos.second.posY += TANK_SPEED * dT * sin(direction);
 
       /* 如果新的坦克位置不合法那就不走 */
-      if (!pGameDatabase->mGameGraph.InGraph(pTankPos.second.posX,
-                                             pTankPos.second.posY, TANK_RADIUS)) {
+      if (!pGameDatabase->mGameGraph.InGraph(
+              pTankPos.second.posX, pTankPos.second.posY, TANK_RADIUS)) {
         pTankPos.second = oldTankPos; /* 还原先前的位置 */
       }
     }
@@ -183,7 +185,8 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
     pGameDatabase->SetLastFrameTime(timeNow);
     pGameDatabase->unlock();
 
-    Sleep(GAME_DATABASE_PHISICALDRAWPERIOD);
+    /* 每 30ms 重绘一次 */
+    Sleep(GAME_DATABASE_PHISICAL_FRAME_PERIOD);
   }
 }
 
