@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="Circular_RenderComponent.h" />
     <ClInclude Include="FileAbout.h" />
+    <ClInclude Include="InputTextComponent.h" />
     <ClInclude Include="InputManagerInterface.h" />
     <ClInclude Include="Line_RenderComponent.h" />
     <ClInclude Include="Math-Int.h" />
@@ -135,6 +136,7 @@
     <ClCompile Include="..\TankCraftServer\TcpUtils.cpp" />
     <ClCompile Include="..\TankCraftServer\Utils.cpp" />
     <ClCompile Include="Circular_RenderComponent.cpp" />
+    <ClCompile Include="InputTextComponent.cpp" />
     <ClCompile Include="Line_RenderComponent.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectManager-XnObject.cpp" />

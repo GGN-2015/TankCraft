@@ -165,6 +165,9 @@
     <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\游玩界面">
       <UniqueIdentifier>{8fd66736-677b-4b8a-9f41-25e60499f7b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\UI">
+      <UniqueIdentifier>{e6acc240-3584-4dad-a9cc-309538b85c2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXSampleHelper.h">
@@ -311,6 +314,9 @@
     <ClInclude Include="TankCraft_LoginComponent.h">
       <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\登录界面</Filter>
     </ClInclude>
+    <ClInclude Include="InputTextComponent.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -414,6 +420,9 @@
     </ClCompile>
     <ClCompile Include="TankCraft_LoginComponent.cpp">
       <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\登录界面</Filter>
+    </ClCompile>
+    <ClCompile Include="InputTextComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

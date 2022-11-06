@@ -21,7 +21,7 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
   Ìý¾ýÓï::Get()
       .GetObjectManager()
       ->CreateXnObject(Vector2::ZERO, GetXnObject())
-      ->AddComponent(std::make_unique<LoginComponent>());
+      ->AddComponent(std::make_unique<LoginComponent>(this));
 
   net_manager->ConnectToServer(49, 140, 58, 248, 10086);
 }
