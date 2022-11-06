@@ -19,7 +19,7 @@ void InputManager::OnKeyUp(const byte &key) {
   keyboard_manager_.OnKeyReleased(key);
 }
 
-void InputManager::OnChar(const char &character) {
+void InputManager::OnChar(const wchar &character) {
   keyboard_manager_.OnChar(character);
 }
 

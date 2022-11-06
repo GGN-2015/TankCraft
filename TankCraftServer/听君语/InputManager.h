@@ -5,9 +5,9 @@
 //
 //*********************************************************
 
-#include "InputManagerInterface.h"
 #include "InputManager-KeyboardManager.h"
 #include "InputManager-MouseManager.h"
+#include "InputManagerInterface.h"
 #include "SingletonBaseClass.h"
 
 namespace Xn {
@@ -19,7 +19,7 @@ class InputManager : public InputManagerInterface {
   // Í¨¹ý InputManagerInterface ¼Ì³Ð
   virtual void OnKeyDown(const byte& key) override;
   virtual void OnKeyUp(const byte& key) override;
-  virtual void OnChar(const char& character) override;
+  virtual void OnChar(const wchar& character) override;
   virtual void OnMouseMove(int x, int y) noexcept override;
   virtual void OnMouseLeftPressed(int x, int y) noexcept override;
   virtual void OnMouseLeftReleased(int x, int y) noexcept override;
@@ -31,7 +31,7 @@ class InputManager : public InputManagerInterface {
   virtual bool IsMouseInWindow() noexcept override;
   virtual void ClearState() override;
 
- private:
+ public:
   KeyboardManager keyboard_manager_;
   MouseManager mouse_manager_;
 

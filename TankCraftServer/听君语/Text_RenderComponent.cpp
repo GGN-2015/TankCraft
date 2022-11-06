@@ -39,9 +39,11 @@ void Xn::Text_RenderComponent::SetText(const std::wstring& text) {
       DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL,
       text_->GetFontSize(), L"zh-cn", &text_format));
 
+  auto width = text_->GetMaxWidth();
+  auto height = text_->GetMaxHeight();
+
   Ìý¾ýÓï::Get().GetRenderManager()->dwrite_factory_->CreateTextLayout(
-      text.data(), text.size(), text_format.Get(), text_->GetMaxWidth(),
-      text_->GetMaxHeight(), &text_);
+      text.data(), text.size(), text_format.Get(), width, height, &text_);
 }
 void Xn::Text_RenderComponent::SetWH(const Vector2& WH) {
   text_->SetMaxWidth(WH.asWH.width);

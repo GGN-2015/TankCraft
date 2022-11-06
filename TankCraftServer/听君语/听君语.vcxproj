@@ -109,6 +109,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TankCraft_BulletComponent.h" />
     <ClInclude Include="TankCraft_GameManager_Component.h" />
+    <ClInclude Include="TankCraft_LoginComponent.h" />
     <ClInclude Include="TankCraft_MapManager_Component.h" />
     <ClInclude Include="TankCraft_NetManager_Component.h" />
     <ClInclude Include="TankCraft_TankComponent.h" />
@@ -150,6 +151,7 @@
     <ClCompile Include="Square_RenderComponent.cpp" />
     <ClCompile Include="TankCraft_BulletComponent.cpp" />
     <ClCompile Include="TankCraft_GameManager_Component.cpp" />
+    <ClCompile Include="TankCraft_LoginComponent.cpp" />
     <ClCompile Include="TankCraft_MapManager_Component.cpp" />
     <ClCompile Include="TankCraft_TankComponent.cpp" />
     <ClCompile Include="TankCraft_TankManager_Component.cpp" />

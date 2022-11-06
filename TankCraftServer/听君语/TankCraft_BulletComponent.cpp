@@ -16,11 +16,12 @@ void Xn::TankCraft::BulletComponent::OnStart() {
 
   though_t_ = 0;
 
-#if _DEBUG && 1
-  SetPos(Vector2::Random({0, 0}, {10, 10}));
-  SetColor(Vector3::Random(Vector3::ZERO, Vector3(0.3f, 0.3f, 0.3f)));
-  SetLerpTime(Float::Random(0.07f, 0.1f));
+  SetLerpTime(0.1f);
   SetRadio(0.04f);
+  SetColor(Vector3::Random(Vector3::ZERO, Vector3(0.3f, 0.3f, 0.3f)));
+
+#if _DEBUG && 0
+  SetPos(Vector2::Random({0, 0}, {10, 10}));
   web_delay_time_ = Float::Random(0.03f, 0.1f);
 #endif  // Test
 }
@@ -28,7 +29,7 @@ void Xn::TankCraft::BulletComponent::OnUpdate() {
   though_t_ += Ìý¾ýÓï::Get().GetDeltaTime();
   auto t = though_t_.ScaleFromTo(0, lerp_time_, 0, 1);
   GetXnObject()->pos_ = Vector2::Lerp(start_pos_, target_pos_, t);
-#if _DEBUG && 1
+#if _DEBUG && 0
   if (though_t_ >= web_delay_time_) {
     auto new_target_pos_ =
         target_pos_ + Vector2::Random({-0.5f, -0.5f}, {0.5f, 0.5f});

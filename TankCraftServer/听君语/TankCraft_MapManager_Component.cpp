@@ -47,33 +47,6 @@ void Xn::TankCraft::MapManagerComponent::OnStart() {
     SetPos(small_map_pos, small_map_scale);
     SetTargetPos(map_pos, map_scale);
   }
-
-  for (uint i = 0; i < 50; ++i) {
-    听君语::Get()
-        .GetObjectManager()
-        ->CreateXnObject(Vector2::ZERO, GetXnObject())
-        ->AddComponent(std::make_unique<BulletComponent>());
-  }
-
-  for (uint i = 0; i < 5; ++i) {
-    听君语::Get()
-        .GetObjectManager()
-        ->CreateXnObject(Vector2::ZERO, GetXnObject())
-        ->AddComponent(std::make_unique<TankComponent>());
-  }
-
-  // TODO 加入地图8*8，模拟一下墙
-  wchar* the_wall_data = new wchar[10];
-  the_wall_data[0] = 49147;
-  the_wall_data[1] = 21513;
-  the_wall_data[2] = 17579;
-  the_wall_data[3] = 4645;
-  the_wall_data[4] = 34919;
-  the_wall_data[5] = 4233;
-  the_wall_data[6] = 38979;
-  the_wall_data[7] = 40977;
-  SetMap(the_wall_data, 8, 8);
-  delete[] the_wall_data;
 }
 void Xn::TankCraft::MapManagerComponent::OnUpdate() {
   GetXnObject()->pos_ = Vector2::Lerp(GetXnObject()->pos_, target_pos_, 0.05f);

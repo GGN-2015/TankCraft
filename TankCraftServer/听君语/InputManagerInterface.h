@@ -13,7 +13,7 @@ class InputManagerInterface {
  public:
   virtual void OnKeyDown(const byte &key) = 0;
   virtual void OnKeyUp(const byte &key) = 0;
-  virtual void OnChar(const char &character) = 0;
+  virtual void OnChar(const wchar &character) = 0;
 
   virtual void OnMouseMove(int x, int y) noexcept = 0;
   virtual void OnMouseLeftPressed(int x, int y) noexcept = 0;

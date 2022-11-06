@@ -45,7 +45,7 @@ class KeyboardManager {
   bool IsKeyBufferEmpty() const noexcept;
   void FlushKey() noexcept;
   // char eventœ‡πÿ
-  char ReadChar() noexcept;
+  wchar ReadChar() noexcept;
   bool IsCharBufferEmpty() const noexcept;
   void FlushChar() noexcept;
   void Flush() noexcept;
@@ -53,7 +53,7 @@ class KeyboardManager {
  private:
   void OnKeyPressed(byte keycode) noexcept;
   void OnKeyReleased(byte keycode) noexcept;
-  void OnChar(char character) noexcept;
+  void OnChar(wchar character) noexcept;
   void ClearState() noexcept;
   template <typename T>
   static void TrimBuffer(std::queue<T> &buffer) noexcept;
@@ -63,7 +63,7 @@ class KeyboardManager {
   static constexpr uint buffer_size_ = 16;
   std::bitset<key_count_> keystates_;
   std::queue<Event> key_buffer_;
-  std::queue<char> char_buffer_;
+  std::queue<wchar> char_buffer_;
 
   CAN_NOT_COPY_THIS_CLASS(KeyboardManager);
 };

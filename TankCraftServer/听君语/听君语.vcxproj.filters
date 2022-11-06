@@ -156,6 +156,15 @@
     <Filter Include="代码文件\司\数\对象组件\管理组件\坦克动荡\GGN">
       <UniqueIdentifier>{80aedd2f-03b5-495a-abaf-7fee521fb2ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面">
+      <UniqueIdentifier>{44a53263-a87e-4369-a23d-8cd4656ec321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\登录界面">
+      <UniqueIdentifier>{a6d2c1b7-c9e1-440d-972f-4d4bce57b333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\游玩界面">
+      <UniqueIdentifier>{8fd66736-677b-4b8a-9f41-25e60499f7b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXSampleHelper.h">
@@ -299,6 +308,9 @@
     <ClInclude Include="Text_RenderComponent.h">
       <Filter>代码文件\司\数\对象组件\渲染组件\文字</Filter>
     </ClInclude>
+    <ClInclude Include="TankCraft_LoginComponent.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\登录界面</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -399,6 +411,9 @@
     </ClCompile>
     <ClCompile Include="..\TankCraftServer\Utils.cpp">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraft_LoginComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\登录界面</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

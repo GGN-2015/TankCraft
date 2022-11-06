@@ -27,9 +27,9 @@ bool KeyboardManager::IsKeyBufferEmpty() const noexcept {
 
 void KeyboardManager::FlushKey() noexcept { key_buffer_ = std::queue<Event>(); }
 
-char KeyboardManager::ReadChar() noexcept {
+wchar KeyboardManager::ReadChar() noexcept {
   if (char_buffer_.size() > 0) {
-    byte charcode = char_buffer_.front();
+    wchar charcode = char_buffer_.front();
     char_buffer_.pop();
     return charcode;
   } else {
@@ -42,7 +42,7 @@ bool KeyboardManager::IsCharBufferEmpty() const noexcept {
 }
 
 void KeyboardManager::FlushChar() noexcept {
-  char_buffer_ = std::queue<char>();
+  char_buffer_ = std::queue<wchar>();
 }
 
 void KeyboardManager::Flush() noexcept {
@@ -62,7 +62,7 @@ void KeyboardManager::OnKeyReleased(byte keycode) noexcept {
   TrimBuffer(key_buffer_);
 }
 
-void KeyboardManager::OnChar(char character) noexcept {
+void KeyboardManager::OnChar(wchar character) noexcept {
   char_buffer_.push(character);
   TrimBuffer(char_buffer_);
 }

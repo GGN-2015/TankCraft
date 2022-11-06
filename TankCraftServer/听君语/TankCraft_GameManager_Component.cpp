@@ -2,18 +2,26 @@
 
 #include "ObjectManager-XnObject.h"
 #include "ObjectManager.h"
+#include "TankCraft_LoginComponent.h"
 #include "TankCraft_MapManager_Component.h"
 #include "TankCraft_NetManager_Component.h"
 #include "TankCraft_UserManager_Component.h"
 #include "听君语.h"
 
 void Xn::TankCraft::GameManagerComponent::OnStart() {
-  map_manager = (MapManagerComponent*)GetXnObject()->AddComponent(
-      std::make_unique<MapManagerComponent>());
   user_manager = (UserManagerComponent*)GetXnObject()->AddComponent(
       std::make_unique<UserManagerComponent>());
   net_manager = (NetManager_Component*)GetXnObject()->AddComponent(
       std::make_unique<NetManager_Component>());
+
+  map_manager = (MapManagerComponent*)听君语::Get()
+                    .GetObjectManager()
+                    ->CreateXnObject(Vector2::ZERO, GetXnObject())
+                    ->AddComponent(std::make_unique<MapManagerComponent>());
+  听君语::Get()
+      .GetObjectManager()
+      ->CreateXnObject(Vector2::ZERO, GetXnObject())
+      ->AddComponent(std::make_unique<LoginComponent>());
 
   net_manager->ConnectToServer(49, 140, 58, 248, 10086);
 }
@@ -65,9 +73,25 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
       } break;
 
       case 4: {
+        const uint tank_count = *(uint16*)&data[2];
+        SetTanksState(&data[3], tank_count);
       } break;
 
-        // TODO
+      case 5: {
+        const uint this_user_kill_number = *(uint16*)&data[2];
+        const uint user_kill_number_count = *(uint16*)&data[3];
+        SetUsersKillNumber(this_user_kill_number, &data[4],
+                           user_kill_number_count);
+      } break;
+
+      case 6: {
+        // 按键反馈消息，不管
+      } break;
+
+      case 7: {
+        const uint entitiy_count = *(uint16*)&data[2];
+        SetEntitiesState(&data[3], entitiy_count);
+      } break;
 
       default:
         break;
@@ -77,6 +101,7 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
 
 void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
     const uint& code) {
+  OutputDebugString(std::to_wstring(code).data());
   switch (code) {
     case 0: {
       // TODO 与服务端连接成功

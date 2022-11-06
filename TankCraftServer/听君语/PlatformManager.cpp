@@ -93,7 +93,7 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
 
     //-----窗口接收字符消息-----
     case WM_CHAR:
-      听君语::Get().GetInputManager()->OnChar(static_cast<byte>(param1));
+      听君语::Get().GetInputManager()->OnChar(static_cast<wchar>(param1));
       break;
 
     //-----窗口接收按键按下消息-----
