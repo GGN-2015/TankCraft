@@ -28,8 +28,8 @@ class GameManagerComponent : public Component {
   virtual void OnDestory() override;
 
  public:
-  void Login(const std::wstring ipV4, const std::wstring port,
-             const std::wstring user_name);
+  void ConnectToServer(const std::wstring ipV4, const std::wstring port);
+  void Login(const std::wstring user_name);
 
  private:
   void NetMessageDeal(NetMessageBaseDataBuffer *const &client_to_server,

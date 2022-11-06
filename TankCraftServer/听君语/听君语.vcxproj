@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonComponent.h" />
     <ClInclude Include="Circular_RenderComponent.h" />
     <ClInclude Include="FileAbout.h" />
     <ClInclude Include="InputTextComponent.h" />
@@ -135,6 +136,7 @@
     <ClCompile Include="..\TankCraftServer\TcpData.cpp" />
     <ClCompile Include="..\TankCraftServer\TcpUtils.cpp" />
     <ClCompile Include="..\TankCraftServer\Utils.cpp" />
+    <ClCompile Include="ButtonComponent.cpp" />
     <ClCompile Include="Circular_RenderComponent.cpp" />
     <ClCompile Include="InputTextComponent.cpp" />
     <ClCompile Include="Line_RenderComponent.cpp" />

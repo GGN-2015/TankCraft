@@ -5,6 +5,8 @@
 namespace Xn {
 
 class InputTextComponent;
+class Square_RenderComponent;
+class ButtonComponent;
 
 namespace TankCraft {
 
@@ -21,9 +23,12 @@ class LoginComponent : public Component {
 
  private:
   GameManagerComponent* game_manager_ = nullptr;
+
+  Square_RenderComponent* background_render_component = nullptr;
   InputTextComponent* name_input_layout = nullptr;
   InputTextComponent* ipv4_input_layout = nullptr;
   InputTextComponent* port_input_layout = nullptr;
+  ButtonComponent* login_button = nullptr;
 };
 
 }  // namespace TankCraft

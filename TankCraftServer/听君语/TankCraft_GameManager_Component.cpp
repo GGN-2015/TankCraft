@@ -22,8 +22,6 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
       .GetObjectManager()
       ->CreateXnObject(Vector2::ZERO, GetXnObject())
       ->AddComponent(std::make_unique<LoginComponent>(this));
-
-  net_manager->ConnectToServer(49, 140, 58, 248, 10086);
 }
 void Xn::TankCraft::GameManagerComponent::OnUpdate() {
   if (const auto buffer = net_manager->TryGetServerToClientMessageBuffer()) {
@@ -33,6 +31,12 @@ void Xn::TankCraft::GameManagerComponent::OnUpdate() {
 void Xn::TankCraft::GameManagerComponent::OnDestory() {
   GetXnObject()->RemoveAllChild();
 }
+
+void Xn::TankCraft::GameManagerComponent::ConnectToServer(
+    const std::wstring ipV4, const std::wstring port) {
+  net_manager->ConnectToServer(ipV4, port);
+}
+void Xn::TankCraft::GameManagerComponent::Login(const std::wstring user_name) {}
 
 void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
     NetMessageBaseDataBuffer* const& client_to_server,

@@ -317,6 +317,9 @@
     <ClInclude Include="InputTextComponent.h">
       <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonComponent.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -422,6 +425,9 @@
       <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\登录界面</Filter>
     </ClCompile>
     <ClCompile Include="InputTextComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ButtonComponent.cpp">
       <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
     </ClCompile>
   </ItemGroup>
