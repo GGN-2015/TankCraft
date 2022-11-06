@@ -17,8 +17,8 @@ int main() {
   /* 初始化随机种子 */
   srand((unsigned int)time(NULL));
 
-  TestTcpNetManager();
-  // TestGameTcpServer();
+  // TestTcpNetManager();
+  TestGameTcpServer();
   // TestUtils();
 }
 
