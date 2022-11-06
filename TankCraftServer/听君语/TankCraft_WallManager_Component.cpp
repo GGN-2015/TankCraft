@@ -13,7 +13,7 @@ void Xn::TankCraft::WallManagerComponent::SetMap(const wchar *map_data,
   x_side_length_ = x_side_length;
   y_side_length_ = y_side_length;
 
-  const uint one_line_wchar_num = 2.0f * x_side_length / (8 * sizeof(wchar));
+  const uint one_line_wchar_num = 2 * x_side_length / (8 * sizeof(wchar));
 
   GetXnObject()->RemoveAllChild();
 
@@ -23,7 +23,7 @@ void Xn::TankCraft::WallManagerComponent::SetMap(const wchar *map_data,
 
       wchar bit = 1;
       for (uint k = 0; k < 8; ++k) {
-        const uint start_point = 4 * j + k;
+        const uint start_point = 8 * j + k;
         if (c & bit) AddWall({start_point, i}, {start_point, i + 1});
         bit <<= 1;
 

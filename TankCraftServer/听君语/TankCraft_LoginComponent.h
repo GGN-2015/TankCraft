@@ -28,6 +28,7 @@ class LoginComponent : public Component {
   InputTextComponent* name_input_layout = nullptr;
   InputTextComponent* ipv4_input_layout = nullptr;
   InputTextComponent* port_input_layout = nullptr;
+  ButtonComponent* connect_button = nullptr;
   ButtonComponent* login_button = nullptr;
 };
 

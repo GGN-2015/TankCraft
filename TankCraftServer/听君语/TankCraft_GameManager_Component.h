@@ -32,8 +32,7 @@ class GameManagerComponent : public Component {
   void Login(const std::wstring user_name);
 
  private:
-  void NetMessageDeal(NetMessageBaseDataBuffer *const &client_to_server,
-                      NetMessageBaseDataBuffer *const &server_to_client);
+  void NetMessageDeal(NetMessageBaseDataBuffer *const &server_to_client);
   void InternalCommunicationMessage(const uint &code);
   void SetMap(const wchar *const &map_data, const uint &x_side_length,
               const uint &y_side_length);

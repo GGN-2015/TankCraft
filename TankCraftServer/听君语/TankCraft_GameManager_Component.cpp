@@ -25,7 +25,7 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
 }
 void Xn::TankCraft::GameManagerComponent::OnUpdate() {
   if (const auto buffer = net_manager->TryGetServerToClientMessageBuffer()) {
-    NetMessageDeal(net_manager->TryGetClientToServerMessageBuffer(), buffer);
+    NetMessageDeal(buffer);
   }
 }
 void Xn::TankCraft::GameManagerComponent::OnDestory() {
@@ -36,10 +36,36 @@ void Xn::TankCraft::GameManagerComponent::ConnectToServer(
     const std::wstring ipV4, const std::wstring port) {
   net_manager->ConnectToServer(ipV4, port);
 }
-void Xn::TankCraft::GameManagerComponent::Login(const std::wstring user_name) {}
+void Xn::TankCraft::GameManagerComponent::Login(const std::wstring user_name) {
+  auto buffer = net_manager->TryGetClientToServerMessageBuffer();
+  // µÇÂ¼ÇëÇó
+  {
+    auto data = std::make_unique<NetMessageBaseData>();
+    const uint message_type = 1;
+    const uint name_length_as_char = 2 * user_name.size();
+
+    std::wstring s = L"";
+    s.push_back(*(wchar*)&message_type);
+    s.push_back(*(wchar*)&name_length_as_char);
+    s += user_name;
+    data->SetData(s.data(), s.size());
+    buffer->Push(std::move(data));
+  }
+  // µØÍ¼ÇëÇó
+  {
+    auto data = std::make_unique<NetMessageBaseData>();
+    const uint message_type = 2;
+    const uint name_length_as_char = 0;
+
+    std::wstring s = L"";
+    s.push_back(*(wchar*)&message_type);
+    s.push_back(*(wchar*)&name_length_as_char);
+    data->SetData(s.data(), s.size());
+    buffer->Push(std::move(data));
+  }
+}
 
 void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
-    NetMessageBaseDataBuffer* const& client_to_server,
     NetMessageBaseDataBuffer* const& server_to_client) {
   for (auto message = server_to_client->Pop(); message.get();
        message = server_to_client->Pop()) {
@@ -66,8 +92,8 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
 
       case 2: {
         const uint wh = *(uint16*)&data[2];
-        const uint width = (wh >> 4) & 4;
-        const uint height = wh & 4;
+        const uint width = (wh >> 8) & 0xFF;
+        const uint height = wh & 0xFF;
         SetMap(&data[3], width, height);
       } break;
 

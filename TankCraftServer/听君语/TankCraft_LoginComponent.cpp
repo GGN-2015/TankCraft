@@ -76,7 +76,7 @@ void Xn::TankCraft::LoginComponent::OnStart() {
   port_input_layout->GetXnObject()->pos_ = {400, 200};
   port_input_layout->SetDefaultShowText(L"ÊäÈë·þÎñÆ÷Port");
 
-  login_button =
+  connect_button =
       (ButtonComponent*)Ìý¾ýÓï::Get()
           .GetObjectManager()
           ->CreateXnObject(Vector2::ZERO, GetXnObject())
@@ -88,7 +88,18 @@ void Xn::TankCraft::LoginComponent::OnStart() {
               },
               Vector4(255 / 255.f, 255 / 255.f, 220 / 255.f, 0.7f),
               Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));
-  login_button->GetXnObject()->pos_ = {500, 200};
+  connect_button->GetXnObject()->pos_ = {300, 300};
+
+  login_button =
+      (ButtonComponent*)Ìý¾ýÓï::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->AddComponent(std::make_unique<ButtonComponent>(
+              Vector2(100, 50),
+              [this]() { game_manager_->Login(name_input_layout->GetText()); },
+              Vector4(255 / 255.f, 255 / 255.f, 220 / 255.f, 0.7f),
+              Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));
+  login_button->GetXnObject()->pos_ = {500, 300};
 }
 
 void Xn::TankCraft::LoginComponent::OnUpdate() {}
