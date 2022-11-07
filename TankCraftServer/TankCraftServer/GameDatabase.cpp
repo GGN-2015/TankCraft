@@ -1,12 +1,11 @@
 #include "GameDatabase.h"
 
-#include <windows.h>
-
 #include <cassert>
 #include <chrono>
 #include <iostream>
 
 #include "GameGraph.h"
+#include "SysUtils.h"
 #include "UserInfo.h"
 #include "Utils.h"
 
@@ -143,6 +142,16 @@ int GameDatabase::GetGameDatabaseStatusAtomic() const {
   return ans;
 }
 
+UserInfo* GameDatabase::GetUserInfoByUserId(
+    int nUserId) { /* 注意这里可能返回空指针 */
+  for (auto pUserInfo : mUserInfoList) {
+    if (pUserInfo->GetUserId() == nUserId) {
+      return pUserInfo;
+    }
+  }
+  return nullptr;
+}
+
 void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
     GameDatabase* pGameDatabase) {
   while (pGameDatabase->GetGameDatabaseStatusAtomic() == GAME_DATABASE_RUN) {
@@ -185,8 +194,8 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
     pGameDatabase->SetLastFrameTime(timeNow);
     pGameDatabase->unlock();
 
-    /* 每 30ms 重绘一次 */
-    Sleep(GAME_DATABASE_PHISICAL_FRAME_PERIOD);
+    /* 每 15ms 重绘一次 */
+    SysUtils::Sleep(GAME_DATABASE_PHISICAL_FRAME_PERIOD);
   }
 }
 
@@ -194,6 +203,15 @@ double GameDatabase::GetLastFrameTime() const { return mLastFrameTime; }
 
 void GameDatabase::SetLastFrameTime(double nFrameTime) {
   mLastFrameTime = nFrameTime;
+}
+
+void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
+  UserInfo* pUserInfo = GetUserInfoByUserId(nUserId);
+  if (pUserInfo != nullptr) {
+    pUserInfo->GetKeyStatusObject()->GetStatusById(nKeyId) = status;
+  } else {
+    assert(false);
+  }
 }
 
 GameDatabase::GameDatabase() {

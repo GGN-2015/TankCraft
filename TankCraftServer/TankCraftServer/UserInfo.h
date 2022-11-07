@@ -38,6 +38,7 @@ struct KeyStatus { /* 描述坦克的键盘操作状态 */
   KeyStatus();
 
   bool& GetStatusById(int mStatusId);
+  bool GetStatusById(int mStatusId) const;
   bool TurnLeft() const; /* 获取坦克的移动方向 */
   bool TurnRight() const;
   bool MoveForward() const;
@@ -76,6 +77,7 @@ class UserInfo {
   bool CheckSuperArmor() const; /* 检测玩家是否无敌 */
 
   void GetTankPosTcpData(TcpData* pTcpData) const; /* ID4 位置8 方向4 状态2 */
+  KeyStatus* GetKeyStatusObject();                 /* 获取键盘状态 */
 
  private:
   int mUserId;

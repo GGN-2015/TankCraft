@@ -103,6 +103,8 @@ void UserInfo::GetTankPosTcpData(TcpData* pTcpData) const {
   pTcpData->SetData(buf, 18);
 }
 
+KeyStatus* UserInfo::GetKeyStatusObject() { return &mKeyStatus; }
+
 UserColor::UserColor(unsigned char nR, unsigned char nG, unsigned char nB,
                      unsigned char nA) {
   R = nR;
@@ -140,6 +142,23 @@ KeyStatus::KeyStatus() { /* 所有键都没按下 */
 }
 
 bool& KeyStatus::GetStatusById(int mStatusId) {
+  assert(0 <= mStatusId && mStatusId <= 4);
+
+  switch (mStatusId) {
+    case 0:
+      return shoot;
+    case 1:
+      return turnRight;
+    case 2:
+      return forward;
+    case 3:
+      return turnLeft;
+    case 4:
+      return backward;
+  }
+}
+
+bool KeyStatus::GetStatusById(int mStatusId) const {
   assert(0 <= mStatusId && mStatusId <= 4);
 
   switch (mStatusId) {

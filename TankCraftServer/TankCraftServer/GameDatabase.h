@@ -12,7 +12,7 @@
 #define GAME_DATABASE_USER_MAX (8)
 
 #define GAME_DATABASE_PHISICAL_FRAME_PERIOD \
-  (30) /* 每 30ms 启动一次物理引擎 \
+  (15) /* 每 15ms 启动一次物理引擎 \
         */
 
 #define GAME_DATABASE_RUN (1)
@@ -54,14 +54,18 @@ class GameDatabase : public MyMutex {
       TcpData* pTcpData) const; /* 获取所有坦克当前的位置信息 */
   int GetMaxUserId() const;     /* 获得当前最大用户编号 */
 
-  int GetGameDatabaseStatusAtomic() const; /* 获取运行状态 */
+  int GetGameDatabaseStatusAtomic() const;    /* 获取运行状态 */
+  UserInfo* GetUserInfoByUserId(int nUserId); /* 获取用户信息对象 */
 
-  /* 物理引擎线程 */
+  /* TODO: 物理引擎线程 */
   static void GameDatabasePhsicalEngineThreadFunction(
       GameDatabase* pGameDatabase);
 
   double GetLastFrameTime() const;
   void SetLastFrameTime(double nFrameTime);
+
+  void SetKeyStatusForUser(int nUserId, int nKeyId,
+                           bool status); /* 修改键盘状态 */
 
  private:
   GameDatabase();

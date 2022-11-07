@@ -147,6 +147,8 @@
     <ClCompile Include="GameTcpServer.cpp" />
     <ClCompile Include="IMessage.cpp" />
     <ClCompile Include="IParser.cpp" />
+    <ClCompile Include="KeyStatusRequest.cpp" />
+    <ClCompile Include="KeyStatusRequestParser.cpp" />
     <ClCompile Include="LoginMessage.cpp" />
     <ClCompile Include="LoginRequest.cpp" />
     <ClCompile Include="LoginRequestParser.cpp" />
@@ -156,6 +158,7 @@
     <ClCompile Include="MyMutex.cpp" />
     <ClCompile Include="PingMessage.cpp" />
     <ClCompile Include="PingParser.cpp" />
+    <ClCompile Include="SysUtils.cpp" />
     <ClCompile Include="TankCraftServer.cpp" />
     <ClCompile Include="TankCraft_NetManager_Component.cpp" />
     <ClCompile Include="TankPosMessage.cpp" />
@@ -179,6 +182,8 @@
     <ClInclude Include="GameTcpServer.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IParser.h" />
+    <ClInclude Include="KeyStatusRequest.h" />
+    <ClInclude Include="KeyStatusRequestParser.h" />
     <ClInclude Include="LoginMessage.h" />
     <ClInclude Include="LoginRequest.h" />
     <ClInclude Include="LoginRequestParser.h" />
@@ -189,6 +194,7 @@
     <ClInclude Include="PingMessage.h" />
     <ClInclude Include="PingParser.h" />
     <ClInclude Include="RequestMessageTypes.h" />
+    <ClInclude Include="SysUtils.h" />
     <ClInclude Include="TankCraft_NetManager_Component.h" />
     <ClInclude Include="TankPosMessage.h" />
     <ClInclude Include="TcpClient.h" />
