@@ -203,12 +203,13 @@ void GameGraph::GetNeiborhoodWall(WallPosList* pWallPosList, int gridX,
         WallPos nWallPos;
         nWallPos.SetFrom({(double)ny, (double)nx});
 
+        /* 左侧的墙面 */
         if (mGameGraph[nx][ny].hasLeft) {
           nWallPos.SetTo({(double)ny, (double)nx + 1});
           pWallPosList->push_back(nWallPos);
         }
 
-        /* */
+        /* 上侧的墙面 */
         if (mGameGraph[nx][ny].hasTop) {
           nWallPos.SetTo({(double)ny + 1, (double)nx});
           pWallPosList->push_back(nWallPos);

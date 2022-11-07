@@ -18,7 +18,7 @@ int main() {
   srand((unsigned int)time(NULL));
 
   // TestTcpNetManager();
-  TestGameTcpServer();
+  // TestGameTcpServer();
   // TestUtils();
 }
 
@@ -68,7 +68,7 @@ void TestTcpClient() {
 void TestGameTcpServer() {
   GameDatabase::GetGlobalGameDatabase(); /* 实例化一个 */
 
-  GameTcpServer gameTcpServer("127.0.0.1", 12345);
+  GameTcpServer gameTcpServer("0.0.0.0", 12345);
   int ret = gameTcpServer.RunServer();
 
   if (ret != TCP_SERVER_SUC) {
