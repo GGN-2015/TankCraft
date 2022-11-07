@@ -23,6 +23,11 @@ struct TankPos {           /* 描述坦克的位置和朝向 */
   TankPos(const TankPos& nTankPos); /* 拷贝构造函数 */
 
   void RandomPosition(int mHeight, int mWidth); /* 随机坦克位置 */
+  void SetPosByAnotherTankPos(const TankPos* pTankPos);
+
+  void SetX(double nPosX); /* 设置坦克的位置和方向 */
+  void SetY(double nPosY);
+  void SetD(double nDirD);
 };
 
 #define TANK_KEY_DOWN (true)

@@ -132,6 +132,9 @@
     <ClCompile Include="KeyStatusRequest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="WallPos.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -234,7 +237,10 @@
       <Filter>头文件\Parser</Filter>
     </ClInclude>
     <ClInclude Include="KeyStatusRequest.h">
-      <Filter>头文件</Filter>
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="WallPos.h">
+      <Filter>头文件\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

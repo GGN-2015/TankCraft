@@ -1,4 +1,5 @@
 #pragma once
+#include "WallPos.h"
 
 #define GAME_GRAPH_MAX_WIDTH (40)
 #define GAME_GRAPH_MAX_HEIGHT (40)
@@ -31,6 +32,9 @@ class GameGraph {
   /* 实体的坐标是 posX 向右 posY 向下的，与地图描述不同 */
   bool InGraph(double posX, double posY,
                double r) const; /* 判断一个圆是否完全在地图中 */
+
+  bool CrashWall(double posX, double posY, double r) const; /* 检测是否撞墙 */
+  void GetNeiborhoodWall(WallPosList* pWallPosList, int gridX, int gridY) const; /* 获取邻居墙 */
 
  private:
   void GenerateRandMap(double alpha);

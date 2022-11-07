@@ -133,6 +133,19 @@ void TankPos::RandomPosition(int mHeight, int mWidth) {
   dirR = Utils::GetRandomDouble() * 2 * acos(-1.0); /* 随机方向 */
 }
 
+void TankPos::SetPosByAnotherTankPos(const TankPos* pTankPos) {
+  if (pTankPos != nullptr) {
+    posX = pTankPos->posX;
+    posY = pTankPos->posY;
+  }
+}
+
+void TankPos::SetX(double nPosX) { posX = nPosX; }
+
+void TankPos::SetY(double nPosY) { posY = nPosY; }
+
+void TankPos::SetD(double nDirD) { dirR = nDirD; }
+
 KeyStatus::KeyStatus() { /* 所有键都没按下 */
   shoot = TANK_KEY_UP;
   turnRight = TANK_KEY_UP;

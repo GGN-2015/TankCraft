@@ -157,42 +157,83 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
   while (pGameDatabase->GetGameDatabaseStatusAtomic() == GAME_DATABASE_RUN) {
     /* 获取所有坦克位置 */
     TankPosMap tankPosMap; /* ID => TankPos 的映射 */
-    pGameDatabase->lock();
+
+    /* 获取坦克的按键数据 */
+    KeyStatusMap keyStatusMap;
+
+    /* 临界区开始 */
+    pGameDatabase
+        ->lock(); /* ------------------------------------------------------- */
+
+    /* 获取坦克位置 */
     for (auto pUserInfo : pGameDatabase->mUserInfoList) {
       pUserInfo->GetTankPos(&tankPosMap);
     }
-    pGameDatabase->unlock();
 
     /* 计算时间差 */
     double timeNow = Utils::GetClockTime();
     double dT =
         timeNow - pGameDatabase->GetLastFrameTime(); /* 计算上一帧的计算时间 */
 
-    // std::cerr << "[PhsicalEngineThreadFunction] dT = " << dT << std::endl;
+    /* 获取坦克键盘状态 */
+    for (auto pUserInfo : pGameDatabase->mUserInfoList) {
+      pUserInfo->GetTankKeyStatus(&keyStatusMap);
+    }
 
     /* 随机枚举一个方向然后走过去, 直接在 tankPosMap 上修改 */
     for (auto& pTankPos : tankPosMap) {
+      int tankUserId = pTankPos.first;
       TankPos oldTankPos = pTankPos.second; /* 拷贝一个 */
 
-      double direction = Utils::GetRandomDouble() * Utils::Get2PI();
-      pTankPos.second.dirR = direction;
-      pTankPos.second.posX += TANK_SPEED * dT * cos(direction);
-      pTankPos.second.posY += TANK_SPEED * dT * sin(direction);
+      double Dx = cos(oldTankPos.dirR) * TANK_SPEED * dT;
+      double Dy = sin(oldTankPos.dirR) * TANK_SPEED * dT;
+      double Dr = TANK_ROTATE_SPEED * dT;
 
-      /* 如果新的坦克位置不合法那就不走 */
-      if (!pGameDatabase->mGameGraph.InGraph(
-              pTankPos.second.posX, pTankPos.second.posY, TANK_RADIUS)) {
-        pTankPos.second = oldTankPos; /* 还原先前的位置 */
+      /* 计算新的坦克位置 */
+      TankPos newTankPos = oldTankPos;
+      if ((keyStatusMap.find(tankUserId))->second.MoveForward()) {
+        newTankPos.posX += Dx;
+        newTankPos.posY += Dy;
+      } else if ((keyStatusMap.find(tankUserId))->second.MoveBackward()) {
+        newTankPos.posX -= Dx;
+        newTankPos.posY -= Dy;
       }
+
+      /* 处理旋转事件 */
+      if ((keyStatusMap.find(tankUserId))->second.TurnLeft()) {
+        newTankPos.dirR -= Dr;
+      } else if ((keyStatusMap.find(tankUserId))->second.TurnRight()) {
+        newTankPos.dirR += Dr;
+      }
+
+      /* 如果坦克出界，将位置还原为上一次的位置 */
+      if (!pGameDatabase->mGameGraph.InGraph(newTankPos.posX, newTankPos.posY,
+                                             TANK_RADIUS)) {
+        newTankPos.SetPosByAnotherTankPos(&oldTankPos);
+      }
+
+      /* 如果前一时刻没有撞墙，当前时刻撞墙了，那么还原回上次位置 */
+      if (!pGameDatabase->mGameGraph.CrashWall(oldTankPos.posX, oldTankPos.posY,
+                                               TANK_RADIUS) &&
+          pGameDatabase->mGameGraph.CrashWall(newTankPos.posX, newTankPos.posY,
+                                              TANK_RADIUS)) {
+        newTankPos.SetPosByAnotherTankPos(&oldTankPos);
+      }
+
+      pTankPos.second.SetX(newTankPos.posX); /* 设置坦克的实际位置 */
+      pTankPos.second.SetY(newTankPos.posY);
+      pTankPos.second.SetD(newTankPos.dirR);
     }
 
     /* 修改所有坦克位置 */
-    pGameDatabase->lock();
     for (auto pUserInfo : pGameDatabase->mUserInfoList) {
       pUserInfo->SetTankPos(&tankPosMap);
     }
     pGameDatabase->SetLastFrameTime(timeNow);
-    pGameDatabase->unlock();
+
+    pGameDatabase->unlock(); /* ---------------------------------------------------------
+                              */
+    /* 临界区结束 */
 
     /* 每 15ms 重绘一次 */
     SysUtils::Sleep(GAME_DATABASE_PHISICAL_FRAME_PERIOD);
