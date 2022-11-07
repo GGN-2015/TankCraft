@@ -430,6 +430,9 @@
     <ClCompile Include="ButtonComponent.cpp">
       <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\TankCraftServer\SysUtils.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

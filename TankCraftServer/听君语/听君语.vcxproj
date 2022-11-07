@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\TankCraftServer\MyMutex.cpp" />
+    <ClCompile Include="..\TankCraftServer\SysUtils.cpp" />
     <ClCompile Include="..\TankCraftServer\TankCraft_NetManager_Component.cpp" />
     <ClCompile Include="..\TankCraftServer\TcpClient.cpp" />
     <ClCompile Include="..\TankCraftServer\TcpData.cpp" />
