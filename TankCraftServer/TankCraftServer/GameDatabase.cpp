@@ -260,7 +260,7 @@ GameDatabase::GameDatabase() {
   mLastFrameTime = Utils::GetClockTime();
 
   mGameDatabaseStatus = GAME_DATABASE_RUN;
-  mGameGraph.SetSize(16, 16, 0.4);
+  mGameGraph.SetSize(8, 8, 0.3);
 
   /* 启动物理引擎渲染线程 */
   pGameDatabasePhysicalEngineThread =

@@ -44,9 +44,6 @@ void LoginRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)
             pLoginMessage->SetStatus(LOGIN_STATUS_NAME_DUPLICATE); // 2
         }
 
-#ifdef GAME_DATABASE_DEBUG
-        
-#endif
         /* 反馈消息加入反馈队列 */
         tb->DumpMessage(pLoginMessage);
 

@@ -6,6 +6,7 @@
 #include "GameDatabase.h"
 #include "GameGraph.h"
 #include "GameTcpServer.h"
+#include "SysUtils.h"
 #include "TankCraft_NetManager_Component.h"
 #include "TcpClient.h"
 #include "TcpData.h"
@@ -15,16 +16,25 @@
 
 int main() {
   /* 初始化随机种子 */
-  srand((unsigned int)time(NULL));
+  SysUtils::SRand();
 
   // TestTcpNetManager();
   // TestGameTcpServer();
-  // TestUtils();
+  TestUtils();
 }
 
 void TestUtils() {
-  char buf[] = {0, 0, 120, 65};
-  std::cout << Utils::GetFloatFromBuffer(buf, 0) << std::endl;
+  double ans = 0, tmp;
+  int N = 1e6;
+  double mx = 0;
+  double mn = 1;
+  for (int i = 1; i <= N; i += 1) {
+    ans += tmp = Utils::GetRandomDouble();
+    mx = max(mx, tmp);
+    mn = min(mn, tmp);
+  }
+  std::cout << "Ave = " << ans / N << ", Max = " << mx << ", Min = " << mn
+            << std::endl;
 }
 
 void TestTcpServer() {

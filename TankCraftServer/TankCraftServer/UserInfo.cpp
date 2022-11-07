@@ -130,7 +130,7 @@ TankPos::TankPos(const TankPos& nTankPos) {
 void TankPos::RandomPosition(int mHeight, int mWidth) {
   posX = (Utils::GetRandLongLong() % mWidth) + 0.5; /* 随机位置 */
   posY = (Utils::GetRandLongLong() % mHeight) + 0.5;
-  dirR = Utils::GetRandomDouble() * 2 * acos(-1.0); /* 随机方向 */
+  dirR = Utils::GetRandomDouble() * Utils::Get2PI(); /* 随机方向 */
 }
 
 void TankPos::SetPosByAnotherTankPos(const TankPos* pTankPos) {
