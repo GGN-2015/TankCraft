@@ -25,7 +25,7 @@ class Text_RenderComponent : public RenderComponent {
  public:
   void SetText(const std::wstring &text);
   void SetWH(const Vector2 &WH);
-  void SetFontSize(const uint &size);
+  void SetFontSize(const Float &size);
   void SetFontWidth(const DWRITE_FONT_WEIGHT &width);
   void SetColor(const Vector4 &color);
 

@@ -102,6 +102,12 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
         听君语::Get().GetInputManager()->OnKeyDown(static_cast<byte>(param1));
       break;
 
+    //-----窗口接收按键抬起消息-----
+    case WM_SYSKEYUP:
+      if (!(param2 & 0x40000000))
+        听君语::Get().GetInputManager()->OnKeyUp(static_cast<byte>(param1));
+      break;
+
       //-----定时器刷新窗口-----
     case WM_TIMER:
       听君语::Get().Update();

@@ -11,6 +11,8 @@
 
 namespace Xn {
 
+class Text_RenderComponent;
+
 namespace TankCraft {
 
 class MapManagerComponent;
@@ -20,6 +22,15 @@ class NetMessageBaseDataBuffer;
 
 // 以x（Vector2::X）为前方向
 class GameManagerComponent : public Component {
+ public:
+  enum class GameState {
+    NoConnect,
+    WaitForConnect,
+    Connected,
+    WaitForLogin,
+    Gaming,
+  };
+
  public:
   GameManagerComponent() : Component(L"TanksFight_GameManagerComponent") {}
 
@@ -43,6 +54,9 @@ class GameManagerComponent : public Component {
                           const uint &users_kill_number_count);
   void SetEntitiesState(const wchar *const &entities_data,
                         const uint &entity_count);
+  void DealLoginMessage(const uint &login_error_code, const uint &user_id);
+
+  void TrySendKeyMessage();
 
  private:
   void AddUser(const uint user_id, const uint &user_name_length,
@@ -53,9 +67,13 @@ class GameManagerComponent : public Component {
   void SetLaser(const wchar *const &laser_data, const uint &point_count);
 
  private:
-  MapManagerComponent *map_manager = nullptr;
-  UserManagerComponent *user_manager = nullptr;
-  NetManager_Component *net_manager = nullptr;
+  GameState game_state_ = GameState::NoConnect;
+
+  Text_RenderComponent *error_message_text = nullptr;
+
+  MapManagerComponent *map_manager_ = nullptr;
+  UserManagerComponent *user_manager_ = nullptr;
+  NetManager_Component *net_manager_ = nullptr;
 };
 
 }  // namespace TankCraft
