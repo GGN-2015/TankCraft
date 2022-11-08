@@ -28,8 +28,8 @@ void ThreadBuffer::DumpTankPosMessage(GameDatabase* Gdb) {
   Gdb->GetTankPosMessage(&tmpTcpData);
 
   /* 向客户端反馈坦克位置信息 */
-  std::cerr << "[DumpTankPosMessage] tmpTcpData.GetLength() = "
-            << tmpTcpData.GetLength() << std::endl;
+  // std::cerr << "[DumpTankPosMessage] tmpTcpData.GetLength() = "
+  //          << tmpTcpData.GetLength() << std::endl;
 
   DumpMessage(new TankPosMessage(&tmpTcpData));
 }

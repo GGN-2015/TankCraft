@@ -19,8 +19,8 @@ int main() {
   SysUtils::SRand();
 
   // TestTcpNetManager();
-  // TestGameTcpServer();
-  TestUtils();
+  TestGameTcpServer();
+  // TestUtils();
 }
 
 void TestUtils() {

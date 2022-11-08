@@ -231,8 +231,9 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
     }
     pGameDatabase->SetLastFrameTime(timeNow);
 
-    pGameDatabase->unlock(); /* ---------------------------------------------------------
-                              */
+    pGameDatabase
+        ->unlock(); /* ---------------------------------------------------------
+                     */
     /* 临界区结束 */
 
     /* 每 15ms 重绘一次 */
@@ -249,6 +250,8 @@ void GameDatabase::SetLastFrameTime(double nFrameTime) {
 void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
   UserInfo* pUserInfo = GetUserInfoByUserId(nUserId);
   if (pUserInfo != nullptr) {
+    std::cerr << "[GameDatabase::SetKeyStatusForUser]" << nUserId << ", "
+              << nKeyId << ", " << status << std::endl;
     pUserInfo->GetKeyStatusObject()->GetStatusById(nKeyId) = status;
   } else {
     assert(false);

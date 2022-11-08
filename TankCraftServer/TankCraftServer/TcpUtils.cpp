@@ -23,7 +23,7 @@ void TcpUtils::GetTcpDataFromSocket(void* socketClient, TcpData* tcpData) {
 }
 
 int TcpUtils::SendTcpDataToSocket(const TcpData* tcpData, void* socketClient) {
-  tcpData->DebugShow("[SendToClient] ");
+  // tcpData->DebugShow("[SendToClient] ");
   int ret =
       send((SOCKET)socketClient, tcpData->GetData(), tcpData->GetLength(), 0);
   return ret;
