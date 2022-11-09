@@ -3,9 +3,6 @@
 #include "KeyStatusRequestParser.h"
 #include "Utils.h"
 
-static KeyStatusRequestParser* registerKeyStatusRequestParser = new
-KeyStatusRequestParser();
-
 KeyStatusRequestParser::KeyStatusRequestParser()
     : IParser(IPARSER_REGISTER_AT_CLINET_PARSER) {}
 

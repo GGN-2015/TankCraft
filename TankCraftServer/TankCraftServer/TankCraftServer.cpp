@@ -25,7 +25,7 @@ int main() {
 
 void TestUtils() {
   double ans = 0, tmp;
-  int N = 1e6;
+  int N = (int)1e6;
   double mx = 0;
   double mn = 1;
   for (int i = 1; i <= N; i += 1) {

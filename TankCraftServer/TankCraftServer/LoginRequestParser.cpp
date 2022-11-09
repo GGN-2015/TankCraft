@@ -6,9 +6,6 @@
 #include "TcpData.h"
 #include "Utils.h"
 
-/* 注册到全局解析器表 */
-LoginRequestParser* registerParser = new LoginRequestParser;
-
 bool LoginRequestParser::CheckAvailableToParse(const TcpData* pTcpData, int pos)
 {
     return pTcpData->GetUnsignedShortAt(pos) == REQUEST_TYPE_LOGIN_REQUEST;

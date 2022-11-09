@@ -34,106 +34,115 @@
     <Filter Include="头文件\Interface">
       <UniqueIdentifier>{7ddab8d0-5445-42a6-9ef6-04ead911f6f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\实现">
+      <UniqueIdentifier>{97d20873-eacd-460f-b9cf-9f19c34f2161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\拓展">
+      <UniqueIdentifier>{dc417fc0-58f5-411d-bf78-01e99a9765d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TcpServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="TcpData.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MyMutex.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="TcpClient.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="TcpUtils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTcpServer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="DataParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="IParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="IMessage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PingParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ThreadBuffer.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\实现</Filter>
     </ClCompile>
     <ClCompile Include="GameDatabase.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PingMessage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInfo.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginRequestParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginRequest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="LoginMessage.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\实现</Filter>
     </ClCompile>
     <ClCompile Include="GameGraph.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\实现</Filter>
     </ClCompile>
-    <ClCompile Include="TankCraft_NetManager_Component.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="GameTcpServer.cpp">
+      <Filter>源文件\实现</Filter>
     </ClCompile>
-    <ClCompile Include="TankCraftServer.cpp">
-      <Filter>头文件</Filter>
+    <ClCompile Include="IMessage.cpp">
+      <Filter>源文件\实现</Filter>
     </ClCompile>
-    <ClCompile Include="UnionFindSet.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MapRequestParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MapRequest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MapMessage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInfoRequest.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInfoMessage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInfoRequestParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="TankPosMessage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SysUtils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyStatusRequestParser.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="IParser.cpp">
+      <Filter>源文件\实现</Filter>
     </ClCompile>
     <ClCompile Include="KeyStatusRequest.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyStatusRequestParser.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginMessage.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRequest.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginRequestParser.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="MapMessage.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="MapRequest.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="MapRequestParser.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="MyMutex.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="PingMessage.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="PingParser.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="SysUtils.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraft_NetManager_Component.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="TankPosMessage.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpClient.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpData.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpServer.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpUtils.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadBuffer.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="UnionFindSet.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfoMessage.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfoRequest.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfoRequestParser.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>源文件\实现</Filter>
     </ClCompile>
     <ClCompile Include="WallPos.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraftServer.cpp">
+      <Filter>源文件\拓展</Filter>
+    </ClCompile>
+    <ClCompile Include="ParserRegister.cpp">
+      <Filter>源文件\拓展</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="WallPos.h">
       <Filter>头文件\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="ParserRegister.h">
+      <Filter>头文件\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,8 +2,6 @@
 #include "UserInfoRequestParser.h"
 #include "Utils.h"
 
-static UserInfoRequestParser* registerUserInfoRequestParser = new UserInfoRequestParser;
-
 UserInfoRequestParser::UserInfoRequestParser(): IParser(IPARSER_REGISTER_AT_CLINET_PARSER)
 {
 }

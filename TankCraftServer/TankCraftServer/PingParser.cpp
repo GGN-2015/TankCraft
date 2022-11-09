@@ -3,9 +3,6 @@
 #include "PingMessage.h"
 #include "TcpData.h"
 
-/* 这个 Parser 的用途是注册 */
-static PingParser* registerParser = new PingParser;
-
 PingParser::PingParser(): IParser(IPARSER_REGISTER_AT_CLINET_PARSER)
 {
 }

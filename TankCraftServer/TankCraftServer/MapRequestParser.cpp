@@ -4,8 +4,6 @@
 #include "MapRequestParser.h"
 #include "Utils.h"
 
-static MapRequestParser* registerMapReqeustParser = new MapRequestParser;
-
 MapRequestParser::MapRequestParser():IParser(IPARSER_REGISTER_AT_CLINET_PARSER)
 {
 }

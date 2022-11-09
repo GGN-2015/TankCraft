@@ -156,6 +156,7 @@
     <ClCompile Include="MapRequest.cpp" />
     <ClCompile Include="MapRequestParser.cpp" />
     <ClCompile Include="MyMutex.cpp" />
+    <ClCompile Include="ParserRegister.cpp" />
     <ClCompile Include="PingMessage.cpp" />
     <ClCompile Include="PingParser.cpp" />
     <ClCompile Include="SysUtils.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="MapRequest.h" />
     <ClInclude Include="MapRequestParser.h" />
     <ClInclude Include="MyMutex.h" />
+    <ClInclude Include="ParserRegister.h" />
     <ClInclude Include="PingMessage.h" />
     <ClInclude Include="PingParser.h" />
     <ClInclude Include="RequestMessageTypes.h" />
