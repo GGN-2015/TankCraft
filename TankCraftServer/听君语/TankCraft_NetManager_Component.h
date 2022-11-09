@@ -26,30 +26,13 @@ struct NetMessageBaseData {
   wchar_t* data; /* 时间代价可能会比较高 */
 
   NetMessageBaseData() : length(0), data(nullptr){};
+  ~NetMessageBaseData() { FreeData(); }     /* 析构函数 */
   void MoveDataFrom(TcpData* pTcpData);     /* 转移构造 */
   void MoveDataToTcpData(TcpData* tcpData); /* 将数据转移出去 */
+  void FreeData();                          /* 安全地清空数据 */
+  void SetData(wchar_t* nData, int nLen); /* 释放原先的数据，设置新数据 */
 
-  void FreeData() { /* 安全地清空数据 */
-    if (data != nullptr) {
-      delete[] data;
-    }
-    data = nullptr;
-    length = 0;
-  }
-
-  void SetData(wchar_t* nData, int nLen) {
-    FreeData();
-    length = nLen;
-
-    data = new wchar_t[nLen];
-    memcpy(data, nData, sizeof(wchar_t) * nLen);
-  }
-
-  ~NetMessageBaseData() { /* 析构函数 */
-    FreeData();
-  }
-
-  void DebugShow() const;
+  void DebugShow() const; /* 仅在调试时使用 */
 };
 
 /* 数据缓冲区 */
@@ -57,32 +40,10 @@ typedef std::vector<std::unique_ptr<NetMessageBaseData>> NetMessageBaseDataList;
 
 class NetMessageBaseDataBuffer {
  public:
-  // 当前数据缓冲是否为空
-  inline bool isEmpty() const { return datas_.empty(); }
-
-  // 加入一个数据
-  inline void Push(std::unique_ptr<NetMessageBaseData> data) {
-    datas_.push(std::move(data));
-  }
-
-  // 取出一个数据
-  inline std::unique_ptr<NetMessageBaseData> Pop() {
-    if (isEmpty()) {
-      return nullptr;
-    } else {
-      std::unique_ptr<NetMessageBaseData> data = std::move(datas_.front());
-      datas_.pop();
-      return data;
-    }
-  }
-
-  /* 清空整个 BufferArray */
-  inline void Clear() {
-    while (!isEmpty()) {
-      Pop();
-    }
-  }
-
+  bool isEmpty() const;  // 当前数据缓冲是否为空
+  void Push(std::unique_ptr<NetMessageBaseData> data);  // 加入一个数据
+  std::unique_ptr<NetMessageBaseData> Pop();            // 取出一个数据
+  void Clear(); /* 清空整个 BufferArray */
  private:
   std::queue<std::unique_ptr<NetMessageBaseData>> datas_;
 };
@@ -96,12 +57,7 @@ class NetManager_Component : public Component {
   static const int NET_MANAGER_ONLINE = (1);
 
  public:
-  NetManager_Component()
-      : Component(L"NetManager_Component"),
-        mConnectStatus(NET_MANAGER_OFFLINE) {
-    from_server_datas_buffer_index_ = 0;
-    from_client_datas_buffer_index_ = 0;
-  }
+  NetManager_Component();
 
   // 通过 Component 继承
   virtual void OnStart() override;

@@ -15,11 +15,12 @@ class ButtonComponent : public Component {
   enum class ButtonState { idel, nopressed, pressed };
 
  public:
-  ButtonComponent(const Vector2& click_area_WH,
+  ButtonComponent(const Vector2& click_area_WH, const Float& font_size,
                   std::function<void()> when_clicked, const Vector4& idle_color,
                   const Vector4& clicked_color)
       : Component(L"ButtonComponent"),
         click_area_WH_(click_area_WH),
+        font_size_(font_size),
         when_clicked_(when_clicked),
         idle_color_(idle_color),
         clicked_color_(clicked_color) {}
@@ -40,6 +41,7 @@ class ButtonComponent : public Component {
 
   std::wstring text_ = L"°´Å¥";
   Vector2 click_area_WH_;
+  Float font_size_;
 
   Vector4 idle_color_;
   Vector4 clicked_color_;

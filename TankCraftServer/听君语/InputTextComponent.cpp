@@ -14,8 +14,7 @@ void Xn::InputTextComponent::OnStart() {
           ->CreateXnObject(Vector2::ZERO, GetXnObject())
           ->SetRenderComponent(std::make_unique<Text_RenderComponent>(
               Vector2::ZERO, default_text_,
-              Vector2(input_area_WH_.x, input_area_WH_.y),
-              input_area_WH_.y * 0.8f));
+              Vector2(input_area_WH_.x, input_area_WH_.y), font_size_));
   text_render_component_->SetColor(Vector4(0.f, 0.f, 0.f, 1));
 
   background_render_component =

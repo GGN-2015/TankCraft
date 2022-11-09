@@ -12,33 +12,16 @@
 void Xn::TankCraft::LoginComponent::OnStart() {
   background_render_component =
       (Square_RenderComponent*)GetXnObject()->SetRenderComponent(
-          std::make_unique<Square_RenderComponent>(Vector4(0.9f, 0, 0, 1)));
+          std::make_unique<Square_RenderComponent>(
+              Vector4(255 / 255.f, 122 / 255.f, 164 / 255.f, 1)));
+  background_render_component->rect_ = {10, 10, 190, 220};
 
-  name_input_layout =
-      (InputTextComponent*)Ìý¾ýÓï::Get()
-          .GetObjectManager()
-          ->CreateXnObject(Vector2::ZERO, GetXnObject())
-          ->AddComponent(std::make_unique<InputTextComponent>(
-              Vector2(400, 30),
-              [this]() {
-                auto port_text = name_input_layout->GetText();
-                std::wstring new_port_text = L"";
-                for (auto c : port_text) {
-                  new_port_text.push_back(c);
-                  if (new_port_text.size() >= 16) break;
-                }
-                name_input_layout->SetText(new_port_text);
-              },
-              Vector4(191 / 255.f, 255 / 255.f, 220 / 255.f, 0.7f),
-              Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));
-  name_input_layout->GetXnObject()->pos_ = {100, 100};
-  name_input_layout->SetDefaultShowText(L"ÊäÈëÄãµÄÃû×Ö");
   ipv4_input_layout =
       (InputTextComponent*)Ìý¾ýÓï::Get()
           .GetObjectManager()
-          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->CreateXnObject(Vector2(18, 25), GetXnObject())
           ->AddComponent(std::make_unique<InputTextComponent>(
-              Vector2(300, 30),
+              Vector2(164, 30), 18,
               [this]() {
                 auto port_text = ipv4_input_layout->GetText();
                 std::wstring new_port_text = L"";
@@ -52,14 +35,13 @@ void Xn::TankCraft::LoginComponent::OnStart() {
               },
               Vector4(191 / 255.f, 255 / 255.f, 220 / 255.f, 0.7f),
               Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));
-  ipv4_input_layout->GetXnObject()->pos_ = {100, 200};
-  ipv4_input_layout->SetDefaultShowText(L"ÊäÈë·þÎñÆ÷IP£¨IPV4£©");
+  ipv4_input_layout->SetDefaultShowText(L"·þÎñÆ÷IP");
   port_input_layout =
       (InputTextComponent*)Ìý¾ýÓï::Get()
           .GetObjectManager()
-          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->CreateXnObject(Vector2(70, 60), GetXnObject())
           ->AddComponent(std::make_unique<InputTextComponent>(
-              Vector2(100, 30),
+              Vector2(60, 20), 17,
               [this]() {
                 auto port_text = port_input_layout->GetText();
                 std::wstring new_port_text = L"";
@@ -73,33 +55,51 @@ void Xn::TankCraft::LoginComponent::OnStart() {
               },
               Vector4(191 / 255.f, 255 / 255.f, 220 / 255.f, 0.8f),
               Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));
-  port_input_layout->GetXnObject()->pos_ = {400, 200};
-  port_input_layout->SetDefaultShowText(L"ÊäÈë·þÎñÆ÷Port");
+  port_input_layout->SetDefaultShowText(L"¶Ë¿ÚºÅ");
 
   connect_button =
       (ButtonComponent*)Ìý¾ýÓï::Get()
           .GetObjectManager()
-          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->CreateXnObject(Vector2(25, 85), GetXnObject())
           ->AddComponent(std::make_unique<ButtonComponent>(
-              Vector2(100, 50),
+              Vector2(150, 26), 22,
               [this]() {
                 game_manager_->ConnectToServer(ipv4_input_layout->GetText(),
                                                port_input_layout->GetText());
               },
               Vector4(255 / 255.f, 255 / 255.f, 220 / 255.f, 0.7f),
               Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));
-  connect_button->GetXnObject()->pos_ = {300, 300};
+  connect_button->SetText(L"Á¬½Ó·þÎñÆ÷");
+
+  name_input_layout =
+      (InputTextComponent*)Ìý¾ýÓï::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2(15, 120), GetXnObject())
+          ->AddComponent(std::make_unique<InputTextComponent>(
+              Vector2(170, 65), 20,
+              [this]() {
+                auto port_text = name_input_layout->GetText();
+                std::wstring new_port_text = L"";
+                for (auto c : port_text) {
+                  new_port_text.push_back(c);
+                  if (new_port_text.size() >= 16) break;
+                }
+                name_input_layout->SetText(new_port_text);
+              },
+              Vector4(191 / 255.f, 255 / 255.f, 220 / 255.f, 0.7f),
+              Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));
+  name_input_layout->SetDefaultShowText(L"Ì¹¿ËÃû");
 
   login_button =
       (ButtonComponent*)Ìý¾ýÓï::Get()
           .GetObjectManager()
-          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->CreateXnObject(Vector2(25, 190), GetXnObject())
           ->AddComponent(std::make_unique<ButtonComponent>(
-              Vector2(100, 50),
+              Vector2(150, 26), 22,
               [this]() { game_manager_->Login(name_input_layout->GetText()); },
               Vector4(255 / 255.f, 255 / 255.f, 220 / 255.f, 0.7f),
               Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));
-  login_button->GetXnObject()->pos_ = {500, 300};
+  login_button->SetText(L"µÇÂ¼");
 }
 
 void Xn::TankCraft::LoginComponent::OnUpdate() {}

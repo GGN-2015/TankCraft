@@ -12,14 +12,15 @@ class Square_RenderComponent;
 
 class InputTextComponent : public Component {
  public:
-  InputTextComponent(const Vector2& input_area_WH,
+  InputTextComponent(const Vector2& input_area_WH, const Float& font_size,
                      std::function<void()> when_end_input,
                      const Vector4& idle_color, const Vector4& inputing_color)
       : Component(L"InputTextComponent"),
         input_area_WH_(input_area_WH),
         when_end_input_(when_end_input),
         idle_color_(idle_color),
-        inputing_color_(inputing_color) {}
+        inputing_color_(inputing_color),
+        font_size_(font_size) {}
 
   virtual void OnStart() override;
   virtual void OnUpdate() override;
@@ -43,6 +44,7 @@ class InputTextComponent : public Component {
   std::wstring text_;
   std::wstring default_text_ = L"«Î ‰»Î";
   Vector2 input_area_WH_;
+  Float font_size_;
 
   Vector4 idle_color_;
   Vector4 inputing_color_;

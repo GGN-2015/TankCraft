@@ -12,14 +12,6 @@
 #include "Ìý¾ýÓï.h"
 
 void Xn::TankCraft::GameManagerComponent::OnStart() {
-  error_message_text =
-      (Text_RenderComponent*)Ìý¾ýÓï::Get()
-          .GetObjectManager()
-          ->CreateXnObject(Vector2::ZERO, GetXnObject())
-          ->SetRenderComponent(std::make_unique<Text_RenderComponent>(
-              Vector2(50, 20), L"DebugMessage", Vector2(700, 300), 10.f));
-  error_message_text->SetColor(Vector4(0, 0, 0, 1));
-
   game_state_ = GameState::NoConnect;
 
   user_manager_ = (UserManagerComponent*)GetXnObject()->AddComponent(
@@ -35,6 +27,14 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
       .GetObjectManager()
       ->CreateXnObject(Vector2::ZERO, GetXnObject())
       ->AddComponent(std::make_unique<LoginComponent>(this));
+
+  error_message_text =
+      (Text_RenderComponent*)Ìý¾ýÓï::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->SetRenderComponent(std::make_unique<Text_RenderComponent>(
+              Vector2(30, 300), L"DebugMessage", Vector2(700, 300), 12.f));
+  error_message_text->SetColor(Vector4(0, 0, 0, 1));
 }
 void Xn::TankCraft::GameManagerComponent::OnUpdate() {
   if (const auto buffer = net_manager_->TryGetServerToClientMessageBuffer()) {
@@ -280,7 +280,7 @@ void Xn::TankCraft::GameManagerComponent::SetTanksState(
     const Vector2 tank_pos(the_pos.x, the_pos.y);
     tank_data_index += 4;
 
-    const auto tank_rotation = *(Float*)&tanks_data[tank_data_index];
+    const auto tank_rotation = 180.f * *(Float*)&tanks_data[tank_data_index];
     tank_data_index += 2;
 
     const auto tank_state = *(uint16*)&tanks_data[tank_data_index];
@@ -432,7 +432,7 @@ void Xn::TankCraft::GameManagerComponent::TrySendKeyMessage() {
       s.push_back(*(wchar*)&length);
       s.push_back(*(wchar*)&the_key);
 
-      data->SetData(s.data(), s.size());
+      data->SetData(s.data(), (int)s.size());
       buffer->Push(std::move(data));
     }
   }

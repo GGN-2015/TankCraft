@@ -15,6 +15,8 @@
 using namespace Xn;
 using namespace TankCraft;
 
+#define IS_TANK_LERP_MOVE 0
+
 void TankComponent::OnStart() {
   render_component_ =
       (Circular_RenderComponent *)GetXnObject()->SetRenderComponent(
@@ -27,7 +29,7 @@ void TankComponent::OnStart() {
   // ÉèÖÃ°ë¾¶
   SetRadio(0.3f);
 
-  SetLerpTime( 0.1f);
+  SetLerpTime(0.1f);
 
   // ÉèÖÃÅÚ¹ÜÎ»ÖÃ
   gun_barrel_render_component_ =
@@ -44,10 +46,13 @@ void TankComponent::OnStart() {
 #endif  // Test
 }
 void TankComponent::OnUpdate() {
+#if IS_TANK_LERP_MOVE
   though_t_ += Ìı¾ıÓï::Get().GetDeltaTime();
   auto t = though_t_.ScaleFromTo(0, lerp_time_, 0, 1);
   GetXnObject()->pos_ = Vector2::Lerp(start_pos_, target_pos_, t);
   GetXnObject()->rotation_ = Float::Lerp(start_rotation_, target_rotation_, t);
+#endif  // IS_TANK_LERP_MOVE
+
 #if _DEBUG && 0
   if (though_t_ >= web_delay_time_) {
     auto new_target_pos_ =
@@ -68,15 +73,25 @@ void TankComponent::SetLerpTime(const Float &lerp_time) {
   lerp_time_ = lerp_time;
 }
 void TankComponent::SetPos(const Vector2 &pos, const Float &rotation) {
+#if IS_TANK_LERP_MOVE
   GetXnObject()->pos_ = start_pos_ = target_pos_ = pos;
   GetXnObject()->rotation_ = start_rotation_ = target_rotation_ = rotation;
+#else
+  GetXnObject()->pos_ = pos;
+  GetXnObject()->rotation_ = rotation;
+#endif  // IS_TANK_LERP_MOVE
 }
 void TankComponent::SetTargetPos(const Vector2 &pos, const Float &rotation) {
+#if IS_TANK_LERP_MOVE
   though_t_ = 0;
   start_pos_ = GetXnObject()->pos_;
   start_rotation_ = GetXnObject()->rotation_;
   target_pos_ = pos;
   target_rotation_ = rotation;
+#else
+  GetXnObject()->pos_ = pos;
+  GetXnObject()->rotation_ = rotation;
+#endif  // IS_TANK_LERP_MOVE
 }
 void TankComponent::SetRadio(const Float &radius) {
   render_component_->radius_ = radius;
