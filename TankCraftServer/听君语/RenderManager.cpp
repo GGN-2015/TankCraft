@@ -186,6 +186,8 @@ uint Xn::RenderManager::GetWidth() { return width_; }
 
 void Xn::RenderManager::SetWidthAndHeight(const uint &width,
                                           const uint &height) {
+  if (width == 0 || height == 0) return;
+
   width_ = width;
   height_ = height;
   render_rect_stack_.pop();

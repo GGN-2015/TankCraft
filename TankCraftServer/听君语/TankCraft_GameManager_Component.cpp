@@ -417,15 +417,14 @@ void Xn::TankCraft::GameManagerComponent::TrySendKeyMessage() {
       const uint the_key = virtual_key | (key_state << 8);
 
       {
-        std::wstring s = L"发送：按键消息：";
-        s += L"按键【";
-        s += std::to_wstring(virtual_key);
-        s += L"】";
-        s += L"状态【";
-        s += std::to_wstring(key_state);
-        s += L"】";
-        error_message_text->SetText(L"登陆时服务器发生了意料之外的错误");
-        return;
+        std::wstring mes = L"发送：按键消息：";
+        mes += L"按键【";
+        mes += std::to_wstring(virtual_key);
+        mes += L"】";
+        mes += L"状态【";
+        mes += std::to_wstring(key_state);
+        mes += L"】";
+        error_message_text->SetText(mes);
       }
 
       std::wstring s = L"";

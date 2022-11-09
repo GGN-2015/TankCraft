@@ -13,6 +13,25 @@
 
 using namespace Xn;
 
+union WmKeyParam2 {
+  int64 wm_key_param2;
+  struct {
+    uint click_count : 16;  // 按下次数
+    uint scan_code : 8;     // 扫描码
+    uint extra_info : 1;    // 扩展键
+    uint reserved : 4;      // 未使用
+    // 指定上下文代码。对于WM_KEYDOWN和WM_KEYUP消息，该值始终为0
+    uint context_code : 1;
+    // 指定之前的键状态。
+    // 对于WM_KEYDOWN消息，如果在消息发送之前，键被按下，则该值是1，
+    // 否则该值是0。对于WM_KEYUP消息，该值始终为1。
+    uint last_key_status : 1;
+    // 指定过渡状态。对于WM_KEYDOWN消息，该值始终为0;
+    // 对于WM_KEYUP消息，该值始终为1;
+    uint transition_state : 1;
+  };
+};
+
 class PlatformWindowCppGetInterface {
  public:
   static void SetPos(PlatformManager *that, int x, int y) {
@@ -72,7 +91,8 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
       const int height = client_rect.bottom - client_rect.top;
       PlatformWindowCppGetInterface::SetWH(platform_window, width, height);
 
-      听君语::Get().OnSizeChanged(width, height, false);
+      if (width > 0 && height > 0)
+        听君语::Get().OnSizeChanged(width, height, false);
     } break;
 
     //-----窗口失去焦点-----
@@ -81,15 +101,21 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
       break;
 
     //-----窗口接收按键按下消息-----
-    case WM_KEYDOWN:
-      if (!(param2 & 0x40000000))
-        听君语::Get().GetInputManager()->OnKeyDown(static_cast<byte>(param1));
-      break;
+    case WM_KEYDOWN: {
+      WmKeyParam2 wm_key_param2 = {.wm_key_param2 = param2};
+      if (!wm_key_param2.last_key_status) {
+        byte key_code = static_cast<byte>(param1);
+        if (param1 == 0xE5) return 0;
+        听君语::Get().GetInputManager()->OnKeyDown(key_code);
+      }
+    } break;
 
     //-----窗口接收按键抬起消息-----
-    case WM_KEYUP:
-      听君语::Get().GetInputManager()->OnKeyUp(static_cast<byte>(param1));
-      break;
+    case WM_KEYUP: {
+      WmKeyParam2 wm_key_param2 = {.wm_key_param2 = param2};
+      if (wm_key_param2.last_key_status)
+        听君语::Get().GetInputManager()->OnKeyUp(static_cast<byte>(param1));
+    } break;
 
     //-----窗口接收字符消息-----
     case WM_CHAR:
@@ -97,16 +123,21 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
       break;
 
     //-----窗口接收按键按下消息-----
-    case WM_SYSKEYDOWN:
-      if (!(param2 & 0x40000000))
-        听君语::Get().GetInputManager()->OnKeyDown(static_cast<byte>(param1));
-      break;
+    case WM_SYSKEYDOWN: {
+      WmKeyParam2 wm_key_param2 = {.wm_key_param2 = param2};
+      if (!wm_key_param2.last_key_status) {
+        byte key_code = static_cast<byte>(param1);
+        if (param1 == 0xE5) return 0;
+        听君语::Get().GetInputManager()->OnKeyDown(key_code);
+      }
+    } break;
 
     //-----窗口接收按键抬起消息-----
-    case WM_SYSKEYUP:
-      if (!(param2 & 0x40000000))
+    case WM_SYSKEYUP: {
+      WmKeyParam2 wm_key_param2 = {.wm_key_param2 = param2};
+      if (wm_key_param2.last_key_status)
         听君语::Get().GetInputManager()->OnKeyUp(static_cast<byte>(param1));
-      break;
+    } break;
 
       //-----定时器刷新窗口-----
     case WM_TIMER:
