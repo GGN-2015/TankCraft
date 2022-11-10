@@ -19,7 +19,7 @@
 #define GAME_DATABASE_STOP (0)
 
 #define TANK_SPEED (1.0)  /* 每秒 1 格 */
-#define TANK_ROTATE_SPEED (Utils::Get2PI()) /* 每秒一圈 */
+#define TANK_ROTATE_SPEED (Utils::Get2PI() / 2.0) /* 每秒 0.5 圈 */
 #define TANK_RADIUS (0.3) /* 坦克半径 */
 
 class UserInfo;

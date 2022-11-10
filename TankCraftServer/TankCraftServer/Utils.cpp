@@ -115,3 +115,8 @@ float Utils::GetFloatFromBuffer(const char* buf, int pos) {
 }
 
 double Utils::Get2PI() { return 2 * acos(-1.0); }
+
+void Utils::UnifyDirection(double* dirD) {
+  while (*dirD >= Get2PI()) *dirD -= Get2PI();
+  while (*dirD < 0) *dirD += Get2PI();
+}

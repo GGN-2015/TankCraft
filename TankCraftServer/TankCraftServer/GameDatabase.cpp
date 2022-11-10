@@ -201,9 +201,17 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
 
       /* 处理旋转事件 */
       if ((keyStatusMap.find(tankUserId))->second.TurnLeft()) {
-        newTankPos.dirR -= Dr;
-      } else if ((keyStatusMap.find(tankUserId))->second.TurnRight()) {
         newTankPos.dirR += Dr;
+      } else if ((keyStatusMap.find(tankUserId))->second.TurnRight()) {
+        newTankPos.dirR -= Dr;
+      }
+      Utils::UnifyDirection(&newTankPos.dirR);
+
+      /* 角度改变时输出 */
+      if (fabs(newTankPos.dirR - oldTankPos.dirR) > 1e-5) {
+        std::cerr << " newTankPos.dirR = "
+                  << newTankPos.dirR / Utils::Get2PI() * 360 << " deg "
+                  << std::endl;
       }
 
       /* 如果坦克出界，将位置还原为上一次的位置 */

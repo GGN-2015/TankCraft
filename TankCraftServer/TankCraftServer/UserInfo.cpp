@@ -169,6 +169,8 @@ bool& KeyStatus::GetStatusById(int mStatusId) {
     case 4:
       return backward;
   }
+
+  assert(false);
 }
 
 bool KeyStatus::GetStatusById(int mStatusId) const {

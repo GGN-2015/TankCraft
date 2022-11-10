@@ -29,4 +29,5 @@ class Utils {
   static void DumpFloatToBuffer(char* buf, int pos, float fVal);
   static float GetFloatFromBuffer(const char* buf, int pos);
   static double Get2PI();
+  static void UnifyDirection(double* dirD); /* 保证角度在 0 ~ 2PI 内 */
 };
