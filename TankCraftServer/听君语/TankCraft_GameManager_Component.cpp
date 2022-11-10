@@ -280,7 +280,8 @@ void Xn::TankCraft::GameManagerComponent::SetTanksState(
     const Vector2 tank_pos(the_pos.x, the_pos.y);
     tank_data_index += 4;
 
-    const auto tank_rotation = 180.f * *(Float*)&tanks_data[tank_data_index];
+    const auto tank_rotation =
+        180.f * *(Float*)&tanks_data[tank_data_index] / Float::PI;
     tank_data_index += 2;
 
     const auto tank_state = *(uint16*)&tanks_data[tank_data_index];
