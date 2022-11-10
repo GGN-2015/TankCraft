@@ -1,6 +1,7 @@
 #include "WallPos.h"
 
 #include <algorithm>
+#include <iostream>
 
 void WallPos::SetFrom(PointPos nPos) { mFromPos = nPos; }
 
@@ -23,6 +24,11 @@ PointPos PointPos::Unit(PointPos nPos) {
   nPos.posX /= len;
   nPos.posY /= len;
   return nPos;
+}
+
+void WallPos::DebugOutput() const {
+  std::cerr << "From(" << mFromPos.posX << ", " << mFromPos.posY << "), To("
+            << mToPos.posX << ", " << mToPos.posY << ")" << std::endl;
 }
 
 bool WallPos::Crash(double posX, double posY, double r) const {

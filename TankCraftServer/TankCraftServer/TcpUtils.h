@@ -14,7 +14,7 @@
 #define TCP_SERVER_FAIL (1)        /* 服务器启动失败 */
 #define TCP_SERVER_MAX_LISTEN (10) /* TCP 服务器的最大监听数 */
 
-#define CLIENT_THREAD_SLEEP_TIME (60) /* 客户端发送消息的周期 ms for windows \
+#define CLIENT_THREAD_SLEEP_TIME (10) /* 客户端发送消息的周期 ms for windows \
                                        */
 
 class TcpData;

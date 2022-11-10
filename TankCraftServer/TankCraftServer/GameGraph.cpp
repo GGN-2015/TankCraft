@@ -195,11 +195,12 @@ void GameGraph::GetNeiborhoodWall(WallPosList* pWallPosList, int gridX,
                                   int gridY) const {
   pWallPosList->clear();
 
-  for (int i = -1; i <= 1; i += 1) {
-    for (int j = -1; j <= 1; j += 1) {
+  for (int i = -2; i <= 2; i += 1) {
+    for (int j = -2; j <= 2; j += 1) {
       int nx = gridX + i;
       int ny = gridY + j;
       if (InGraphGrid(nx, ny)) { /* 如果在地图里，就将他的边加入 vector 中 */
+        // std::cerr << "nx = " << nx << ", ny = " << ny << std::endl;
         WallPos nWallPos;
         nWallPos.SetFrom({(double)ny, (double)nx});
 
@@ -215,6 +216,11 @@ void GameGraph::GetNeiborhoodWall(WallPosList* pWallPosList, int gridX,
           pWallPosList->push_back(nWallPos);
         }
       }
+
+      /*for (auto& Wall : *pWallPosList) {
+        Wall.DebugOutput();
+      }
+      std::cerr << std::endl;*/
     }
   }
 }
@@ -225,6 +231,7 @@ bool GameGraph::CrashWall(double posX, double posY, double r) const {
 
   int gridX = int(posY + eps); /* 获取在地图上所在的坐标 */
   int gridY = int(posX + eps);
+  // std::cerr << "gridX = " << gridX << ", girdY = " << gridY << std::endl;
 
   WallPosList wallPosList;
   GetNeiborhoodWall(&wallPosList, gridX, gridY); /* 获取附近的所有的墙的坐标 */

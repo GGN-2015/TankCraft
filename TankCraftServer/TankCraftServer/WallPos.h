@@ -25,6 +25,7 @@ class WallPos {
 
   /* 检测墙是否和坦克相交 */
   bool Crash(double posX, double posY, double r) const;
+  void DebugOutput() const;
 
  private:
   double Distance(double posX, double posY) const; /* 计算点到基线的距离 */

@@ -201,18 +201,18 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
 
       /* 处理旋转事件 */
       if ((keyStatusMap.find(tankUserId))->second.TurnLeft()) {
-        newTankPos.dirR += Dr;
-      } else if ((keyStatusMap.find(tankUserId))->second.TurnRight()) {
         newTankPos.dirR -= Dr;
+      } else if ((keyStatusMap.find(tankUserId))->second.TurnRight()) {
+        newTankPos.dirR += Dr;
       }
       Utils::UnifyDirection(&newTankPos.dirR);
 
       /* 角度改变时输出 */
-      if (fabs(newTankPos.dirR - oldTankPos.dirR) > 1e-5) {
+      /* if (fabs(newTankPos.dirR - oldTankPos.dirR) > 1e-5) {
         std::cerr << " newTankPos.dirR = "
                   << newTankPos.dirR / Utils::Get2PI() * 360 << " deg "
                   << std::endl;
-      }
+      }*/
 
       /* 如果坦克出界，将位置还原为上一次的位置 */
       if (!pGameDatabase->mGameGraph.InGraph(newTankPos.posX, newTankPos.posY,
@@ -244,7 +244,7 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
                      */
     /* 临界区结束 */
 
-    /* 每 15ms 重绘一次 */
+    /* 每 5ms 重绘一次 */
     SysUtils::Sleep(GAME_DATABASE_PHISICAL_FRAME_PERIOD);
   }
 }
@@ -260,7 +260,7 @@ void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
   if (pUserInfo != nullptr) {
     std::cerr << "[GameDatabase::SetKeyStatusForUser]" << nUserId << ", "
               << nKeyId << ", " << status << std::endl;
-    pUserInfo->GetKeyStatusObject()->GetStatusById(nKeyId) = status;
+    pUserInfo->GetKeyStatusObject()->GetStatusById(nKeyId) = !status; /* 我写反了 */
   } else {
     assert(false);
   }
