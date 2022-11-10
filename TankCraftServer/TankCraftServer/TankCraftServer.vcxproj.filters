@@ -135,9 +135,6 @@
     <ClCompile Include="Utils.cpp">
       <Filter>源文件\实现</Filter>
     </ClCompile>
-    <ClCompile Include="WallPos.cpp">
-      <Filter>源文件\实现</Filter>
-    </ClCompile>
     <ClCompile Include="TankCraftServer.cpp">
       <Filter>源文件\拓展</Filter>
     </ClCompile>
@@ -247,9 +244,6 @@
     </ClInclude>
     <ClInclude Include="KeyStatusRequest.h">
       <Filter>头文件\Parser</Filter>
-    </ClInclude>
-    <ClInclude Include="WallPos.h">
-      <Filter>头文件\GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="ParserRegister.h">
       <Filter>头文件\Parser</Filter>

@@ -21,6 +21,7 @@
 #define TANK_SPEED (1.0)  /* 每秒 1 格 */
 #define TANK_ROTATE_SPEED (Utils::Get2PI() / 2.0) /* 每秒 0.5 圈 */
 #define TANK_RADIUS (0.3) /* 坦克半径 */
+#define WALL_WIDTH (0.05)                          /* 墙的宽度的一半 */
 
 class UserInfo;
 class TcpData;

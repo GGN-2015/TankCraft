@@ -174,7 +174,6 @@
     <ClCompile Include="UserInfoRequest.cpp" />
     <ClCompile Include="UserInfoRequestParser.cpp" />
     <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="WallPos.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Component.h" />
@@ -212,7 +211,6 @@
     <ClInclude Include="UserInfoRequest.h" />
     <ClInclude Include="UserInfoRequestParser.h" />
     <ClInclude Include="Utils.h" />
-    <ClInclude Include="WallPos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

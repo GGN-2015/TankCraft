@@ -8,7 +8,6 @@
 
 #include "UnionFindSet.h"
 #include "Utils.h"
-#include "WallPos.h"
 
 GameGraph::GameGraph() {
   mHeight = mWidth = 0;
@@ -191,57 +190,52 @@ bool GameGraph::InGraph(double posX, double posY, double r) const {
          posX + r <= mWidth;
 }
 
-void GameGraph::GetNeiborhoodWall(WallPosList* pWallPosList, int gridX,
-                                  int gridY) const {
-  pWallPosList->clear();
+void GameGraph::BoxFit(double* posX, double* posY, double r) const {
+  const double eps = 1e-5;
+  int gridX = int(*posY + eps);
+  int gridY = int(*posX + eps);
 
-  for (int i = -2; i <= 2; i += 1) {
-    for (int j = -2; j <= 2; j += 1) {
-      int nx = gridX + i;
-      int ny = gridY + j;
-      if (InGraphGrid(nx, ny)) { /* 如果在地图里，就将他的边加入 vector 中 */
-        // std::cerr << "nx = " << nx << ", ny = " << ny << std::endl;
-        WallPos nWallPos;
-        nWallPos.SetFrom({(double)ny, (double)nx});
-
-        /* 左侧的墙面 */
-        if (mGameGraph[nx][ny].hasLeft) {
-          nWallPos.SetTo({(double)ny, (double)nx + 1});
-          pWallPosList->push_back(nWallPos);
-        }
-
-        /* 上侧的墙面 */
-        if (mGameGraph[nx][ny].hasTop) {
-          nWallPos.SetTo({(double)ny + 1, (double)nx});
-          pWallPosList->push_back(nWallPos);
-        }
-      }
-
-      /*for (auto& Wall : *pWallPosList) {
-        Wall.DebugOutput();
-      }
-      std::cerr << std::endl;*/
-    }
+  /* 边界检查 */
+  if (PosHasLeftEdge(gridX, gridY)) {
+    *posX = std::max(*posX, gridY + r);
+  }
+  if (PosHasRightEdge(gridX, gridY)) {
+    *posX = std::min(*posX, gridY + 1 - r);
+  }
+  if (PosHasTopEdge(gridX, gridY)) {
+    *posY = std::max(*posY, gridX + r);
+  }
+  if (PosHasBottomEdge(gridX, gridY)) {
+    *posY = std::min(*posY, gridX + 1 - r);
   }
 }
 
-/* 注意：posX 向右, posY 向下 */
-bool GameGraph::CrashWall(double posX, double posY, double r) const {
-  const double eps = 1e-4;
+bool GameGraph::PosHasTopEdge(int gridX, int gridY) const {
+  if ((mGameGraph[gridX][gridY]).hasTop || !InGraphGrid(gridX - 1, gridY))
+    return true;
+  else
+    return false;
+}
 
-  int gridX = int(posY + eps); /* 获取在地图上所在的坐标 */
-  int gridY = int(posX + eps);
-  // std::cerr << "gridX = " << gridX << ", girdY = " << gridY << std::endl;
+bool GameGraph::PosHasBottomEdge(int gridX, int gridY) const {
+  if (!InGraphGrid(gridX + 1, gridY) || (mGameGraph[gridX + 1][gridY]).hasTop)
+    return true;
+  else
+    return false;
+}
 
-  WallPosList wallPosList;
-  GetNeiborhoodWall(&wallPosList, gridX, gridY); /* 获取附近的所有的墙的坐标 */
+bool GameGraph::PosHasLeftEdge(int gridX, int gridY) const {
+  if (!InGraphGrid(gridX, gridY - 1) || (mGameGraph[gridX][gridY]).hasLeft)
+    return true;
+  else
+    return false;
+}
 
-  for (auto& wall : wallPosList) { /* 枚举所有墙 */
-    if (wall.Crash(posX, posY, r)) {
-      return true;
-    }
-  }
-  return false;
+bool GameGraph::PosHasRightEdge(int gridX, int gridY) const {
+  if (!InGraphGrid(gridX, gridY + 1) || (mGameGraph[gridX][gridY + 1]).hasLeft)
+    return true;
+  else
+    return false;
 }
 
 int GameGraph::GetNodeId(int posX, int posY) const {

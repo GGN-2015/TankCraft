@@ -207,26 +207,10 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
       }
       Utils::UnifyDirection(&newTankPos.dirR);
 
-      /* 角度改变时输出 */
-      /* if (fabs(newTankPos.dirR - oldTankPos.dirR) > 1e-5) {
-        std::cerr << " newTankPos.dirR = "
-                  << newTankPos.dirR / Utils::Get2PI() * 360 << " deg "
-                  << std::endl;
-      }*/
-
-      /* 如果坦克出界，将位置还原为上一次的位置 */
-      if (!pGameDatabase->mGameGraph.InGraph(newTankPos.posX, newTankPos.posY,
-                                             TANK_RADIUS)) {
-        newTankPos.SetPosByAnotherTankPos(&oldTankPos);
-      }
-
-      /* 如果前一时刻没有撞墙，当前时刻撞墙了，那么还原回上次位置 */
-      if (!pGameDatabase->mGameGraph.CrashWall(oldTankPos.posX, oldTankPos.posY,
-                                               TANK_RADIUS) &&
-          pGameDatabase->mGameGraph.CrashWall(newTankPos.posX, newTankPos.posY,
-                                              TANK_RADIUS)) {
-        newTankPos.SetPosByAnotherTankPos(&oldTankPos);
-      }
+      /* 盒子处理 */
+      pGameDatabase->mGameGraph.BoxFit(
+          &newTankPos.posX,
+          &newTankPos.posY, TANK_RADIUS + WALL_WIDTH); /* 保证所在格子的四面墙能约束当前坦克*/
 
       pTankPos.second.SetX(newTankPos.posX); /* 设置坦克的实际位置 */
       pTankPos.second.SetY(newTankPos.posY);

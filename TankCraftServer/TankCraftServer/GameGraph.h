@@ -1,5 +1,4 @@
 #pragma once
-#include "WallPos.h"
 
 #define GAME_GRAPH_MAX_WIDTH (40)
 #define GAME_GRAPH_MAX_HEIGHT (40)
@@ -33,8 +32,19 @@ class GameGraph {
   bool InGraph(double posX, double posY,
                double r) const; /* 判断一个圆是否完全在地图中 */
 
-  bool CrashWall(double posX, double posY, double r) const; /* 检测是否撞墙 */
-  void GetNeiborhoodWall(WallPosList* pWallPosList, int gridX, int gridY) const; /* 获取邻居墙 */
+  void BoxFit(double* posX, double* posY, double r) const; /* 使用边界约束一个坦克 */
+  
+  /* 检查边的存在性 */
+  bool PosHasTopEdge(int gridX, int gridY) const;
+  bool PosHasBottomEdge(int gridX, int gridY) const;
+  bool PosHasLeftEdge(int gridX, int gridY) const;
+  bool PosHasRightEdge(int gridX, int gridY) const;
+
+  /* 检查角的存在性 */
+  bool PosHasTopLeft(int gridX, int gridY) const;
+  bool PosHasTopRight(int gridX, int gridY) const;
+  bool PosHasBottomLeft(int gridX, int gridY) const;
+  bool PosHasBottomRight(int gridX, int gridY) const;
 
  private:
   void GenerateRandMap(double alpha);
