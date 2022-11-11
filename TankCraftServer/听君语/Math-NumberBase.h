@@ -8,6 +8,8 @@
 #include <random>
 #include <string>
 
+#include "typedef.h"
+
 namespace Xn {
 
 namespace XnMath {

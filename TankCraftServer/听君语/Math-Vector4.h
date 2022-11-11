@@ -23,22 +23,46 @@ struct Vector4 {
   Vector4(const Vector3 &vector, const Float &w)
       : x(vector.x), y(vector.y), z(vector.z), w(w) {}
 
+  struct Pos {
+    Pos(const Float &x, const Float &y, const Float &z, const Float &w)
+        : x(x), y(y), z(z), w(w) {}
+
+    Float x, y, z, w;
+  };
+  struct Color {
+    Color(const Float &R, const Float &G, const Float &B, const Float &A)
+        : R(R), G(G), B(B), A(A) {}
+    Color(const Vector3::Color &color, const Float &A = 1)
+        : R(color.R), G(color.G), B(color.B), A(A) {}
+
+    Float R, G, B, A;
+  };
+  struct Rect {
+    Rect(const Float &left, const Float &top, const Float &right,
+         const Float &bottom)
+        : left(left), top(top), right(right), bottom(bottom) {}
+
+    Float left, top, right, bottom;
+
+   public:
+    Vector2::WH GetWH() { return Vector2::WH(right - left, bottom - top); }
+  };
+  struct Floats {
+    Floats(const float (&floats)[4]) {
+      std::memcpy(this->floats, floats, sizeof floats);
+    }
+
+    Float floats[4];
+  };
+
   union {
     struct {
       Float x, y, z, w;
     };
-    struct Pos {
-      Float x, y, z, w;
-    } asPos;
-    struct Color {
-      Float R, G, B, A;
-    } asColor;
-    struct Rect {
-      Float left, top, right, bottom;
-    } asRect;
-    struct Floats {
-      Float floats[4];
-    } asFloats;
+    Pos asPos;
+    Color asColor;
+    Rect asRect;
+    Floats asFloats;
   };
 
  public:

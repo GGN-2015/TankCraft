@@ -16,25 +16,50 @@ struct Vector2 {
     std::memcpy(this->asFloats.floats, floats, sizeof floats);
   }
 
+  struct Pos {
+    Pos(const Float &x, const Float &y) : x(x), y(y) {}
+
+    Float x, y;
+
+    operator Vector2() { return Vector2(x, y); }
+  };
+  struct Pair {
+    Pair(const Float &first, const Float &second)
+        : first(first), second(second) {}
+
+    Float first, second;
+
+    inline operator Vector2() { return Vector2(first, second); }
+  };
+  struct WH {
+    WH(const Float &width, const Float &height)
+        : width(width), height(height) {}
+
+    Float width, height;
+
+    inline operator Vector2() { return Vector2(width, height); }
+
+   public:
+    inline Float GetArea() const { return width * height; }
+  };
+  struct Floats {
+    Floats(const Float (&floats)[2]) {
+      std::memcpy(this->floats, floats, sizeof floats);
+    }
+
+    Float floats[2];
+
+    inline operator Vector2() { return Vector2(floats); }
+  };
+
   union {
     struct {
       Float x, y;
     };
-    struct Pos {
-      Float x, y;
-    } asPos;
-    struct Pair {
-      Float first, second;
-    } asPair;
-    struct WH {
-      Float width, height;
-
-     public:
-      inline Float GetArea() const { return width * height; }
-    } asWH;
-    struct Floats {
-      Float floats[2];
-    } asFloats;
+    Pos asPos;
+    Pair asPair;
+    WH asWH;
+    Floats asFloats;
   };
 
  public:
@@ -76,7 +101,7 @@ struct Vector2 {
   // ·µ»Ø:
   //   ²åÖµ
   static inline Vector2 LerpWithoutClamp(const Vector2 &start,
-                                          const Vector2 &end, const Float &t) {
+                                         const Vector2 &end, const Float &t) {
     auto x = Float::LerpWithoutClamp(start.x, end.x, t);
     auto y = Float::LerpWithoutClamp(start.y, end.y, t);
     return Vector2(x, y);

@@ -19,19 +19,42 @@ struct Vector3 {
   Vector3(const Vector2 &vector, const Float &z)
       : x(vector.x), y(vector.y), z(z) {}
 
+  struct Pos {
+    Pos(const Float &x, const Float &y, const Float &z) : x(x), y(y), z(z) {}
+
+    Float x, y, z;
+
+    inline operator Vector3() { return Vector3(x, y, z); }
+  };
+  struct Color {
+    Color(const Float &R, const Float &G, const Float &B) : R(R), G(G), B(B) {}
+
+    Float R, G, B;
+
+    inline operator Vector3() { return Vector3(R, G, B); }
+
+   public:
+    static inline Color RGB255(const uint8 &R, const uint8 &G, const uint8 &B) {
+      return Color(R / 255.f, G / 255.f, B / 255.f);
+    }
+  };
+  struct Floats {
+    Floats(const Float (&floats)[3]) {
+      std::memcpy(this->floats, floats, sizeof floats);
+    }
+
+    Float floats[3];
+
+    inline operator Vector3() { return Vector3(floats); }
+  };
+
   union {
     struct {
       Float x, y, z;
     };
-    struct Pos {
-      Float x, y, z;
-    } asPos;
-    struct Color {
-      Float R, G, B;
-    } asColor;
-    struct Floats {
-      Float floats[3];
-    } asFloats;
+    Pos asPos;
+    Color asColor;
+    Floats asFloats;
   };
 
  public:
@@ -103,6 +126,7 @@ struct Vector3 {
     return *this;
   }
   inline explicit operator Float() { return this->Norm(); }
+  inline explicit operator Vector2() { return Vector2(x, y); }
 };
 
 struct Vector3Int {

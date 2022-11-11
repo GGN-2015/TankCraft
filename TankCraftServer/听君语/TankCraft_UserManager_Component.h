@@ -30,8 +30,8 @@ class UserManagerComponent : public Component {
   virtual void OnDestory() override;
 
  private:
-  UserData *const &GetUser(const Int &user_id);
-  UserData *const &AddUser(Int user_id, std::wstring user_name, Vector4 color,
+  UserData *const GetUser(const Int &user_id);
+  UserData *const AddUser(Int user_id, std::wstring user_name, Vector4 color,
                            Int kill_number);
   void RemoveUser(const Int &user_id);
   void RemoveAllUser();
