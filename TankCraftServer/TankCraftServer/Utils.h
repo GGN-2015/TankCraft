@@ -30,4 +30,7 @@ class Utils {
   static float GetFloatFromBuffer(const char* buf, int pos);
   static double Get2PI();
   static void UnifyDirection(double* dirD); /* 保证角度在 0 ~ 2PI 内 */
+  static void PointPush(double* px, double* py, double x, double y, double r);
+  static double PointDistance(double x1, double y1, double x2, double y2);
+  static double VectorLength(double dx, double dy);
 };

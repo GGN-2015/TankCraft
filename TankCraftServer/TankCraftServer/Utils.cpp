@@ -120,3 +120,27 @@ void Utils::UnifyDirection(double* dirD) {
   while (*dirD >= Get2PI()) *dirD -= Get2PI();
   while (*dirD < 0) *dirD += Get2PI();
 }
+
+void Utils::PointPush(double* px, double* py, double x, double y, double r) {
+  if (PointDistance(*px, *py, x, y) <= r) {
+    double dx = *px - x, dy = *py - y;
+    double len = VectorLength(dx, dy);
+
+    /* 调整向量长度 */
+    dx /= len;
+    dy /= len;
+    dx *= r;
+    dy *= r;
+
+    *px = x + dx;
+    *py = y + dy;
+  }
+}
+
+double Utils::PointDistance(double x1, double y1, double x2, double y2) {
+  return VectorLength(x1 - x2, y1 - y2);
+}
+
+double Utils::VectorLength(double dx, double dy) {
+  return sqrt(dx * dx + dy * dy);
+}

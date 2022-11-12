@@ -208,9 +208,26 @@ void GameGraph::BoxFit(double* posX, double* posY, double r) const {
   if (PosHasBottomEdge(gridX, gridY)) {
     *posY = std::min(*posY, gridX + 1 - r);
   }
+
+  /* ¶¥µã¼ì²é */
+  if (PosHasTopLeft(gridX, gridY)) {
+    Utils::PointPush(posX, posY, gridY, gridX, r);
+  }
+  if (PosHasTopRight(gridX, gridY)) {
+    Utils::PointPush(posX, posY, gridY+1, gridX, r);
+  }
+  if (PosHasBottomLeft(gridX, gridY)) {
+    Utils::PointPush(posX, posY, gridY, gridX+1, r);
+  }
+  if (PosHasBottomRight(gridX, gridY)) {
+    Utils::PointPush(posX, posY, gridY + 1, gridX + 1, r);
+  }
 }
 
 bool GameGraph::PosHasTopEdge(int gridX, int gridY) const {
+  if (!InGraphGrid(gridX, gridY)) {
+    return false;
+  }
   if ((mGameGraph[gridX][gridY]).hasTop || !InGraphGrid(gridX - 1, gridY))
     return true;
   else
@@ -218,6 +235,9 @@ bool GameGraph::PosHasTopEdge(int gridX, int gridY) const {
 }
 
 bool GameGraph::PosHasBottomEdge(int gridX, int gridY) const {
+  if (!InGraphGrid(gridX, gridY)) {
+    return false;
+  }
   if (!InGraphGrid(gridX + 1, gridY) || (mGameGraph[gridX + 1][gridY]).hasTop)
     return true;
   else
@@ -225,6 +245,9 @@ bool GameGraph::PosHasBottomEdge(int gridX, int gridY) const {
 }
 
 bool GameGraph::PosHasLeftEdge(int gridX, int gridY) const {
+  if (!InGraphGrid(gridX, gridY)) {
+    return false;
+  }
   if (!InGraphGrid(gridX, gridY - 1) || (mGameGraph[gridX][gridY]).hasLeft)
     return true;
   else
@@ -232,10 +255,33 @@ bool GameGraph::PosHasLeftEdge(int gridX, int gridY) const {
 }
 
 bool GameGraph::PosHasRightEdge(int gridX, int gridY) const {
+  if (!InGraphGrid(gridX, gridY)) {
+    return false;
+  }
   if (!InGraphGrid(gridX, gridY + 1) || (mGameGraph[gridX][gridY + 1]).hasLeft)
     return true;
   else
     return false;
+}
+
+bool GameGraph::PosHasTopLeft(int gridX, int gridY) const {
+  return PosHasLeftEdge(gridX, gridY) || PosHasTopEdge(gridX, gridY) ||
+         PosHasLeftEdge(gridX - 1, gridY) || PosHasTopEdge(gridX, gridY - 1);
+}
+
+bool GameGraph::PosHasTopRight(int gridX, int gridY) const {
+  return PosHasLeftEdge(gridX, gridY + 1) || PosHasTopEdge(gridX, gridY + 1) ||
+         PosHasLeftEdge(gridX - 1, gridY + 1) || PosHasTopEdge(gridX, gridY);
+}
+
+bool GameGraph::PosHasBottomLeft(int gridX, int gridY) const {
+  return PosHasLeftEdge(gridX + 1, gridY) || PosHasTopEdge(gridX + 1, gridY) ||
+         PosHasLeftEdge(gridX, gridY) || PosHasTopEdge(gridX + 1, gridY - 1);
+}
+
+bool GameGraph::PosHasBottomRight(int gridX, int gridY) const {
+  return PosHasLeftEdge(gridX + 1, gridY + 1) || PosHasTopEdge(gridX + 1, gridY + 1) ||
+         PosHasLeftEdge(gridX, gridY + 1) || PosHasTopEdge(gridX + 1, gridY);
 }
 
 int GameGraph::GetNodeId(int posX, int posY) const {
