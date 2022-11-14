@@ -64,8 +64,11 @@ void Xn::TankCraft::LoginComponent::OnStart() {
           ->AddComponent(std::make_unique<ButtonComponent>(
               Vector2(150, 26), 22,
               [this]() {
-                game_manager_->ConnectToServer(ipv4_input_layout->GetText(),
-                                               port_input_layout->GetText());
+                if (ipv4_input_layout->GetText().empty())
+                  game_manager_->ConnectToServer(L"127.0.0.1", L"12345");
+                else
+                  game_manager_->ConnectToServer(ipv4_input_layout->GetText(),
+                                                 port_input_layout->GetText());
               },
               Vector4(255 / 255.f, 255 / 255.f, 220 / 255.f, 0.7f),
               Vector4(200 / 255.f, 200 / 255.f, 225 / 255.f, 1.f)));

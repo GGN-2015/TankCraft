@@ -96,9 +96,14 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
     } break;
 
     //-----窗口失去焦点-----
-    case WM_KILLFOCUS:
+    case WM_KILLFOCUS: {
       听君语::Get().GetInputManager()->ClearState();
-      break;
+      听君语::Get().GetInputManager()->OnKeyUp(VK_W);
+      听君语::Get().GetInputManager()->OnKeyUp(VK_A);
+      听君语::Get().GetInputManager()->OnKeyUp(VK_S);
+      听君语::Get().GetInputManager()->OnKeyUp(VK_D);
+      听君语::Get().GetInputManager()->OnKeyUp(VK_SPACE);
+    } break;
 
     //-----窗口接收按键按下消息-----
     case WM_KEYDOWN: {
@@ -118,9 +123,9 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
     } break;
 
     //-----窗口接收字符消息-----
-    case WM_CHAR:
+    case WM_CHAR: {
       听君语::Get().GetInputManager()->OnChar(static_cast<wchar>(param1));
-      break;
+    } break;
 
     //-----窗口接收按键按下消息-----
     case WM_SYSKEYDOWN: {
@@ -140,10 +145,10 @@ int64 CALLBACK WindowProcess(HWND window_handle, uint message, WPARAM param1,
     } break;
 
       //-----定时器刷新窗口-----
-    case WM_TIMER:
+    case WM_TIMER: {
       听君语::Get().Update();
       听君语::Get().Render();
-      break;
+    } break;
 
     //-----窗口接收鼠标移动消息-----
     case WM_MOUSEMOVE: {
