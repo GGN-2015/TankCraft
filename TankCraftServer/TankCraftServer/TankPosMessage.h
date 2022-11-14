@@ -3,7 +3,7 @@
 class TankPosMessage : public IMessage {
  public:
   TankPosMessage(const TcpData* mapData);
-  ~TankPosMessage();
+  virtual ~TankPosMessage();
 
   virtual void GetRawData(TcpData* tcpData) override; /* 计算得到二进制数据 */
   virtual int GetRawDataLength() override; /* 根据数据长度定位下一个包 */

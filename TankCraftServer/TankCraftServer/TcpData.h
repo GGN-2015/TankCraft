@@ -1,8 +1,11 @@
 #pragma once
+
+#include <string>
+
 class TcpData {
  public:
-  TcpData();
   ~TcpData();
+  static TcpData* AllocTcpData(std::string nFileName, int nLine, bool = true);
 
   void SetData(const char* data, int len); /* 设置 数据 */
   const char* GetData() const;             /* 获取原始数据 */
@@ -19,6 +22,8 @@ class TcpData {
   void DirectSet(char* nData, int nLen); /* 直接过继一个数据 */
 
  private:
+  TcpData();
+
   int mLength;
   char* mRawData;
 };

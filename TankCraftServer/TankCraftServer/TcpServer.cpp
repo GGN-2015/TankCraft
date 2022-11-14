@@ -31,11 +31,16 @@ void TcpServer::DealWithClient(void* socketClient, TcpServer* tcpServer)
 		/* 处理该客户端信息，统计数目 += 1 */
 		tcpServer->IncClientCnt();
 		while (tcpServer->GetRunStatus() == TCP_SERVER_RUN) {
-			TcpData tcpDataRecv, tcpDataSend;
+			// TcpData tcpDataRecv, tcpDataSend;
+            std::shared_ptr<TcpData> tcpDataRecv(
+                TcpData::AllocTcpData(__FILE__, __LINE__, false));
+
+            std::shared_ptr<TcpData> tcpDataSend(
+                TcpData::AllocTcpData(__FILE__, __LINE__, false));
 
 			/* 从客户端获取数据 */
-			TcpUtils::GetTcpDataFromSocket(socketClient, &tcpDataRecv);
-			if (tcpDataRecv.IsEnd()) { /* 长度为零的消息是结束消息 */
+			TcpUtils::GetTcpDataFromSocket(socketClient, tcpDataRecv.get());
+			if (tcpDataRecv->IsEnd()) { /* 长度为零的消息是结束消息 */
 				break;
 			}
 
@@ -43,10 +48,10 @@ void TcpServer::DealWithClient(void* socketClient, TcpServer* tcpServer)
 			if (tcpServer->GetRunStatus() == TCP_SERVER_RUN) {
 
 				/* 获取 TCP 的结果的同时可能会对服务器上的数据进行修改 */
-				tcpServer->GetTcpDataResult(&tcpDataRecv, &tcpDataSend,
+				tcpServer->GetTcpDataResult(tcpDataRecv.get(), tcpDataSend.get(),
 					&threadBuffer, GameDatabase::GetGlobalGameDatabase());
 
-				int ret = TcpUtils::SendTcpDataToSocket(&tcpDataSend, socketClient);
+				int ret = TcpUtils::SendTcpDataToSocket(tcpDataSend.get(), socketClient);
 
 				/* 数据发送失败，说明对方可能已经断开连接 */
 				if (ret == -1) {

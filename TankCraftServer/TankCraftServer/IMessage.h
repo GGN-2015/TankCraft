@@ -10,6 +10,8 @@ class GameDatabase; /* 游戏玩家数据库 */
 
 class IMessage {
  public:
+  virtual ~IMessage(){};
+
   virtual void GetRawData(TcpData* tcpData) = 0; /* 计算得到二进制数据 */
   virtual int GetRawDataLength() = 0; /* 根据数据长度定位下一个包 */
   virtual void Dispatch(

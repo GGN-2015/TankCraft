@@ -17,13 +17,17 @@ void UserInfoRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)
     // TODO: 这里效率比较低，需要优化临界区的算法 
     Gdb->lock();
 
-    TcpData pTcpData;
-    Gdb->GetTcpDataForUserInfoMessage(&pTcpData); /* 获取全部用户数据 */
+    // TcpData pTcpData;
+
+    std::shared_ptr<TcpData> pTcpData(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
+
+    Gdb->GetTcpDataForUserInfoMessage(pTcpData.get()); /* 获取全部用户数据 */
     int maxUserId = Gdb->GetMaxUserId();
 
     Gdb->unlock();
 
-    UserInfoMessage* pUserInfoMessage = new UserInfoMessage(&pTcpData);
+    UserInfoMessage* pUserInfoMessage = new UserInfoMessage(pTcpData.get());
     tb->DumpMessage(pUserInfoMessage);
     tb->SetMaxSentUserId(maxUserId);
 }

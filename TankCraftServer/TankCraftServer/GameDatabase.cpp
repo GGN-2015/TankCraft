@@ -98,11 +98,11 @@ void GameDatabase::GetTcpDataForUserInfoMessage(TcpData* nTcpData) {
   int pos = 6;
   for (auto pUserInfo : mUserInfoList) {
     /* 获取一个用户的数据 */
-    TcpData tmpTcpData;
-    pUserInfo->GetUserInfoTcpData(&tmpTcpData);
+    std::shared_ptr<TcpData> tmpTcpData(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+    pUserInfo->GetUserInfoTcpData(tmpTcpData.get());
 
-    Utils::DumpTcpDataToBuffer(buf, pos, &tmpTcpData);
-    pos += tmpTcpData.GetLength();
+    Utils::DumpTcpDataToBuffer(buf, pos, tmpTcpData.get());
+    pos += tmpTcpData->GetLength();
   }
 
   assert(pos == totalDataLen);
@@ -119,12 +119,14 @@ void GameDatabase::GetTankPosMessage(TcpData* pTcpData) const {
                                    (int)mUserInfoList.size()); /* 坦克数 */
   int pos = 6;
   for (auto pUserInfo : mUserInfoList) {
-    TcpData tmpTcpData;
-    pUserInfo->GetTankPosTcpData(&tmpTcpData);
-    Utils::DumpTcpDataToBuffer(buf, pos, &tmpTcpData);
+    std::shared_ptr<TcpData> tmpTcpData(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
 
-    pos += tmpTcpData.GetLength();
-    assert(tmpTcpData.GetLength() == 18);
+    pUserInfo->GetTankPosTcpData(tmpTcpData.get());
+    Utils::DumpTcpDataToBuffer(buf, pos, tmpTcpData.get());
+
+    pos += tmpTcpData->GetLength();
+    assert(tmpTcpData->GetLength() == 18);
   }
   assert(pos == totalDataLen);
 

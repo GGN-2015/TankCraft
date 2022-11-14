@@ -56,14 +56,20 @@ void TestTcpClient() {
     std::getline(std::cin, ans);
 
     /* 发送请求到服务端 */
-    TcpData tcpDataSend, tcpDataGet;
-    tcpDataSend.SetData(ans.c_str(), (int)ans.length());
-    tcpClient.Request(&tcpDataSend, &tcpDataGet);
+    // TcpData tcpDataSend, tcpDataGet;
+    std::shared_ptr<TcpData> tcpDataSend(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
+
+    std::shared_ptr<TcpData> tcpDataGet(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
+
+    tcpDataSend->SetData(ans.c_str(), (int)ans.length());
+    tcpClient.Request(tcpDataSend.get(), tcpDataGet.get());
 
     /* 输出接收到的消息 */
     std::cout << "[Server] ";
-    for (int i = 0; i < tcpDataGet.GetLength(); i += 1) {
-      std::cout << (unsigned int)(*(unsigned char*)&tcpDataGet.GetData()[i]);
+    for (int i = 0; i < tcpDataGet->GetLength(); i += 1) {
+      std::cout << (unsigned int)(*(unsigned char*)&(tcpDataGet->GetData()[i]));
     }
     std::cout << std::endl;
 
@@ -110,13 +116,18 @@ void TestTcpClientTool() { /* 服务端测试器 */
     }
 
     /* 把数据填写进缓冲区中 */
-    TcpData tcpDataSend, tcpDataGet;
-    tcpDataSend.SetData(buf, nbytes);
+    // TcpData tcpDataSend, tcpDataGet;
+
+    std::shared_ptr<TcpData> tcpDataSend(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+    std::shared_ptr<TcpData> tcpDataGet(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
+
+    tcpDataSend->SetData(buf, nbytes);
     delete[] buf;
 
     /* 输出服务端反馈的数据 */
-    tcpClient.Request(&tcpDataSend, &tcpDataGet);
-    tcpDataGet.DebugShow("[Server] ");
+    tcpClient.Request(tcpDataSend.get(), tcpDataGet.get());
+    tcpDataGet->DebugShow("[Server] ");
   }
   tcpClient.CloseSocket();
 }
@@ -131,13 +142,18 @@ void TestTcpNetManager() {
 
   while (true) {
     /* 把数据填写进缓冲区中 */
-    TcpData tcpDataSend, tcpDataGet;
+    // TcpData tcpDataSend, tcpDataGet;
+
+    std::shared_ptr<TcpData> tcpDataSend(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
+    std::shared_ptr<TcpData> tcpDataGet(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
 
     if (first) {
       first = false;
 
       wchar_t buf[] = {0, 2, 12345};
-      tcpDataSend.SetData((char*)buf, 6); /* 第一轮发送 ping */
+      tcpDataSend->SetData((char*)buf, 6); /* 第一轮发送 ping */
     } else {
       int nbytes;
       std::cout << "nbytes = ";
@@ -153,7 +169,7 @@ void TestTcpNetManager() {
         buf[i] = val;
       }
 
-      tcpDataSend.SetData(buf, nbytes);
+      tcpDataSend->SetData(buf, nbytes);
       delete[] buf;
     }
 
@@ -161,7 +177,7 @@ void TestTcpNetManager() {
     auto requestBufferArr = nmComponent.TryGetClientToServerMessageBuffer();
     std::unique_ptr<Xn::TankCraft::NetMessageBaseData> pnmbd1(
         new Xn::TankCraft::NetMessageBaseData);
-    pnmbd1->MoveDataFrom(&tcpDataSend);
+    pnmbd1->MoveDataFrom(tcpDataSend.get());
     requestBufferArr->Push(std::move(pnmbd1));
 
     /* 获取客户收到的数据 */
@@ -185,8 +201,9 @@ void TestGameGraph() {
   GameGraph gg;
   gg.SetSize(8, 8, 0.4);
 
-  TcpData tcpData;
-  gg.GetTcpData(&tcpData);
+  // TcpData tcpData;
+  std::shared_ptr<TcpData> tcpData(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+  gg.GetTcpData(tcpData.get());
 
-  tcpData.DebugShow("[Graph] ");
+  tcpData->DebugShow("[Graph] ");
 }

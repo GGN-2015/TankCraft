@@ -141,6 +141,9 @@
     <ClCompile Include="ParserRegister.cpp">
       <Filter>源文件\拓展</Filter>
     </ClCompile>
+    <ClCompile Include="TcpDataManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="ParserRegister.h">
       <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="TcpDataManager.h">
+      <Filter>头文件\Tcp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

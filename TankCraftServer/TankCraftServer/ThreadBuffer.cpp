@@ -24,14 +24,15 @@ void ThreadBuffer::DumpMessage(IMessage* iMessage) {
 }
 
 void ThreadBuffer::DumpTankPosMessage(GameDatabase* Gdb) {
-  TcpData tmpTcpData;
-  Gdb->GetTankPosMessage(&tmpTcpData);
+  // TcpData tmpTcpData;
+  std::shared_ptr<TcpData> tmpTcpData(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+  Gdb->GetTankPosMessage(tmpTcpData.get());
 
   /* 向客户端反馈坦克位置信息 */
   // std::cerr << "[DumpTankPosMessage] tmpTcpData.GetLength() = "
   //          << tmpTcpData.GetLength() << std::endl;
 
-  DumpMessage(new TankPosMessage(&tmpTcpData));
+  DumpMessage(new TankPosMessage(tmpTcpData.get()));
 }
 
 void ThreadBuffer::ClearDumpedMessage() {
@@ -58,14 +59,15 @@ void ThreadBuffer::GetTcpDataFromDumpedMessage(TcpData* pTcpDataGet) {
   pos += 2;
   for (auto pMsg : mIMessageList) {
     /* 获取二进制数据 */
-    TcpData tmpTcpData;
-    pMsg->GetRawData(&tmpTcpData);
+    // TcpData tmpTcpData;
+    std::shared_ptr<TcpData> tmpTcpData(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+    pMsg->GetRawData(tmpTcpData.get());
 
-    Utils::DumpTcpDataToBuffer(buffer, pos, &tmpTcpData);
-    pos += tmpTcpData.GetLength();
+    Utils::DumpTcpDataToBuffer(buffer, pos, tmpTcpData.get());
+    pos += tmpTcpData->GetLength();
 
     /* 二者给出的数据长度必须一致 */
-    assert(tmpTcpData.GetLength() == pMsg->GetRawDataLength());
+    assert(tmpTcpData->GetLength() == pMsg->GetRawDataLength());
   }
 
   /* 载入总校系数 */
@@ -102,7 +104,7 @@ void ThreadBuffer::DumpGraphTcpDataIntoMessageList(GameDatabase* Gdb) {
 
     Gdb->lock();
 
-    mGraphTcpDataCache = new TcpData;
+    mGraphTcpDataCache = TcpData::AllocTcpData(__FILE__, __LINE__, false);
     Gdb->GetGraphTcpData(mGraphTcpDataCache);
 
     Gdb->unlock();

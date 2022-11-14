@@ -5,8 +5,8 @@
 
 TankPosMessage::TankPosMessage(const TcpData* mapData)
 {
-	mTcpData = new TcpData;
-	mTcpData->SetData(mapData->GetData(), mapData->GetLength());
+  mTcpData = TcpData::AllocTcpData(__FILE__, __LINE__);
+  mTcpData->SetData(mapData->GetData(), mapData->GetLength());
 }
 
 TankPosMessage::~TankPosMessage()

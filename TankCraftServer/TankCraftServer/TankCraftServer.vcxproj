@@ -165,6 +165,7 @@
     <ClCompile Include="TankPosMessage.cpp" />
     <ClCompile Include="TcpClient.cpp" />
     <ClCompile Include="TcpData.cpp" />
+    <ClCompile Include="TcpDataManager.cpp" />
     <ClCompile Include="TcpServer.cpp" />
     <ClCompile Include="TcpUtils.cpp" />
     <ClCompile Include="ThreadBuffer.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="TankPosMessage.h" />
     <ClInclude Include="TcpClient.h" />
     <ClInclude Include="TcpData.h" />
+    <ClInclude Include="TcpDataManager.h" />
     <ClInclude Include="TcpServer.h" />
     <ClInclude Include="TcpUtils.h" />
     <ClInclude Include="TestPrograms.h" />

@@ -63,20 +63,25 @@ void TcpUtils::ClientThreadFunction(
                                                            &tcpDataList);
 
         /* 对数据进行打包 */
-        TcpData tcpDataRequest;
+        // TcpData tcpDataRequest;
+        std::shared_ptr<TcpData> tcpDataRequest(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+
         TcpUtils::CompactTcpDataListToTcpDataRequest(&tcpDataList,
-                                                     &tcpDataRequest);
+                                                     tcpDataRequest.get());
 
         /* 发送打包后的请求，获取消息 */
         int sendTime = clock();
-        TcpData tcpDataMessage;
-        tcpClient.Request(&tcpDataRequest, &tcpDataMessage);
+        // TcpData tcpDataMessage;
+        std::shared_ptr<TcpData> tcpDataMessage(
+            TcpData::AllocTcpData(__FILE__, __LINE__));
+
+        tcpClient.Request(tcpDataRequest.get(), tcpDataMessage.get());
         int getTime = clock();
 
         // TODO: 存储 Ping 值
 
         /* 检测是否与服务器断开连接 */
-        if (tcpDataMessage.IsEnd()) {
+        if (tcpDataMessage->IsEnd()) {
           nmComponent->PushFailedMessage(TCP_CLIENT_DISCONNECT_FROM_SERVER);
           std::cerr << "[Client] Can not connect to server." << std::endl;
         }
@@ -88,8 +93,8 @@ void TcpUtils::ClientThreadFunction(
         tcpDataList.clear();
 
         /* 对收到的消息进行解包 */
-        if (!tcpDataMessage.IsEnd()) {
-          TcpUtils::UnpackTcpDataMessageToTcpDataList(&tcpDataMessage,
+        if (!tcpDataMessage->IsEnd()) {
+          TcpUtils::UnpackTcpDataMessageToTcpDataList(tcpDataMessage.get(),
                                                       &tcpDataList);
 
           /* 把拆分后的数据送入消息队列 */
@@ -171,7 +176,7 @@ void TcpUtils::UnpackTcpDataMessageToTcpDataList(const TcpData* pTcpDataMessage,
     pTcpDataMessage->DebugShow("[TcpData] ");
     assert(pos + dataLength <= messageTotalLength);
 
-    TcpData* tcpDataNow = new TcpData;
+    TcpData* tcpDataNow = TcpData::AllocTcpData(__FILE__, __LINE__);
     tcpDataNow->SetData(pTcpDataMessage->GetData() + pos, dataLength);
     pTcpDataList->push_back(tcpDataNow); /* 主函数负责释放 */
 
@@ -189,7 +194,7 @@ void TcpUtils::GetTcpDataListFromNetMessageBaseDataList(
   tcpDataList->clear();
 
   for (int i = 0; i < (int)nmBaseDataList->size(); i += 1) {
-    TcpData* tcpDataNow = new TcpData;
+    TcpData* tcpDataNow = TcpData::AllocTcpData(__FILE__, __LINE__);
     (*nmBaseDataList)[i]->MoveDataToTcpData(tcpDataNow); /* 移动数据 */
 
     /* TODO 要记得释放 */
