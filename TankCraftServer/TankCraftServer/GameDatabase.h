@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 #include <string>
 #include <thread>
 #include <vector>
@@ -22,10 +23,14 @@
 #define TANK_ROTATE_SPEED (Utils::Get2PI() / 2.0) /* 每秒 0.5 圈 */
 #define TANK_RADIUS (0.3) /* 坦克半径 */
 #define WALL_WIDTH (0.05)                          /* 墙的宽度的一半 */
+#define TANK_BULLET_RADIUS (0.04) /* 子弹的宽度 */
 
-class UserInfo;
+class BulletInfo;
 class TcpData;
+class UserInfo;
+
 typedef std::vector<UserInfo*> UserInfoList;
+typedef std::list<BulletInfo> BulletInfoList;
 
 /* GameDatabase 是整个游戏中最核心的单例 */
 /* 使用这个数据库前需要手动加锁(我知道这很容易写错)，使用后需要手动解锁，不要和我叫板
@@ -63,17 +68,29 @@ class GameDatabase : public MyMutex {
   static void GameDatabasePhsicalEngineThreadFunction(
       GameDatabase* pGameDatabase);
 
+  static void
+  GameDatabasePhsicalEngineTankFunction(/* 坦克物理引擎 */
+      GameDatabase* pGameDatabase);
+
+  static void
+  GameDatabasePhsicalEngineBulletFunction( /* 子弹物理引擎 */
+      GameDatabase* pGameDatabase);
+
   double GetLastFrameTime() const;
   void SetLastFrameTime(double nFrameTime);
 
   void SetKeyStatusForUser(int nUserId, int nKeyId,
                            bool status); /* 修改键盘状态 */
 
+  /* 增加一个新的子弹 */
+  void AddBullet(double posX, double posY, double dirR, double disD);
+
  private:
   GameDatabase();
 
-  int mUserIdNow;             /* 当前最大用户 ID */
-  UserInfoList mUserInfoList; /* 用户信息列表 */
+  int mUserIdNow;                 /* 当前最大用户 ID */
+  UserInfoList mUserInfoList;     /* 用户信息列表 */
+  BulletInfoList mBulletInfoList; /* 子弹信息集合 */
 
   GameGraph mGameGraph;
   static GameDatabase* pGlobalGameDatabase; /* 指针单例 */

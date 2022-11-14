@@ -4,6 +4,7 @@
 #include <chrono>
 #include <iostream>
 
+#include "BulletInfo.h"
 #include "GameGraph.h"
 #include "SysUtils.h"
 #include "UserInfo.h"
@@ -98,7 +99,8 @@ void GameDatabase::GetTcpDataForUserInfoMessage(TcpData* nTcpData) {
   int pos = 6;
   for (auto pUserInfo : mUserInfoList) {
     /* 获取一个用户的数据 */
-    std::shared_ptr<TcpData> tmpTcpData(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+    std::shared_ptr<TcpData> tmpTcpData(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
     pUserInfo->GetUserInfoTcpData(tmpTcpData.get());
 
     Utils::DumpTcpDataToBuffer(buf, pos, tmpTcpData.get());
@@ -157,83 +159,102 @@ UserInfo* GameDatabase::GetUserInfoByUserId(
 void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
     GameDatabase* pGameDatabase) {
   while (pGameDatabase->GetGameDatabaseStatusAtomic() == GAME_DATABASE_RUN) {
-    /* 获取所有坦克位置 */
-    TankPosMap tankPosMap; /* ID => TankPos 的映射 */
-
-    /* 获取坦克的按键数据 */
-    KeyStatusMap keyStatusMap;
-
     /* 临界区开始 */
     pGameDatabase
         ->lock(); /* ------------------------------------------------------- */
 
-    /* 获取坦克位置 */
-    for (auto pUserInfo : pGameDatabase->mUserInfoList) {
-      pUserInfo->GetTankPos(&tankPosMap);
-    }
-
-    /* 计算时间差 */
-    double timeNow = Utils::GetClockTime();
-    double dT =
-        timeNow - pGameDatabase->GetLastFrameTime(); /* 计算上一帧的计算时间 */
-
-    /* 获取坦克键盘状态 */
-    for (auto pUserInfo : pGameDatabase->mUserInfoList) {
-      pUserInfo->GetTankKeyStatus(&keyStatusMap);
-    }
-
-    /* 随机枚举一个方向然后走过去, 直接在 tankPosMap 上修改 */
-    for (auto& pTankPos : tankPosMap) {
-      int tankUserId = pTankPos.first;
-      TankPos oldTankPos = pTankPos.second; /* 拷贝一个 */
-
-      double Dx = cos(oldTankPos.dirR) * TANK_SPEED * dT;
-      double Dy = sin(oldTankPos.dirR) * TANK_SPEED * dT;
-      double Dr = TANK_ROTATE_SPEED * dT;
-
-      /* 计算新的坦克位置 */
-      TankPos newTankPos = oldTankPos;
-      if ((keyStatusMap.find(tankUserId))->second.MoveForward()) {
-        newTankPos.posX += Dx;
-        newTankPos.posY += Dy;
-      } else if ((keyStatusMap.find(tankUserId))->second.MoveBackward()) {
-        newTankPos.posX -= Dx;
-        newTankPos.posY -= Dy;
-      }
-
-      /* 处理旋转事件 */
-      if ((keyStatusMap.find(tankUserId))->second.TurnLeft()) {
-        newTankPos.dirR -= Dr;
-      } else if ((keyStatusMap.find(tankUserId))->second.TurnRight()) {
-        newTankPos.dirR += Dr;
-      }
-      Utils::UnifyDirection(&newTankPos.dirR);
-
-      /* 盒子处理 */
-      pGameDatabase->mGameGraph.BoxFit(
-          &newTankPos.posX,
-          &newTankPos.posY, TANK_RADIUS + WALL_WIDTH); /* 保证所在格子的四面墙能约束当前坦克*/
-
-      pTankPos.second.SetX(newTankPos.posX); /* 设置坦克的实际位置 */
-      pTankPos.second.SetY(newTankPos.posY);
-      pTankPos.second.SetD(newTankPos.dirR);
-    }
-
-    /* 修改所有坦克位置 */
-    for (auto pUserInfo : pGameDatabase->mUserInfoList) {
-      pUserInfo->SetTankPos(&tankPosMap);
-    }
-    pGameDatabase->SetLastFrameTime(timeNow);
+    GameDatabasePhsicalEngineTankFunction(pGameDatabase);   /* 处理坦克的移动事件 */
+    GameDatabasePhsicalEngineBulletFunction(pGameDatabase); /* 处理炮弹移动事件 */
 
     pGameDatabase
-        ->unlock(); /* ---------------------------------------------------------
-                     */
+        ->unlock(); /* ---------------------------------------------------- */
     /* 临界区结束 */
 
     /* 每 5ms 重绘一次 */
     SysUtils::Sleep(GAME_DATABASE_PHISICAL_FRAME_PERIOD);
   }
 }
+
+void GameDatabase::GameDatabasePhsicalEngineTankFunction(
+    GameDatabase* pGameDatabase) {
+  /* 获取所有坦克位置 */
+  TankPosMap tankPosMap; /* ID => TankPos 的映射 */
+
+  /* 获取坦克的按键数据 */
+  KeyStatusMap keyStatusMap;
+
+  /* 获取坦克位置 */
+  for (auto pUserInfo : pGameDatabase->mUserInfoList) {
+    pUserInfo->GetTankPos(&tankPosMap);
+  }
+
+  /* 计算时间差 */
+  double timeNow = Utils::GetClockTime();
+  double dT =
+      timeNow - pGameDatabase->GetLastFrameTime(); /* 计算上一帧的计算时间 */
+
+  /* 获取坦克键盘状态 */
+  for (auto pUserInfo : pGameDatabase->mUserInfoList) {
+    pUserInfo->GetTankKeyStatus(&keyStatusMap);
+  }
+
+  /* 随机枚举一个方向然后走过去, 直接在 tankPosMap 上修改 */
+  for (auto& pTankPos : tankPosMap) {
+    int tankUserId = pTankPos.first;
+    TankPos oldTankPos = pTankPos.second; /* 拷贝一个 */
+
+    double Dx = cos(oldTankPos.dirR) * TANK_SPEED * dT;
+    double Dy = sin(oldTankPos.dirR) * TANK_SPEED * dT;
+    double Dr = TANK_ROTATE_SPEED * dT;
+
+    /* 计算新的坦克位置 */
+    TankPos newTankPos = oldTankPos;
+    if ((keyStatusMap.find(tankUserId))->second.MoveForward()) {
+      newTankPos.posX += Dx;
+      newTankPos.posY += Dy;
+    } else if ((keyStatusMap.find(tankUserId))->second.MoveBackward()) {
+      newTankPos.posX -= Dx;
+      newTankPos.posY -= Dy;
+    }
+
+    /* 处理旋转事件 */
+    if ((keyStatusMap.find(tankUserId))->second.TurnLeft()) {
+      newTankPos.dirR -= Dr;
+    } else if ((keyStatusMap.find(tankUserId))->second.TurnRight()) {
+      newTankPos.dirR += Dr;
+    }
+    Utils::UnifyDirection(&newTankPos.dirR);
+
+    /* 盒子处理 */
+    pGameDatabase->mGameGraph.BoxFit(
+        &newTankPos.posX, &newTankPos.posY,
+        TANK_RADIUS + WALL_WIDTH); /* 保证所在格子的四面墙能约束当前坦克*/
+
+    /* 发射炮弹 */
+    if ((keyStatusMap.find(tankUserId))->second.shoot) {
+      /* 帮他把按键抬起来 */
+      pGameDatabase->SetKeyStatusForUser(tankUserId, TANK_SHOOT, TANK_KEY_UP);
+
+      double eps = 1e-4;
+      pGameDatabase->AddBullet(newTankPos.posX, newTankPos.posY,
+                               newTankPos.dirR,
+                               TANK_RADIUS + TANK_BULLET_RADIUS + eps);
+    }
+
+    pTankPos.second.SetX(newTankPos.posX); /* 设置坦克的实际位置 */
+    pTankPos.second.SetY(newTankPos.posY);
+    pTankPos.second.SetD(newTankPos.dirR);
+  }
+
+  /* 修改所有坦克位置 */
+  for (auto pUserInfo : pGameDatabase->mUserInfoList) {
+    pUserInfo->SetTankPos(&tankPosMap);
+  }
+  pGameDatabase->SetLastFrameTime(timeNow);
+}
+
+void GameDatabase::GameDatabasePhsicalEngineBulletFunction(
+    GameDatabase* pGameDatabase) {}
 
 double GameDatabase::GetLastFrameTime() const { return mLastFrameTime; }
 
@@ -250,6 +271,15 @@ void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
   } else {
     assert(false);
   }
+}
+
+void GameDatabase::AddBullet(double posX, double posY, double dirR,
+                             double disD) {
+  double dx = cos(dirR) * disD, dy = sin(dirR) * disD;
+  posX += dx;
+  posY += dy; /* 在坦克的前方 disD 放置子弹 */
+
+  mBulletInfoList.push_back({posX, posY, dirR, Utils::GetClockTime()});
 }
 
 GameDatabase::GameDatabase() {

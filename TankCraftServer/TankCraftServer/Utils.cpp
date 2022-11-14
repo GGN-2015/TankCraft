@@ -7,6 +7,8 @@
 #include <string>
 #define UNSIGNED(c) (*(unsigned char*)&c)
 
+Utils::Utils() {}
+
 long long Utils::GetRandLongLong() {
   long long ans = 0;
   for (int i = 1; i <= 4; i++) {

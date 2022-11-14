@@ -144,6 +144,9 @@
     <ClCompile Include="TcpDataManager.cpp">
       <Filter>源文件\拓展</Filter>
     </ClCompile>
+    <ClCompile Include="BulletInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -253,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="TcpDataManager.h">
       <Filter>头文件\Tcp</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletInfo.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

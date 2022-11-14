@@ -3,6 +3,10 @@
 
 #include "TcpData.h"
 
+struct Vector2d { /* 二维向量 */
+  double posX, posY;
+};
+
 class Utils {
  public:
   static long long GetRandLongLong(); /* 生成随机的整数 */
@@ -33,4 +37,7 @@ class Utils {
   static void PointPush(double* px, double* py, double x, double y, double r);
   static double PointDistance(double x1, double y1, double x2, double y2);
   static double VectorLength(double dx, double dy);
+
+ private:
+  Utils();
 };

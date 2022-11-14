@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BulletInfo.cpp" />
     <ClCompile Include="DataParser.cpp" />
     <ClCompile Include="GameDatabase.cpp" />
     <ClCompile Include="GameGraph.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BulletInfo.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DataParser.h" />
     <ClInclude Include="GameDatabase.h" />

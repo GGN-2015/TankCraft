@@ -30,8 +30,8 @@ struct TankPos {           /* 描述坦克的位置和朝向 */
   void SetD(double nDirD);
 };
 
-#define TANK_KEY_DOWN (false)
-#define TANK_KEY_UP (true)
+#define TANK_KEY_DOWN (0)
+#define TANK_KEY_UP (1)
 
 #define TANK_SHOOT (0)
 
