@@ -52,5 +52,6 @@ void TcpDataManager::DeleteDeadTcpData() {
   }
   if (tcpDataList.size() != 0) {
     system("pause");
+    assert(false); /* 不允许程序继续执行 */
   }
 }

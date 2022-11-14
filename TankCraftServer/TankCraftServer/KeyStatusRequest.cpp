@@ -5,6 +5,7 @@
 
 #include "GameDatabase.h"
 #include "ThreadBuffer.h"
+#include "UserInfo.h"
 
 void KeyStatusRequest::GetRawData(TcpData* tcpData) { assert(false); }
 
@@ -21,9 +22,13 @@ void KeyStatusRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb) {
   std::cerr << "[KeyStatusRequest::Dispatch] Exist" << std::endl;
   if (tb->InGame()) {
     int nUserId = tb->GetUserID();
-    Gdb->lock();
-    Gdb->SetKeyStatusForUser(nUserId, mKeyId, mKeyStatus);
-    Gdb->unlock();
+    
+    /* 无视发炮的抬起事件 */
+    if (!(mKeyId == TANK_SHOOT && mKeyStatus == TANK_KEY_UP)) {
+      Gdb->lock();
+      Gdb->SetKeyStatusForUser(nUserId, mKeyId, mKeyStatus);
+      Gdb->unlock();
+    }
   } else {
     std::cerr << "[KeyStatusRequest::Dispatch] Not InGame" << std::endl;
   }

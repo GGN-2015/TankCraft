@@ -17,7 +17,9 @@ int UserInfo::GetUserId() const { return mUserId; }
 
 std::wstring UserInfo::GetUserInfoName() const { return mUserName; }
 
-void UserInfo::SetUserInfoName(std::wstring nUserName) { mUserName = nUserName; }
+void UserInfo::SetUserInfoName(std::wstring nUserName) {
+  mUserName = nUserName;
+}
 
 void UserInfo::IncKillCnt(int incVal) { mKillCnt += incVal; }
 
@@ -154,11 +156,12 @@ KeyStatus::KeyStatus() { /* 所有键都没按下 */
   backward = TANK_KEY_UP;
 }
 
+static bool ErrorKeyStatus = TANK_KEY_UP;
 bool& KeyStatus::GetStatusById(int mStatusId) {
   assert(0 <= mStatusId && mStatusId <= 4);
 
   switch (mStatusId) {
-    case 0:
+    case TANK_SHOOT:
       return shoot;
     case 1:
       return turnRight;
@@ -171,13 +174,14 @@ bool& KeyStatus::GetStatusById(int mStatusId) {
   }
 
   assert(false);
+  return ErrorKeyStatus;
 }
 
 bool KeyStatus::GetStatusById(int mStatusId) const {
   assert(0 <= mStatusId && mStatusId <= 4);
 
   switch (mStatusId) {
-    case 0:
+    case TANK_SHOOT:
       return shoot;
     case 1:
       return turnRight;
@@ -188,12 +192,21 @@ bool KeyStatus::GetStatusById(int mStatusId) const {
     case 4:
       return backward;
   }
+  return false;
 }
 
-bool KeyStatus::TurnLeft() const { return turnLeft && !turnRight; }
+bool KeyStatus::TurnLeft() const {
+  return turnLeft == TANK_KEY_DOWN && turnRight == TANK_KEY_UP;
+}
 
-bool KeyStatus::TurnRight() const { return turnRight && !turnLeft; }
+bool KeyStatus::TurnRight() const {
+  return turnRight == TANK_KEY_DOWN && turnLeft == TANK_KEY_UP;
+}
 
-bool KeyStatus::MoveForward() const { return forward && !backward; }
+bool KeyStatus::MoveForward() const {
+  return forward == TANK_KEY_DOWN && backward == TANK_KEY_UP;
+}
 
-bool KeyStatus::MoveBackward() const { return backward && !forward; }
+bool KeyStatus::MoveBackward() const {
+  return backward == TANK_KEY_DOWN && forward == TANK_KEY_UP;
+}

@@ -246,7 +246,7 @@ void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
   if (pUserInfo != nullptr) {
     std::cerr << "[GameDatabase::SetKeyStatusForUser]" << nUserId << ", "
               << nKeyId << ", " << status << std::endl;
-    pUserInfo->GetKeyStatusObject()->GetStatusById(nKeyId) = !status; /* ÎÒÐ´·´ÁË */
+    pUserInfo->GetKeyStatusObject()->GetStatusById(nKeyId) = status;
   } else {
     assert(false);
   }
