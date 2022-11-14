@@ -1,5 +1,6 @@
 #pragma once
-#include <list>
+#include <map>
+#include <set>
 #include <string>
 #include <thread>
 #include <vector>
@@ -13,24 +14,29 @@
 #define GAME_DATABASE_USER_MAX (8)
 
 #define GAME_DATABASE_PHISICAL_FRAME_PERIOD \
-  (5) /* 每 5ms 启动一次物理引擎 \
-        */
+  (5) /* 每 5ms 启动一次物理引擎   \
+       */
 
 #define GAME_DATABASE_RUN (1)
 #define GAME_DATABASE_STOP (0)
 
-#define TANK_SPEED (1.0)  /* 每秒 1 格 */
+#define TANK_SPEED (1.0)                          /* 每秒 1 格 */
 #define TANK_ROTATE_SPEED (Utils::Get2PI() / 2.0) /* 每秒 0.5 圈 */
-#define TANK_RADIUS (0.3) /* 坦克半径 */
-#define WALL_WIDTH (0.05)                          /* 墙的宽度的一半 */
-#define TANK_BULLET_RADIUS (0.04) /* 子弹的宽度 */
+#define TANK_RADIUS (0.3)                         /* 坦克半径 */
+#define WALL_WIDTH (0.05)                         /* 墙的宽度的一半 */
+#define TANK_BULLET_RADIUS (0.04)                 /* 子弹的宽度 */
+#define TANK_BULLET_EXPIRED_TIME (1.0)            /* 子弹生存时间 */
+
+#define BULLET_SPEED (2 * TANK_SPEED) /* 子弹的速度 */
 
 class BulletInfo;
 class TcpData;
 class UserInfo;
 
 typedef std::vector<UserInfo*> UserInfoList;
-typedef std::list<BulletInfo> BulletInfoList;
+typedef std::vector<BulletInfo> BulletInfoList;
+typedef std::set<int> IntSet;
+typedef std::map<int, int> IntMap;
 
 /* GameDatabase 是整个游戏中最核心的单例 */
 /* 使用这个数据库前需要手动加锁(我知道这很容易写错)，使用后需要手动解锁，不要和我叫板
@@ -70,11 +76,11 @@ class GameDatabase : public MyMutex {
 
   static void
   GameDatabasePhsicalEngineTankFunction(/* 坦克物理引擎 */
-      GameDatabase* pGameDatabase);
+                                        GameDatabase* pGameDatabase);
 
   static void
-  GameDatabasePhsicalEngineBulletFunction( /* 子弹物理引擎 */
-      GameDatabase* pGameDatabase);
+  GameDatabasePhsicalEngineBulletFunction(/* 子弹物理引擎 */
+                                          GameDatabase* pGameDatabase);
 
   double GetLastFrameTime() const;
   void SetLastFrameTime(double nFrameTime);
@@ -83,7 +89,11 @@ class GameDatabase : public MyMutex {
                            bool status); /* 修改键盘状态 */
 
   /* 增加一个新的子弹 */
-  void AddBullet(double posX, double posY, double dirR, double disD);
+  void AddBullet(double posX, double posY, double dirR, double disD,
+                 int userId);
+
+  void GetCanShootUserIdSet(IntSet* userIdSet) const;
+  void UserBulletExpired(IntMap* userIdMapToBulletCnt);
 
  private:
   GameDatabase();

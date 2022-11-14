@@ -107,6 +107,22 @@ void UserInfo::GetTankPosTcpData(TcpData* pTcpData) const {
 
 KeyStatus* UserInfo::GetKeyStatusObject() { return &mKeyStatus; }
 
+bool UserInfo::CanShoot() const { 
+    return mBulletCount < USER_BULLET_MAX &&
+        Utils::GetClockTime() - mLastShootTime >= TANK_SHOOT_TIME_PERIOD;
+}
+
+void UserInfo::Shoot() { 
+    mBulletCount += 1;  
+    mLastShootTime = Utils::GetClockTime();
+}
+
+void UserInfo::BulletExpired(int bulletCnt) { 
+    mBulletCount -= bulletCnt; 
+    // mBulletCount = std::max(mBulletCount, 0);
+    assert(mBulletCount >= 0);
+}
+
 UserColor::UserColor(unsigned char nR, unsigned char nG, unsigned char nB,
                      unsigned char nA) {
   R = nR;

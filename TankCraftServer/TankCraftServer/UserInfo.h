@@ -32,8 +32,9 @@ struct TankPos {           /* 描述坦克的位置和朝向 */
 
 #define TANK_KEY_DOWN (0)
 #define TANK_KEY_UP (1)
-
 #define TANK_SHOOT (0)
+#define USER_BULLET_MAX (5)
+#define TANK_SHOOT_TIME_PERIOD (0.2) /* 坦克发炮冷却时间 */
 
 struct KeyStatus { /* 描述坦克的键盘操作状态 */
   bool shoot;
@@ -86,6 +87,10 @@ class UserInfo {
   void GetTankPosTcpData(TcpData* pTcpData) const; /* ID4 位置8 方向4 状态2 */
   KeyStatus* GetKeyStatusObject();                 /* 获取键盘状态 */
 
+  bool CanShoot() const;
+  void Shoot();
+  void BulletExpired(int bulletCnt); /* 子弹过期了 */
+
  private:
   int mUserId;
   std::wstring mUserName; /* 登录名 */
@@ -97,4 +102,6 @@ class UserInfo {
   KeyStatus mKeyStatus; /* 键盘状态 */
 
   bool mHasLaserWeapon = 0;
+  int mBulletCount = 0;
+  double mLastShootTime = 0;
 };

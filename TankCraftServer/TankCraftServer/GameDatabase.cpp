@@ -163,8 +163,13 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
     pGameDatabase
         ->lock(); /* ------------------------------------------------------- */
 
-    GameDatabasePhsicalEngineTankFunction(pGameDatabase);   /* 处理坦克的移动事件 */
-    GameDatabasePhsicalEngineBulletFunction(pGameDatabase); /* 处理炮弹移动事件 */
+    GameDatabasePhsicalEngineTankFunction(
+        pGameDatabase); /* 处理坦克的移动事件 */
+    GameDatabasePhsicalEngineBulletFunction(
+        pGameDatabase); /* 处理炮弹移动事件 */
+
+    /* 设置上次绘制时间 */
+    pGameDatabase->SetLastFrameTime(Utils::GetClockTime());
 
     pGameDatabase
         ->unlock(); /* ---------------------------------------------------- */
@@ -193,9 +198,15 @@ void GameDatabase::GameDatabasePhsicalEngineTankFunction(
   double dT =
       timeNow - pGameDatabase->GetLastFrameTime(); /* 计算上一帧的计算时间 */
 
+  IntSet canShootUserId; /* 记录哪些用户可以发射炮弹 */
+  IntSet shootUserIdSet; /* 记录哪些用户发炮了 */
+
   /* 获取坦克键盘状态 */
   for (auto pUserInfo : pGameDatabase->mUserInfoList) {
     pUserInfo->GetTankKeyStatus(&keyStatusMap);
+    if (pUserInfo->CanShoot()) {
+      canShootUserId.insert(pUserInfo->GetUserId());
+    }
   }
 
   /* 随机枚举一个方向然后走过去, 直接在 tankPosMap 上修改 */
@@ -231,14 +242,19 @@ void GameDatabase::GameDatabasePhsicalEngineTankFunction(
         TANK_RADIUS + WALL_WIDTH); /* 保证所在格子的四面墙能约束当前坦克*/
 
     /* 发射炮弹 */
-    if ((keyStatusMap.find(tankUserId))->second.shoot) {
+    if ((keyStatusMap.find(tankUserId))->second.shoot == TANK_KEY_DOWN) {
       /* 帮他把按键抬起来 */
-      pGameDatabase->SetKeyStatusForUser(tankUserId, TANK_SHOOT, TANK_KEY_UP);
 
-      double eps = 1e-4;
-      pGameDatabase->AddBullet(newTankPos.posX, newTankPos.posY,
-                               newTankPos.dirR,
-                               TANK_RADIUS + TANK_BULLET_RADIUS + eps);
+      if (canShootUserId.count(tankUserId) > 0) { /* 可以发炮 */
+        pGameDatabase->SetKeyStatusForUser(tankUserId, TANK_SHOOT, TANK_KEY_UP);
+
+        double eps = 1e-4;
+        pGameDatabase->AddBullet(
+            newTankPos.posX, newTankPos.posY, newTankPos.dirR,
+            TANK_RADIUS + TANK_BULLET_RADIUS + eps, tankUserId);
+
+        shootUserIdSet.insert(tankUserId);
+      }
     }
 
     pTankPos.second.SetX(newTankPos.posX); /* 设置坦克的实际位置 */
@@ -247,14 +263,56 @@ void GameDatabase::GameDatabasePhsicalEngineTankFunction(
   }
 
   /* 修改所有坦克位置 */
+  /* 修改所有坦克的发射状态信息 */
   for (auto pUserInfo : pGameDatabase->mUserInfoList) {
     pUserInfo->SetTankPos(&tankPosMap);
+
+    if (shootUserIdSet.count(pUserInfo->GetUserId()) > 0) {
+      pUserInfo->Shoot();
+    }
   }
-  pGameDatabase->SetLastFrameTime(timeNow);
 }
 
 void GameDatabase::GameDatabasePhsicalEngineBulletFunction(
-    GameDatabase* pGameDatabase) {}
+    GameDatabase* pGameDatabase) {
+  double timeNow = Utils::GetClockTime();
+  double dt = timeNow - pGameDatabase->GetLastFrameTime();
+
+  std::set<int> nExpiredBulletId; /* 记录所有过期子弹的地址 */
+
+  for (int i = 0; i < (int)pGameDatabase->mBulletInfoList.size(); i += 1) {
+    BulletInfo& bulletPos = pGameDatabase->mBulletInfoList[i];
+
+    if (timeNow - bulletPos.timeT >= TANK_BULLET_EXPIRED_TIME) {
+      nExpiredBulletId.insert(i);
+    } else {
+      /* 子弹前进, 直接在原数组上修改 */
+      bulletPos.posX += dt * cos(bulletPos.dirR) * BULLET_SPEED;
+      bulletPos.posY += dt * sin(bulletPos.dirR) * BULLET_SPEED;
+
+      /* TODO: 处理子弹反弹事件 */
+    }
+  }
+  
+  IntMap userIdBulletExpired; /* 所有子弹过期的用户 */
+
+  /* 删除所有过期的子弹 */
+  if (nExpiredBulletId.size() >= 1) {
+    auto p = nExpiredBulletId.end();
+    do {
+      p--;
+
+      int userId = pGameDatabase->mBulletInfoList[*p].userId;
+      userIdBulletExpired[userId] += 1;
+
+      pGameDatabase->mBulletInfoList.erase(
+          pGameDatabase->mBulletInfoList.begin()  + * p);
+    } while (p != nExpiredBulletId.begin());
+  }
+
+  /* 用户子弹超时处理 */
+  pGameDatabase->UserBulletExpired(&userIdBulletExpired);
+}
 
 double GameDatabase::GetLastFrameTime() const { return mLastFrameTime; }
 
@@ -273,13 +331,31 @@ void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
   }
 }
 
-void GameDatabase::AddBullet(double posX, double posY, double dirR,
-                             double disD) {
+void GameDatabase::AddBullet(double posX, double posY, double dirR, double disD,
+                             int userId) {
   double dx = cos(dirR) * disD, dy = sin(dirR) * disD;
   posX += dx;
   posY += dy; /* 在坦克的前方 disD 放置子弹 */
 
-  mBulletInfoList.push_back({posX, posY, dirR, Utils::GetClockTime()});
+  mBulletInfoList.push_back({posX, posY, dirR, Utils::GetClockTime(), userId});
+}
+
+void GameDatabase::GetCanShootUserIdSet(IntSet* userIdSet) const {
+  userIdSet->clear();
+  for (auto userInfo : mUserInfoList) {
+    if (userInfo->CanShoot()) {
+      userIdSet->insert(userInfo->GetUserId());
+    }
+  }
+}
+
+void GameDatabase::UserBulletExpired(IntMap* userIdMapToBulletCnt) { 
+  for (auto pUserInfo : mUserInfoList) {
+    int userId = pUserInfo->GetUserId();
+    if (userIdMapToBulletCnt->count(userId)) {
+      pUserInfo->BulletExpired((*userIdMapToBulletCnt)[userId]);
+    }
+  }
 }
 
 GameDatabase::GameDatabase() {
