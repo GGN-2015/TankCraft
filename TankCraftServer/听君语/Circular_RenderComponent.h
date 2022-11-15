@@ -12,7 +12,7 @@ namespace Xn {
 class Circular_RenderComponent : public RenderComponent {
  public:
   Circular_RenderComponent()
-      : RenderComponent(), radius_(1), color_(Vector4::ONE) {}
+      : RenderComponent(), radius_(1), color_(Vector4::ONE.asColor) {}
 
   // Í¨¹ý RenderComponent ¼Ì³Ð
   virtual void StartRender(const Vector2 &pos, const Vector2 &scale,
@@ -20,7 +20,7 @@ class Circular_RenderComponent : public RenderComponent {
   virtual void OverRender() override;
 
   Float radius_;
-  Vector4 color_;
+  Vector4::Color color_;
 };
 
 }  // namespace Xn

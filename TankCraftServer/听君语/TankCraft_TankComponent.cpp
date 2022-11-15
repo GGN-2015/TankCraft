@@ -22,7 +22,7 @@ void TankComponent::OnStart() {
       (Circular_RenderComponent *)GetXnObject()->SetRenderComponent(
           std::make_unique<Circular_RenderComponent>());
   render_component_->color_ =
-      Vector4(Vector3(200 / 255.f, 212 / 255.f, 230 / 255.f), 1.f);
+      Vector4(Vector3(200 / 255.f, 212 / 255.f, 230 / 255.f), 1.f).asColor;
 
   though_t_ = 0;
 
@@ -64,7 +64,7 @@ void TankComponent::OnUpdate() {
 #endif  // Test
 
   if (user_data_) {
-    render_component_->color_ = user_data_->color;
+    render_component_->color_ = user_data_->color.asColor;
   }
 }
 void TankComponent::OnDestory() {}

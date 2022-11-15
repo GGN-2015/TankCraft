@@ -255,18 +255,18 @@ void Xn::RenderManager::RenderRoundedRectangle(const Vector4 &rect,
   d2d_context_->FillRoundedRectangle(&d2d_rounded_rect, brush_.Get());
 }
 void Xn::RenderManager::RenderEllipse(const Vector2 &pos, const float &radius,
-                                      const Vector4 &color) {
-  brush_->SetColor(D2D1::ColorF(color.asColor.R, color.asColor.G,
-                                color.asColor.B, color.asColor.A));
+                                      const Vector4::Color &color) {
+  brush_->SetColor(D2D1::ColorF(color.R, color.G,
+                                color.B, color.A));
   D2D1_ELLIPSE d2d_ellipse = {
       .point = {.x = pos.x, .y = pos.y}, .radiusX = radius, .radiusY = radius};
   d2d_context_->FillEllipse(d2d_ellipse, brush_.Get());
 }
 void Xn::RenderManager::RenderEllipse(const Vector2 &pos, const float &radius_x,
                                       const float &radius_y,
-                                      const Vector4 &color) {
-  brush_->SetColor(D2D1::ColorF(color.asColor.R, color.asColor.G,
-                                color.asColor.B, color.asColor.A));
+                                      const Vector4::Color &color) {
+  brush_->SetColor(D2D1::ColorF(color.R, color.G,
+                                color.B, color.A));
   D2D1_ELLIPSE d2d_ellipse = {.point = {.x = pos.x, .y = pos.y},
                               .radiusX = radius_x,
                               .radiusY = radius_y};

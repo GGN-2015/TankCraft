@@ -21,6 +21,7 @@ struct UserData;
 class GameManagerComponent;
 class WallManagerComponent;
 class TankManagerComponent;
+class BulletManagerComponent;
 
 // 以x（Vector2::X）为前方向
 class MapManagerComponent : public Component {
@@ -44,6 +45,9 @@ class MapManagerComponent : public Component {
                     const Float &rotation, const Int &state);
   void EndSyncTankState();
   void TryBindUser(const UserData *const &user_data);
+  void StartSyncBulletState();
+  void SetBulletState(const uint &id, const Vector2 &pos);
+  void EndSyncBulletState();
 
  private:
   uint x_side_length_ = 1;
@@ -51,6 +55,7 @@ class MapManagerComponent : public Component {
 
   WallManagerComponent *wall_manager = nullptr;
   TankManagerComponent *tank_manager = nullptr;
+  BulletManagerComponent *bullet_manager = nullptr;
 
  private:
   Vector2 target_pos_;

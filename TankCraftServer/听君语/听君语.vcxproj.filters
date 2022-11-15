@@ -320,6 +320,9 @@
     <ClInclude Include="ButtonComponent.h">
       <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
     </ClInclude>
+    <ClInclude Include="TankCraft_BulletManager_Component.h">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\游戏区相关\实体相关</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -435,6 +438,9 @@
     </ClCompile>
     <ClCompile Include="..\TankCraftServer\TcpDataManager.cpp">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\GGN</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraft_BulletManager_Component.cpp">
+      <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\游戏区相关\实体相关</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

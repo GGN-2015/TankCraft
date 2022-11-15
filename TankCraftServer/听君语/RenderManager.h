@@ -43,9 +43,9 @@ class RenderManager : public RenderManagerInterface {
   void RenderRoundedRectangle(const Vector4 &rect, const float &radius_x,
                               const float &radius_y, const Vector4 &color);
   void RenderEllipse(const Vector2 &pos, const float &radius,
-                     const Vector4 &color);
+                     const Vector4::Color &color);
   void RenderEllipse(const Vector2 &pos, const float &radius_x,
-                     const float &radius_y, const Vector4 &color);
+                     const float &radius_y, const Vector4::Color &color);
   void RenderLine(const Vector2 &start_pos, const Vector2 &end_pos,
                   const float &width, const Vector4 &color);
   void RenderText(const Vector2 &start_pos, IDWriteTextLayout *text,
