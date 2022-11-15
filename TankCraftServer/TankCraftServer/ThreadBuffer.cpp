@@ -45,7 +45,9 @@ void ThreadBuffer::DumpBulletPosMessage(GameDatabase* Gdb) {
 
   // tmpTcpData->DebugShow("[BulletPosMessage] ");
   // system("pause");
-  DumpMessage(new BulletPosMessage(tmpTcpData.get()));
+  if (tmpTcpData->GetLength() > 6) {
+    DumpMessage(new BulletPosMessage(tmpTcpData.get()));
+  }
 }
 
 void ThreadBuffer::ClearDumpedMessage() {
