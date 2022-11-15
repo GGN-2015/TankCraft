@@ -46,6 +46,8 @@ void TcpDataManager::DeleteDeadTcpData() {
       tcpDataList.push_back(pTcpData.first);
     }
   }
+
+#ifdef TCP_DATA_ASSERTION
   for (auto pTcpData : tcpDataList) {
     std::cerr << "__FILE__ = " << mTcpDataMap[pTcpData].fileName
               << " __LINE__ = " << mTcpDataMap[pTcpData].line << std::endl;
@@ -54,4 +56,5 @@ void TcpDataManager::DeleteDeadTcpData() {
     system("pause");
     assert(false); /* 不允许程序继续执行 */
   }
+#endif
 }

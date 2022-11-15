@@ -65,6 +65,8 @@ class GameDatabase : public MyMutex {
 
   void GetTankPosMessage(
       TcpData* pTcpData) const; /* 获取所有坦克当前的位置信息 */
+  void GetBulletPosMessage(TcpData* pTcpData) const; /* 获取所有子弹的位置信息 */
+
   int GetMaxUserId() const;     /* 获得当前最大用户编号 */
 
   int GetGameDatabaseStatusAtomic() const;    /* 获取运行状态 */

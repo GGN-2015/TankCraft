@@ -9,6 +9,8 @@ class ThreadBuffer {
 
   void DumpMessage(IMessage* iMessage); /* 向缓冲区中缓冲一条消息 */
   void DumpTankPosMessage(GameDatabase* Gdb); /* 向客户端发送坦克位置信息 */
+  void DumpBulletPosMessage(GameDatabase* Gdb); /* 向客户端发送子弹位置信息 */
+
   void ClearDumpedMessage(); /* 清空所有待发送的消息 */
 
   void GetTcpDataFromDumpedMessage(

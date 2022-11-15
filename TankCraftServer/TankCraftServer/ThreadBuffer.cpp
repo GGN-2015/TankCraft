@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 
+#include "BulletPosMessage.h"
 #include "GameDatabase.h"
 #include "IMessage.h"
 #include "MapMessage.h"
@@ -33,6 +34,18 @@ void ThreadBuffer::DumpTankPosMessage(GameDatabase* Gdb) {
   //          << tmpTcpData.GetLength() << std::endl;
 
   DumpMessage(new TankPosMessage(tmpTcpData.get()));
+}
+
+void ThreadBuffer::DumpBulletPosMessage(GameDatabase* Gdb) {
+  std::shared_ptr<TcpData> tmpTcpData(
+      TcpData::AllocTcpData(__FILE__, __LINE__, false));
+
+  // std::cerr << "ThreadBuffer::DumpBulletPosMessage" << std::endl;
+  Gdb->GetBulletPosMessage(tmpTcpData.get());
+
+  // tmpTcpData->DebugShow("[BulletPosMessage] ");
+  // system("pause");
+  DumpMessage(new BulletPosMessage(tmpTcpData.get()));
 }
 
 void ThreadBuffer::ClearDumpedMessage() {

@@ -136,6 +136,46 @@ void GameDatabase::GetTankPosMessage(TcpData* pTcpData) const {
   delete[] buf;
 }
 
+void GameDatabase::GetBulletPosMessage(TcpData* pTcpData) const {
+  int bulletCnt = (int)mBulletInfoList.size();
+  int restLen = 2 + 12 * bulletCnt;
+  int totalLen = 4 + restLen;
+
+  char* buf = new char[totalLen];
+  int pos = 0;
+
+  Utils::DumpUnsignedShortToBuffer(buf, pos, 7);
+  pos += 2; /* 七号消息表示消息的长度 */
+
+  Utils::DumpUnsignedShortToBuffer(buf, pos, *(unsigned int*)&restLen);
+  pos += 2; /* 剩余部分的消息长度 */
+
+  Utils::DumpUnsignedShortToBuffer(buf, pos, *(unsigned int*)&bulletCnt);
+  pos += 2; /* 子弹总数 */
+
+  for (int i = 0; i < bulletCnt; i += 1) {
+    float posX = (float)mBulletInfoList[i].posX;
+    float posY = (float)mBulletInfoList[i].posY;
+
+    Utils::DumpUnsignedShortToBuffer(buf, pos, 0); /* 炮弹是 0 类型实体 */
+    pos += 2;
+
+    Utils::DumpFloatToBuffer(buf, pos, posX);
+    pos += 4; /* 横坐标 4 个字节 */
+
+    Utils::DumpFloatToBuffer(buf, pos, posY);
+    pos += 4; /* 纵坐标 4 个字节 */
+
+    Utils::DumpUnsignedShortToBuffer(buf, pos, mBulletInfoList[i].userId);
+    pos += 2; /* 实体 ID 2 个字节 */
+  }
+
+  pTcpData->SetData(buf, totalLen); /* 拷贝数据 */
+  delete[] buf;
+
+  /* TODO: 反馈所有子弹的位置信息 */
+}
+
 int GameDatabase::GetMaxUserId() const { return mUserIdNow; }
 
 int GameDatabase::GetGameDatabaseStatusAtomic() const {
@@ -333,11 +373,14 @@ void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
 
 void GameDatabase::AddBullet(double posX, double posY, double dirR, double disD,
                              int userId) {
+
   double dx = cos(dirR) * disD, dy = sin(dirR) * disD;
   posX += dx;
   posY += dy; /* 在坦克的前方 disD 放置子弹 */
 
   mBulletInfoList.push_back({posX, posY, dirR, Utils::GetClockTime(), userId});
+  std::cerr << "GameDatabase::AddBullet, bulletCnt = " << mBulletInfoList.size()
+            << std::endl;
 }
 
 void GameDatabase::GetCanShootUserIdSet(IntSet* userIdSet) const {

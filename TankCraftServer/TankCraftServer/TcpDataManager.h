@@ -5,6 +5,7 @@
 #include <vector>
 
 #define TCPDATA_MAX_SURVIVE_TIME (5.0) /* TCP 数据最大存活 1s */
+// #define TCP_DATA_ASSERTION
 
 struct TcpDataInfo {
   double runTime;

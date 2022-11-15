@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BulletInfo.cpp" />
+    <ClCompile Include="BulletPosMessage.cpp" />
     <ClCompile Include="DataParser.cpp" />
     <ClCompile Include="GameDatabase.cpp" />
     <ClCompile Include="GameGraph.cpp" />
@@ -179,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BulletInfo.h" />
+    <ClInclude Include="BulletPosMessage.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DataParser.h" />
     <ClInclude Include="GameDatabase.h" />
