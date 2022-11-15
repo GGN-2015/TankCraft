@@ -45,9 +45,9 @@ void ThreadBuffer::DumpBulletPosMessage(GameDatabase* Gdb) {
 
   // tmpTcpData->DebugShow("[BulletPosMessage] ");
   // system("pause");
-  if (tmpTcpData->GetLength() > 6) {
-    DumpMessage(new BulletPosMessage(tmpTcpData.get()));
-  }
+   
+  /* 还是要实时发送子弹状态 */
+  DumpMessage(new BulletPosMessage(tmpTcpData.get()));
 }
 
 void ThreadBuffer::ClearDumpedMessage() {
