@@ -166,7 +166,7 @@ void GameDatabase::GetBulletPosMessage(TcpData* pTcpData) const {
     Utils::DumpFloatToBuffer(buf, pos, posY);
     pos += 4; /* 纵坐标 4 个字节 */
 
-    Utils::DumpUnsignedShortToBuffer(buf, pos, mBulletInfoList[i].userId);
+    Utils::DumpUnsignedShortToBuffer(buf, pos, mBulletInfoList[i].bulletId);
     pos += 2; /* 实体 ID 2 个字节 */
   }
 
@@ -378,7 +378,7 @@ void GameDatabase::AddBullet(double posX, double posY, double dirR, double disD,
   posX += dx;
   posY += dy; /* 在坦克的前方 disD 放置子弹 */
 
-  mBulletInfoList.push_back({posX, posY, dirR, Utils::GetClockTime(), userId});
+  mBulletInfoList.push_back(BulletInfo(posX, posY, dirR, Utils::GetClockTime(), userId));
   std::cerr << "GameDatabase::AddBullet, bulletCnt = " << mBulletInfoList.size()
             << std::endl;
 }

@@ -18,7 +18,9 @@ bool TcpDataManager::Register(TcpData* pTcpData, std::string nFileName, int nLin
   // std::cerr << "TcpDataManager::Register cntNow = " << mTcpDataMap.size()
   //          << std::endl;
 
+#ifdef DEBUG_TCP_DATA_ON
   DeleteDeadTcpData();
+#endif
 
   if (mTcpDataMap.count((void*)pTcpData) == 0) {
     mTcpDataMap[(void*)pTcpData] = {Utils::GetClockTime(), nFileName, nLine};

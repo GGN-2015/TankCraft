@@ -2,6 +2,8 @@
 
 #include <string>
 
+// #define DEBUG_TCP_DATA_ON
+
 class TcpData {
  public:
   ~TcpData();

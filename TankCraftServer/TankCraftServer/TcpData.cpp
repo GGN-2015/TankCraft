@@ -11,10 +11,12 @@
 TcpData* TcpData::AllocTcpData(std::string nFileName, int nLine, bool Test) {
   TcpData* pTcpData = new TcpData;
 
+#ifdef DEBUG_TCP_DATA_ON
   if (Test) {
     TcpDataManager* tdm = TcpDataManager::GetGlobalTcpDataManager();
     tdm->Register(pTcpData, nFileName, nLine);
   }
+#endif
 
   return pTcpData;
 }
@@ -46,8 +48,11 @@ TcpData::TcpData() {
 
 TcpData::~TcpData() {  
   FreeData();
+
+#ifdef DEBUG_TCP_DATA_ON
   TcpDataManager* tdm = TcpDataManager::GetGlobalTcpDataManager();
   tdm->Delete(this);
+#endif
 }
 
 const char* TcpData::GetData() const { return mRawData; }
