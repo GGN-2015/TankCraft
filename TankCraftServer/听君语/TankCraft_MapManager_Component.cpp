@@ -10,6 +10,7 @@
 #include "RenderManager.h"
 #include "Square_RenderComponent.h"
 #include "TankCraft_BulletComponent.h"
+#include "TankCraft_BulletManager_Component.h"
 #include "TankCraft_TankComponent.h"
 #include "TankCraft_TankManager_Component.h"
 #include "TankCraft_WallManager_Component.h"
@@ -32,6 +33,11 @@ void Xn::TankCraft::MapManagerComponent::OnStart() {
                      .GetObjectManager()
                      ->CreateXnObject(Vector2::ZERO, GetXnObject())
                      ->AddComponent(std::make_unique<TankManagerComponent>());
+  bullet_manager =
+      (BulletManagerComponent*)听君语::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->AddComponent(std::make_unique<BulletManagerComponent>());
 
   // TODO 目前，仅支持地图上下对齐，左右不管
   {
@@ -105,4 +111,17 @@ void Xn::TankCraft::MapManagerComponent::EndSyncTankState() {
 void Xn::TankCraft::MapManagerComponent::TryBindUser(
     const UserData* const& user_data) {
   tank_manager->TryBindUser(user_data);
+}
+
+void Xn::TankCraft::MapManagerComponent::StartSyncBulletState() {
+  bullet_manager->StartSyncBulletState();
+}
+
+void Xn::TankCraft::MapManagerComponent::SetBulletState(const uint& id,
+                                                        const Vector2& pos) {
+  bullet_manager->SetBulletState(id, pos);
+}
+
+void Xn::TankCraft::MapManagerComponent::EndSyncBulletState() {
+  bullet_manager->EndSyncBulletState();
 }

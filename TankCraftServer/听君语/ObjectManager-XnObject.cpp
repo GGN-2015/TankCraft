@@ -87,6 +87,8 @@ void Xn::XnObject::RemoveRenderComponet() {
   render_component_ = nullptr;
 }
 
+bool Xn::XnObject::IsActive() { return is_active_; }
+
 void Xn::XnObject::SetActive(const bool &is_active) { is_active_ = is_active; }
 
 XnObject *XnObject::AddChild(std::unique_ptr<XnObject> child) {

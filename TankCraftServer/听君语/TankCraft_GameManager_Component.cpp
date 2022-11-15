@@ -312,7 +312,49 @@ void Xn::TankCraft::GameManagerComponent::SetUsersKillNumber(
 }
 void Xn::TankCraft::GameManagerComponent::SetEntitiesState(
     const wchar* const& entities_data, const uint& entity_count) {
-  // TODO
+  map_manager_->StartSyncBulletState();
+
+  uint entities_data_index = 0;
+  for (uint i = 0; i < entity_count; ++i) {
+    const uint entity_type = *(uint16*)&entities_data[entities_data_index];
+    entities_data_index += 1;
+    switch (entity_type) {
+      case 0: {  // ×Óµ¯
+        const Float x = *(Float*)&entities_data[entities_data_index];
+        entities_data_index += 2;
+        const Float y = *(Float*)&entities_data[entities_data_index];
+        entities_data_index += 2;
+        const uint id = *(uint16*)&entities_data[entities_data_index];
+        entities_data_index += 1;
+        SetBulletState(id, {x, y});
+      } break;
+      case 1: {  // ²Ðº¡
+        const Float x = *(Float*)&entities_data[entities_data_index];
+        entities_data_index += 2;
+        const Float y = *(Float*)&entities_data[entities_data_index];
+        entities_data_index += 2;
+        const uint id = *(uint*)&entities_data[entities_data_index];
+        entities_data_index += 2;
+        SetTankBomb(id, {x, y});
+      } break;
+      case 2: {
+        const uint laser_point_count =
+            *(uint16*)&entities_data[entities_data_index];
+        entities_data_index += 1;
+        SetLaser(&entities_data[entities_data_index], laser_point_count);
+        entities_data_index += 4 * laser_point_count;
+      } break;
+      case 3: {
+        // TODOÎäÆ÷
+        assert("ÎäÆ÷£¿£¿£¿");
+      } break;
+
+      default:
+        break;
+    }
+  }
+
+  map_manager_->EndSyncBulletState();
 }
 
 void Xn::TankCraft::GameManagerComponent::DealLoginMessage(
@@ -453,7 +495,7 @@ void Xn::TankCraft::GameManagerComponent::AddUser(
 }
 void Xn::TankCraft::GameManagerComponent::SetBulletState(const uint& id,
                                                          const Vector2& pos) {
-  // TODO
+  map_manager_->SetBulletState(id, pos);
 }
 void Xn::TankCraft::GameManagerComponent::SetTankBomb(const uint& user_id,
                                                       const Vector2& pos) {

@@ -14,11 +14,13 @@ void Xn::TankCraft::BulletComponent::OnStart() {
       (Circular_RenderComponent*)GetXnObject()->SetRenderComponent(
           std::make_unique<Circular_RenderComponent>());
 
+#if XN_IS_OPEN_BULLET_MOVE_LERP
   though_t_ = 0;
-
   SetLerpTime(0.1f);
+#endif
+
   SetRadio(0.04f);
-  SetColor(Vector3::Random(Vector3::ZERO, Vector3(0.3f, 0.3f, 0.3f)));
+  SetColor(Vector3::Random(Vector3::ZERO, Vector3(0.3f, 0.3f, 0.3f)).asColor);
 
 #if _DEBUG && 0
   SetPos(Vector2::Random({0, 0}, {10, 10}));
@@ -26,6 +28,7 @@ void Xn::TankCraft::BulletComponent::OnStart() {
 #endif  // Test
 }
 void Xn::TankCraft::BulletComponent::OnUpdate() {
+#if XN_IS_OPEN_BULLET_MOVE_LERP
   though_t_ += Ìý¾ýÓï::Get().GetDeltaTime();
   auto t = though_t_.ScaleFromTo(0, lerp_time_, 0, 1);
   GetXnObject()->pos_ = Vector2::Lerp(start_pos_, target_pos_, t);
@@ -38,25 +41,36 @@ void Xn::TankCraft::BulletComponent::OnUpdate() {
     SetTargetPos(new_target_pos_);
   }
 #endif  // Test
+#endif  // XN_IS_OPEN_BULLET_MOVE_LERP
 }
 
 void Xn::TankCraft::BulletComponent::SetLerpTime(const Float& lerp_time) {
+#if XN_IS_OPEN_BULLET_MOVE_LERP
   lerp_time_ = lerp_time;
+#endif  // XN_IS_OPEN_BULLET_MOVE_LERP
 }
 void Xn::TankCraft::BulletComponent::SetPos(const Vector2& pos) {
+#if XN_IS_OPEN_BULLET_MOVE_LERP
   GetXnObject()->pos_ = start_pos_ = target_pos_ = pos;
+#else
+  GetXnObject()->pos_ = pos;
+#endif  // XN_IS_OPEN_BULLET_MOVE_LERP
 }
 void Xn::TankCraft::BulletComponent::SetTargetPos(const Vector2& pos) {
+#if XN_IS_OPEN_BULLET_MOVE_LERP
   though_t_ = 0;
   start_pos_ = GetXnObject()->pos_;
   target_pos_ = pos;
+#else
+  SetPos(pos);
+#endif  // XN_IS_OPEN_BULLET_MOVE_LERP
 }
 void Xn::TankCraft::BulletComponent::SetRadio(const Float& radius) {
   render_component_->radius_ = radius;
 }
-void Xn::TankCraft::BulletComponent::SetColor(const Vector3& color) {
-  SetColor(Vector4(color, 1));
+void Xn::TankCraft::BulletComponent::SetColor(const Vector3::Color& color) {
+  SetColor(Vector4::Color(color, 1));
 }
-void Xn::TankCraft::BulletComponent::SetColor(const Vector4& color) {
+void Xn::TankCraft::BulletComponent::SetColor(const Vector4::Color& color) {
   render_component_->color_ = color;
 }
