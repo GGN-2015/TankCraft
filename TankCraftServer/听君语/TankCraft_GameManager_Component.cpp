@@ -468,6 +468,7 @@ void Xn::TankCraft::GameManagerComponent::TrySendKeyMessage() {
         mes += std::to_wstring(key_state);
         mes += L"¡¿";
         error_message_text->SetText(mes);
+        OutputDebugString((mes + L"\n").data());
       }
 
       std::wstring s = L"";
