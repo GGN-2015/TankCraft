@@ -86,10 +86,6 @@ void TcpUtils::ClientThreadFunction(
           std::cerr << "[Client] Can not connect to server." << std::endl;
         }
 
-        /* 释放先前的 Request 空间 */
-        for (auto pTcpData : tcpDataList) {
-          delete pTcpData;
-        }
         tcpDataList.clear();
 
         /* 对收到的消息进行解包 */
@@ -102,9 +98,6 @@ void TcpUtils::ClientThreadFunction(
             nmComponent->PushServerMessageTcpData(pTcpData);
           }
 
-          for (auto pTcpData : tcpDataList) { /* 释放 Message 空间 */
-            delete pTcpData;
-          }
           tcpDataList.clear();
         } else
           break;
@@ -141,7 +134,7 @@ void TcpUtils::CompactTcpDataListToTcpDataRequest(
 
   /* 将数据填写进入消息 */
   for (auto pTcpData : *tcpDataList) {
-    Utils::DumpTcpDataToBuffer(buf, pos, pTcpData);
+    Utils::DumpTcpDataToBuffer(buf, pos, pTcpData.get());
     pos += pTcpData->GetLength();
   }
   assert(pos == totalLength - 2); /* 检查是否恰好还剩两个位置 */
@@ -176,7 +169,7 @@ void TcpUtils::UnpackTcpDataMessageToTcpDataList(const TcpData* pTcpDataMessage,
     pTcpDataMessage->DebugShow("[TcpData] ");
     assert(pos + dataLength <= messageTotalLength);
 
-    TcpData* tcpDataNow = TcpData::AllocTcpData(__FILE__, __LINE__);
+    std::shared_ptr<TcpData> tcpDataNow(TcpData::AllocTcpData(__FILE__, __LINE__));
     tcpDataNow->SetData(pTcpDataMessage->GetData() + pos, dataLength);
     pTcpDataList->push_back(tcpDataNow); /* 主函数负责释放 */
 
@@ -194,7 +187,7 @@ void TcpUtils::GetTcpDataListFromNetMessageBaseDataList(
   tcpDataList->clear();
 
   for (int i = 0; i < (int)nmBaseDataList->size(); i += 1) {
-    TcpData* tcpDataNow = TcpData::AllocTcpData(__FILE__, __LINE__);
+    std::shared_ptr<TcpData> tcpDataNow(TcpData::AllocTcpData(__FILE__, __LINE__));
     (*nmBaseDataList)[i]->MoveDataToTcpData(tcpDataNow); /* 移动数据 */
 
     /* TODO 要记得释放 */
