@@ -10,7 +10,7 @@
 
 /* 不写到这我的程序可能兼容不了 */
 class TcpData;
-typedef std::vector<TcpData*> TcpDataList;
+typedef std::vector<std::shared_ptr<TcpData> > TcpDataList;
 
 namespace Xn {
 
@@ -27,8 +27,8 @@ struct NetMessageBaseData {
 
   NetMessageBaseData() : length(0), data(nullptr){};
   ~NetMessageBaseData() { FreeData(); }     /* 析构函数 */
-  void MoveDataFrom(TcpData* pTcpData);     /* 转移构造 */
-  void MoveDataToTcpData(TcpData* tcpData); /* 将数据转移出去 */
+  void MoveDataFrom(std::shared_ptr<TcpData> pTcpData); /* 转移构造 */
+  void MoveDataToTcpData(std::shared_ptr<TcpData> tcpData); /* 将数据转移出去 */
   void FreeData();                          /* 安全地清空数据 */
   void SetData(wchar_t* nData, int nLen); /* 释放原先的数据，设置新数据 */
 
@@ -111,8 +111,8 @@ class NetManager_Component : public Component {
   void MoveClientRequestToNetMessageBaseDataList(
       NetMessageBaseDataList* nmBaseDataList); /* 原子：数据转移 */
 
-  void PushServerMessageTcpData(
-      TcpData* pTcpData); /* 原子：向来自服务器的消息序列追加数据 */
+  void PushServerMessageTcpData(std::shared_ptr<TcpData> pTcpData); /* 原子：向来自服务器的消息序列追加数据
+                                                                     */
 
  private:
   /* 原子：相当于一条来自服务器的消息，但是实际上是本机推送的 */

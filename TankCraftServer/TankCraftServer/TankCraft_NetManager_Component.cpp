@@ -181,7 +181,7 @@ void Xn::TankCraft::NetManager_Component::
 }
 
 void Xn::TankCraft::NetManager_Component::PushServerMessageTcpData(
-    TcpData* pTcpData) {
+    std::shared_ptr<TcpData> pTcpData) {
   Lock();
 
   std::unique_ptr<NetMessageBaseData> nmBaseData(new NetMessageBaseData);
@@ -206,7 +206,7 @@ void Xn::TankCraft::NetManager_Component::Lock() const { mMyMutex.lock(); }
 
 void Xn::TankCraft::NetManager_Component::Unlock() const { mMyMutex.unlock(); }
 
-void Xn::TankCraft::NetMessageBaseData::MoveDataFrom(TcpData* pTcpData) {
+void Xn::TankCraft::NetMessageBaseData::MoveDataFrom(std::shared_ptr<TcpData> pTcpData) {
   delete[] data;
 
   assert(pTcpData->GetLength() % 2 == 0);
@@ -217,7 +217,8 @@ void Xn::TankCraft::NetMessageBaseData::MoveDataFrom(TcpData* pTcpData) {
   pTcpData->IgnoreData(); /* 在不析构的前提下 */
 }
 
-void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(TcpData* tcpData) {
+void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(
+    std::shared_ptr<TcpData> tcpData) {
   /* 直接过继数据 */
   tcpData->DirectSet((char*)data, length * 2);
 
