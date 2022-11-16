@@ -11,6 +11,7 @@
 namespace Xn {
 
 class Line_RenderComponent;
+class Circular_RenderComponent;
 
 namespace TankCraft {
 
@@ -34,6 +35,7 @@ class WallComponent : public Component {
   Vector2 end_point_;
 
   Line_RenderComponent *render_component_ = nullptr;
+  Circular_RenderComponent *ends_render_component_[2] = {};
 };
 
 }  // namespace TankCraft
