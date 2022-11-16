@@ -181,7 +181,8 @@ void Utils::PointPushWithDir(double* px, double* py, double x, double y,
 
     /* 调整前进方向 */
     double dr = *dx * vdx + *dy * vdy; /* 指向圆心的反向向量 */
-    std::cerr << "PointDistance dr = " << dr << std::endl;
+    // std::cerr << "PointDistance dr = " << dr << std::endl;
+
     *dx = *dx + fabs(dr) * vdx;
     *dy = *dy + fabs(dr) * vdy;
 
