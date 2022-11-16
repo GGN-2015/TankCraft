@@ -281,10 +281,10 @@ void GameDatabase::GameDatabasePhsicalEngineTankFunction(
 
     /* 发射炮弹 */
     if ((keyStatusMap.find(tankUserId))->second.shoot == TANK_KEY_DOWN) {
-      /* 帮他把按键抬起来 */
+      /* 无论是否能发炮，都帮他把按键抬起来 */
 
+      pGameDatabase->SetKeyStatusForUser(tankUserId, TANK_SHOOT, TANK_KEY_UP);
       if (canShootUserId.count(tankUserId) > 0) { /* 可以发炮 */
-        pGameDatabase->SetKeyStatusForUser(tankUserId, TANK_SHOOT, TANK_KEY_UP);
 
         double eps = 1e-4;
         pGameDatabase->AddBullet(
