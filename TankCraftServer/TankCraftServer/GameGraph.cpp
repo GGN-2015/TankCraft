@@ -224,6 +224,82 @@ void GameGraph::BoxFit(double* posX, double* posY, double r) const {
   }
 }
 
+void GameGraph::BulletBoxFit(double* posX, double* posY, double r,
+                             double* dirR) {
+  const double eps = 1e-5;
+  int gridX = int(*posY + eps);
+  int gridY = int(*posX + eps);
+
+  double dx = cos(*dirR);
+  double dy = sin(*dirR);
+
+  bool dirChanged = false;
+
+  /* 边界检查 */
+  if (PosHasLeftEdge(gridX, gridY)) {
+    // *posX = std::max(*posX, gridY + r);
+    if (gridY + r > *posX) {
+      *posX = gridY + r;
+      if (dx < 0) {
+        std::cerr << "GameGraph::BulletBoxFit InvX" << std::endl;
+        dx = -dx; /* x 方向速度反向 */
+      }
+      dirChanged = true;
+    }
+  }
+  if (PosHasRightEdge(gridX, gridY)) {
+    // *posX = std::min(*posX, gridY + 1 - r);
+    if (gridY + 1 - r < *posX) {
+      *posX = gridY + 1 - r;
+      if (dx > 0) {
+        std::cerr << "GameGraph::BulletBoxFit InvX" << std::endl;
+        dx = -dx; /* x 方向速度反向 */
+      }
+      dirChanged = true;
+    }
+  }
+  if (PosHasTopEdge(gridX, gridY)) {
+    // *posY = std::max(*posY, gridX + r);
+    if (gridX + r > *posY) {
+      *posY = gridX + r;
+      if (dy < 0) {
+        std::cerr << "GameGraph::BulletBoxFit InvY" << std::endl;
+        dy = -dy; /* y 方向速度反向 */
+      }
+      dirChanged = true;
+    }
+  }
+  if (PosHasBottomEdge(gridX, gridY)) {
+    // *posY = std::min(*posY, gridX + 1 - r);
+    if (gridX + 1 - r < *posY) {
+      *posY = gridX + 1 - r;
+      if (dy > 0) {
+        std::cerr << "GameGraph::BulletBoxFit InvY" << std::endl;
+        dy = -dy; /* y 方向速度反向 */
+      }
+      dirChanged = true;
+    }
+  }
+
+  /* 顶点检查 */
+  /*if (PosHasTopLeft(gridX, gridY)) {
+    Utils::PointPush(posX, posY, gridY, gridX, r);
+  }
+  if (PosHasTopRight(gridX, gridY)) {
+    Utils::PointPush(posX, posY, gridY + 1, gridX, r);
+  }
+  if (PosHasBottomLeft(gridX, gridY)) {
+    Utils::PointPush(posX, posY, gridY, gridX + 1, r);
+  }
+  if (PosHasBottomRight(gridX, gridY)) {
+    Utils::PointPush(posX, posY, gridY + 1, gridX + 1, r);
+  }*/
+
+  if (dirChanged) {
+    *dirR = Utils::GetDirByDxDy(dx, dy);
+  }
+}
+
 bool GameGraph::PosHasTopEdge(int gridX, int gridY) const {
   if (!InGraphGrid(gridX, gridY)) {
     return false;

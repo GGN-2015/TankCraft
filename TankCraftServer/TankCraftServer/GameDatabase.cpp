@@ -172,8 +172,6 @@ void GameDatabase::GetBulletPosMessage(TcpData* pTcpData) const {
 
   pTcpData->SetData(buf, totalLen); /* 拷贝数据 */
   delete[] buf;
-
-  /* TODO: 反馈所有子弹的位置信息 */
 }
 
 int GameDatabase::GetMaxUserId() const { return mUserIdNow; }
@@ -330,7 +328,10 @@ void GameDatabase::GameDatabasePhsicalEngineBulletFunction(
       bulletPos.posX += dt * cos(bulletPos.dirR) * BULLET_SPEED;
       bulletPos.posY += dt * sin(bulletPos.dirR) * BULLET_SPEED;
 
-      /* TODO: 处理子弹反弹事件 */
+      pGameDatabase->mGameGraph.BulletBoxFit(
+          &bulletPos.posX, &bulletPos.posY, /* 子弹的位置 */
+          TANK_BULLET_RADIUS + WALL_WIDTH, &bulletPos.dirR
+      );
     }
   }
   

@@ -33,6 +33,7 @@ class GameGraph {
                double r) const; /* 判断一个圆是否完全在地图中 */
 
   void BoxFit(double* posX, double* posY, double r) const; /* 使用边界约束一个坦克 */
+  void BulletBoxFit(double* posX, double* posY, double r, double* dirR); /* 约束一个炮弹 */
   
   /* 检查边的存在性 */
   bool PosHasTopEdge(int gridX, int gridY) const;

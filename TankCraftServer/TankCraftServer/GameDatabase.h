@@ -25,7 +25,7 @@
 #define TANK_RADIUS (0.3)                         /* 坦克半径 */
 #define WALL_WIDTH (0.05)                         /* 墙的宽度的一半 */
 #define TANK_BULLET_RADIUS (0.04)                 /* 子弹的宽度 */
-#define TANK_BULLET_EXPIRED_TIME (1.0)            /* 子弹生存时间 */
+#define TANK_BULLET_EXPIRED_TIME (10.0)            /* 子弹生存时间 */
 
 #define BULLET_SPEED (2 * TANK_SPEED) /* 子弹的速度 */
 

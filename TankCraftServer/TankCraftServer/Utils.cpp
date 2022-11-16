@@ -146,3 +146,14 @@ double Utils::PointDistance(double x1, double y1, double x2, double y2) {
 double Utils::VectorLength(double dx, double dy) {
   return sqrt(dx * dx + dy * dy);
 }
+
+double Utils::GetDirByDxDy(double dx, double dy) {
+  const double eps = 1e-2;
+  double dirR = acos(dx);
+
+  if (dy >= 0) {
+    return dirR;
+  } else {
+    return Get2PI() - dirR;
+  }
+}
