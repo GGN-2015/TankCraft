@@ -241,7 +241,7 @@ void GameGraph::BulletBoxFit(double* posX, double* posY, double r,
     if (gridY + r > *posX) {
       *posX = gridY + r;
       if (dx < 0) {
-        std::cerr << "GameGraph::BulletBoxFit InvX" << std::endl;
+        // std::cerr << "GameGraph::BulletBoxFit InvX" << std::endl;
         dx = -dx; /* x 方向速度反向 */
       }
       dirChanged = true;
@@ -252,7 +252,7 @@ void GameGraph::BulletBoxFit(double* posX, double* posY, double r,
     if (gridY + 1 - r < *posX) {
       *posX = gridY + 1 - r;
       if (dx > 0) {
-        std::cerr << "GameGraph::BulletBoxFit InvX" << std::endl;
+        // std::cerr << "GameGraph::BulletBoxFit InvX" << std::endl;
         dx = -dx; /* x 方向速度反向 */
       }
       dirChanged = true;
@@ -263,7 +263,7 @@ void GameGraph::BulletBoxFit(double* posX, double* posY, double r,
     if (gridX + r > *posY) {
       *posY = gridX + r;
       if (dy < 0) {
-        std::cerr << "GameGraph::BulletBoxFit InvY" << std::endl;
+        // std::cerr << "GameGraph::BulletBoxFit InvY" << std::endl;
         dy = -dy; /* y 方向速度反向 */
       }
       dirChanged = true;
@@ -274,7 +274,7 @@ void GameGraph::BulletBoxFit(double* posX, double* posY, double r,
     if (gridX + 1 - r < *posY) {
       *posY = gridX + 1 - r;
       if (dy > 0) {
-        std::cerr << "GameGraph::BulletBoxFit InvY" << std::endl;
+        // std::cerr << "GameGraph::BulletBoxFit InvY" << std::endl;
         dy = -dy; /* y 方向速度反向 */
       }
       dirChanged = true;
@@ -282,18 +282,21 @@ void GameGraph::BulletBoxFit(double* posX, double* posY, double r,
   }
 
   /* 顶点检查 */
-  /*if (PosHasTopLeft(gridX, gridY)) {
-    Utils::PointPush(posX, posY, gridY, gridX, r);
+  if (PosHasTopLeft(gridX, gridY)) {
+    Utils::PointPushWithDir(posX, posY, gridY, gridX, r, &dx, &dy, &dirChanged);
   }
   if (PosHasTopRight(gridX, gridY)) {
-    Utils::PointPush(posX, posY, gridY + 1, gridX, r);
+    Utils::PointPushWithDir(posX, posY, gridY + 1, gridX, r, &dx, &dy,
+                            &dirChanged);
   }
   if (PosHasBottomLeft(gridX, gridY)) {
-    Utils::PointPush(posX, posY, gridY, gridX + 1, r);
+    Utils::PointPushWithDir(posX, posY, gridY, gridX + 1, r, &dx, &dy,
+                            &dirChanged);
   }
   if (PosHasBottomRight(gridX, gridY)) {
-    Utils::PointPush(posX, posY, gridY + 1, gridX + 1, r);
-  }*/
+    Utils::PointPushWithDir(posX, posY, gridY + 1, gridX + 1, r, &dx, &dy,
+                            &dirChanged);
+  }
 
   if (dirChanged) {
     *dirR = Utils::GetDirByDxDy(dx, dy);

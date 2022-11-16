@@ -38,6 +38,9 @@ class Utils {
   static double PointDistance(double x1, double y1, double x2, double y2);
   static double VectorLength(double dx, double dy);
   static double GetDirByDxDy(double dx, double dy); /* 计算得到弧度坐标 */
+  static void PointPushWithDir(double* px, double* py, double x, double y,
+                               double r, double* dx, double* dy,
+                               bool* dirChanged);
 
  private:
   Utils();

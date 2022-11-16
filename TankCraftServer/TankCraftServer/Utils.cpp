@@ -148,12 +148,43 @@ double Utils::VectorLength(double dx, double dy) {
 }
 
 double Utils::GetDirByDxDy(double dx, double dy) {
-  const double eps = 1e-2;
+  const double eps = 1e-4;
   double dirR = acos(dx);
+
+  if (fabs(dy) < eps) { // dy = 0
+    if (dx > 0) return 0;
+    else {
+      return Get2PI() / 2;
+    }
+  }
 
   if (dy >= 0) {
     return dirR;
   } else {
     return Get2PI() - dirR;
+  }
+}
+
+void Utils::PointPushWithDir(double* px, double* py, double x, double y,
+                             double r, double* dx, double* dy , bool* dirChanged) {
+
+  if (PointDistance(*px, *py, x, y) < r) {
+    double vdx = *px - x, vdy = *py - y;
+    double len = VectorLength(vdx, vdy);
+
+    /* 调整向量长度 */
+    vdx /= len;
+    vdy /= len;
+
+    *px = x + vdx * r;
+    *py = y + vdy * r;
+
+    /* 调整前进方向 */
+    double dr = *dx * vdx + *dy * vdy; /* 指向圆心的反向向量 */
+    std::cerr << "PointDistance dr = " << dr << std::endl;
+    *dx = *dx + fabs(dr) * vdx;
+    *dy = *dy + fabs(dr) * vdy;
+
+    *dirChanged = true;
   }
 }
