@@ -102,12 +102,15 @@ class NetManager_Component : public Component {
   NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
 
  public:
+  void Lock() const; /* 加锁/解锁 */
+  void Unlock() const;
+
   void PushPingMessage(unsigned short xVal); /* 原子发送 Ping 消息*/
   void PushFailedMessage(int ret);           /* 原子：推送出错消息 */
   void PushSucessMessage();                  /* 原子：推送成功消息 */
   int GetConnectStatus() const;              /* 原子：获取连接状态 */
 
-  bool HasClientRequest() const; /* 原子：检测客户端是否要想服务端发送消息 */
+  bool HasClientRequest() const; /* 不是原子：检测客户端是否要想服务端发送消息 */
   void MoveClientRequestToNetMessageBaseDataList(
       NetMessageBaseDataList* nmBaseDataList); /* 原子：数据转移 */
 
@@ -117,10 +120,6 @@ class NetManager_Component : public Component {
  private:
   /* 原子：相当于一条来自服务器的消息，但是实际上是本机推送的 */
   void PushToFromServerList(std::unique_ptr<NetMessageBaseData> nmData);
-
- protected:
-  void Lock() const; /* 加锁/解锁 */
-  void Unlock() const;
 
  private:
   int mConnectStatus; /* 子线程根据这一标致退出 */

@@ -51,7 +51,10 @@ void TcpUtils::ClientThreadFunction(
     while (nmComponent->GetConnectStatus() ==
            Xn::TankCraft::NetManager_Component::NET_MANAGER_ONLINE) {
       /* 如果有请求则直接请求 */
-      if (nmComponent->HasClientRequest()) {
+      nmComponent->Lock();
+      bool hasReq = nmComponent->HasClientRequest();
+      nmComponent->Unlock();
+      if (hasReq) {
         std::cerr << "[Client] has request to send." << std::endl;
 
         TcpDataList tcpDataList;
