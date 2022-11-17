@@ -90,6 +90,8 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="Math-NumberBase.h" />
     <ClInclude Include="ObjectManager-XnObject.h" />
+    <ClInclude Include="OutputManager.h" />
+    <ClInclude Include="OutputManagerInterface.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="ObjectManagerInterface.h" />
@@ -127,6 +129,7 @@
     <ClInclude Include="Math-Vector2.h" />
     <ClInclude Include="ForDebug-XnException.h" />
     <ClInclude Include="TankCraft_UserData.h" />
+    <ClInclude Include="OutputManager-AudioManager.h" />
     <ClInclude Include="XnTime.h" />
     <ClInclude Include="听君语.h" />
   </ItemGroup>
@@ -145,6 +148,8 @@
     <ClCompile Include="Line_RenderComponent.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="ObjectManager-XnObject.cpp" />
+    <ClCompile Include="OutputManager-AudioManager.cpp" />
+    <ClCompile Include="OutputManager.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="RenderManager.cpp" />

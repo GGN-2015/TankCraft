@@ -7,6 +7,7 @@
 
 #include "InputManagerInterface.h"
 #include "ObjectManagerInterface.h"
+#include "OutputManagerInterface.h"
 #include "PlatformManagerInterface.h"
 #include "RenderManagerInterface.h"
 #include "SingletonBaseClass.h"
@@ -49,6 +50,9 @@ class Ìı¾ıÓï : public Singleton<Ìı¾ıÓï> {
   class InputManager *GetInputManager() {
     return (InputManager *)input_manager_.get();
   }
+  class OutputManager *GetOutputManager() {
+    return (OutputManager *)output_manager_.get();
+  }
 
   void SetFullscreen();
 
@@ -60,6 +64,7 @@ class Ìı¾ıÓï : public Singleton<Ìı¾ıÓï> {
   std::unique_ptr<RenderManagerInterface> render_manager_;
   std::unique_ptr<ObjectManagerInterface> object_manager_;
   std::unique_ptr<InputManagerInterface> input_manager_;
+  std::unique_ptr<OutputManagerInterface> output_manager_;
 
   SINGLETON_HELPER(Ìı¾ıÓï);
 };

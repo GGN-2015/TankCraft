@@ -1,53 +1,63 @@
 #include "TankCraft_BulletManager_Component.h"
 
+#include "FileAbout.h"
 #include "ObjectManager-XnObject.h"
 #include "ObjectManager.h"
+#include "OutputManager.h"
 #include "TankCraft_BulletComponent.h"
 #include "听君语.h"
 
-void Xn::TankCraft::BulletManagerComponent::OnStart() {}
+void Xn::TankCraft::BulletManagerComponent::OnStart() {
+  ulong _ = 0;
+  ReadWavFileIntoMemory(L"啵.wav", &audio_bo_, &_);
+}
 
 void Xn::TankCraft::BulletManagerComponent::OnDestory() {
-  unsynced_bullets.clear();
-  synced_bullets.clear();
+  unsynced_bullets_.clear();
+  synced_bullets_.clear();
+
+  delete[] audio_bo_;
 }
 
 void Xn::TankCraft::BulletManagerComponent::StartSyncBulletState() {
-  unsynced_bullets = std::move(synced_bullets);
+  unsynced_bullets_ = std::move(synced_bullets_);
 }
 
 void Xn::TankCraft::BulletManagerComponent::SetBulletState(
     const uint &bullet_id, const Vector2 &pos) {
   // 看看子弹有没有
-  auto bullet = unsynced_bullets.find(bullet_id);
+  auto bullet = unsynced_bullets_.find(bullet_id);
   BulletComponent *new_bullet;
-  if (bullet == unsynced_bullets.end()) {
+  if (bullet == unsynced_bullets_.end()) {
     // 没有userid子弹，就造一个新子弹
     new_bullet = (BulletComponent *)听君语::Get()
-                   .GetObjectManager()
-                   ->CreateXnObject(Vector2::ZERO, GetXnObject())
-                   ->AddComponent(std::make_unique<BulletComponent>());
+                     .GetObjectManager()
+                     ->CreateXnObject(Vector2::ZERO, GetXnObject())
+                     ->AddComponent(std::make_unique<BulletComponent>());
     new_bullet->SetPos(pos);
+
+    听君语::Get().GetOutputManager()->PlayAudio(audio_bo_);
   } else {
     // 有，就从未同步列表删去
     new_bullet = bullet->second;
-    unsynced_bullets.erase(bullet);
+    unsynced_bullets_.erase(bullet);
     if (!new_bullet->GetXnObject()->IsActive()) {
       // 未初始化子弹，初始化一下
       new_bullet->GetXnObject()->SetActive(true);
       new_bullet->SetPos(pos);
+      听君语::Get().GetOutputManager()->PlayAudio(audio_bo_);
     } else
       // 正常运行的子弹，继续走吧
       new_bullet->SetTargetPos(pos);
   }
   // 插入到已同步列表中
-  synced_bullets.insert({bullet_id, new_bullet});
+  synced_bullets_.insert({bullet_id, new_bullet});
 }
 
 void Xn::TankCraft::BulletManagerComponent::EndSyncBulletState() {
-  for (auto &item : unsynced_bullets) {
+  for (auto &item : unsynced_bullets_) {
     item.second->GetXnObject()->SetActive(false);
-    synced_bullets.insert({item.first, item.second});
+    synced_bullets_.insert({item.first, item.second});
   }
-  unsynced_bullets.clear();
+  unsynced_bullets_.clear();
 }

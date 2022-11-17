@@ -87,21 +87,6 @@
     <Filter Include="代码文件\器\数学\Base">
       <UniqueIdentifier>{047d7b88-dff8-4404-83c3-279f761f9c67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="代码文件\司\流">
-      <UniqueIdentifier>{13157c4d-9c51-4c44-80da-1e308448ac4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="代码文件\司\流\IO">
-      <UniqueIdentifier>{2086a8bc-8703-431b-9b92-565cbbeb44d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="代码文件\司\流\IO\输入">
-      <UniqueIdentifier>{8bb0e0b5-eb35-4b05-8fa0-18fd904fceee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="代码文件\司\流\IO\输入\键盘">
-      <UniqueIdentifier>{cc7fd51d-a891-4505-95aa-2db3c162b9d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="代码文件\司\流\IO\输入\鼠标">
-      <UniqueIdentifier>{8da610f5-8a42-4e55-852a-6baf5475311b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="代码文件\司\数\对象组件\实体组件\坦克动荡">
       <UniqueIdentifier>{eec43d7d-443a-42c1-bbaa-31acb07de40d}</UniqueIdentifier>
     </Filter>
@@ -168,6 +153,27 @@
     <Filter Include="代码文件\司\数\对象组件\实体组件\UI">
       <UniqueIdentifier>{e6acc240-3584-4dad-a9cc-309538b85c2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="代码文件\司\通">
+      <UniqueIdentifier>{13157c4d-9c51-4c44-80da-1e308448ac4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\通\IO">
+      <UniqueIdentifier>{2086a8bc-8703-431b-9b92-565cbbeb44d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\通\IO\输入">
+      <UniqueIdentifier>{8bb0e0b5-eb35-4b05-8fa0-18fd904fceee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\通\IO\输入\键盘">
+      <UniqueIdentifier>{cc7fd51d-a891-4505-95aa-2db3c162b9d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\通\IO\输入\鼠标">
+      <UniqueIdentifier>{8da610f5-8a42-4e55-852a-6baf5475311b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\通\IO\输出">
+      <UniqueIdentifier>{0a4aee53-93b7-4ab9-b872-4229682592d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="代码文件\司\通\IO\输出\音频">
+      <UniqueIdentifier>{be05bd0f-fa71-40c5-905f-bfe9658d6c4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXSampleHelper.h">
@@ -210,16 +216,16 @@
       <Filter>代码文件\器\调试\异常</Filter>
     </ClInclude>
     <ClInclude Include="InputManager-KeyboardManager.h">
-      <Filter>代码文件\司\流\IO\输入\键盘</Filter>
+      <Filter>代码文件\司\通\IO\输入\键盘</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>代码文件\器</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
-      <Filter>代码文件\司\流\IO\输入</Filter>
+      <Filter>代码文件\司\通\IO\输入</Filter>
     </ClInclude>
     <ClInclude Include="InputManager-MouseManager.h">
-      <Filter>代码文件\司\流\IO\输入\鼠标</Filter>
+      <Filter>代码文件\司\通\IO\输入\鼠标</Filter>
     </ClInclude>
     <ClInclude Include="XnTime.h">
       <Filter>代码文件\器\时间</Filter>
@@ -231,7 +237,7 @@
       <Filter>代码文件\司\数\平台相关</Filter>
     </ClInclude>
     <ClInclude Include="InputManagerInterface.h">
-      <Filter>代码文件\司\流\IO\输入</Filter>
+      <Filter>代码文件\司\通\IO\输入</Filter>
     </ClInclude>
     <ClInclude Include="Math-Vector3.h">
       <Filter>代码文件\器\数学\Vector</Filter>
@@ -323,6 +329,15 @@
     <ClInclude Include="TankCraft_BulletManager_Component.h">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\游戏区相关\实体相关</Filter>
     </ClInclude>
+    <ClInclude Include="OutputManager.h">
+      <Filter>代码文件\司\通\IO\输出</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputManager-AudioManager.h">
+      <Filter>代码文件\司\通\IO\输出\音频</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputManagerInterface.h">
+      <Filter>代码文件\司\通\IO\输出</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -341,13 +356,13 @@
       <Filter>代码文件\司\形\渲染管理单元</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>代码文件\司\流\IO\输入</Filter>
+      <Filter>代码文件\司\通\IO\输入</Filter>
     </ClCompile>
     <ClCompile Include="InputManager-KeyboardManager.cpp">
-      <Filter>代码文件\司\流\IO\输入\键盘</Filter>
+      <Filter>代码文件\司\通\IO\输入\键盘</Filter>
     </ClCompile>
     <ClCompile Include="InputManager-MouseManager.cpp">
-      <Filter>代码文件\司\流\IO\输入\鼠标</Filter>
+      <Filter>代码文件\司\通\IO\输入\鼠标</Filter>
     </ClCompile>
     <ClCompile Include="PlatformManager.cpp">
       <Filter>代码文件\司\数\平台相关</Filter>
@@ -441,6 +456,12 @@
     </ClCompile>
     <ClCompile Include="TankCraft_BulletManager_Component.cpp">
       <Filter>代码文件\司\数\对象组件\管理组件\坦克动荡\游戏区相关\实体相关</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputManager.cpp">
+      <Filter>代码文件\司\通\IO\输出</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputManager-AudioManager.cpp">
+      <Filter>代码文件\司\通\IO\输出\音频</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

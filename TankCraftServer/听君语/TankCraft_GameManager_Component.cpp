@@ -1,8 +1,10 @@
 #include "TankCraft_GameManager_Component.h"
 
+#include "FileAbout.h"
 #include "InputManager.h"
 #include "ObjectManager-XnObject.h"
 #include "ObjectManager.h"
+#include "OutputManager.h"
 #include "TankCraft_LoginComponent.h"
 #include "TankCraft_MapManager_Component.h"
 #include "TankCraft_NetManager_Component.h"
@@ -28,13 +30,20 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
       ->CreateXnObject(Vector2::ZERO, GetXnObject())
       ->AddComponent(std::make_unique<LoginComponent>(this));
 
-  error_message_text =
+  error_message_text_ =
       (Text_RenderComponent*)听君语::Get()
           .GetObjectManager()
           ->CreateXnObject(Vector2::ZERO, GetXnObject())
           ->SetRenderComponent(std::make_unique<Text_RenderComponent>(
               Vector2(30, 300), L"DebugMessage", Vector2(700, 300), 12.f));
-  error_message_text->SetColor(Vector4(0, 0, 0, 1));
+  error_message_text_->SetColor(Vector4(0, 0, 0, 1));
+
+  // TODO 暂时不想用多线程播放声音，所以bgm就先不加了
+  // ulong _ = 0;
+  // ReadWavFileIntoMemory(L"君の神様になりたい.【Kohana Lam】 - こはならむ.wav",
+  //                       &bgm_, &_);
+  // 
+  // 听君语::Get().GetOutputManager()->PlayAudioWithLoop(bgm_);
 }
 void Xn::TankCraft::GameManagerComponent::OnUpdate() {
   if (const auto buffer = net_manager_->TryGetServerToClientMessageBuffer()) {
@@ -45,21 +54,23 @@ void Xn::TankCraft::GameManagerComponent::OnUpdate() {
 }
 void Xn::TankCraft::GameManagerComponent::OnDestory() {
   GetXnObject()->RemoveAllChild();
+
+  delete[] bgm_;
 }
 
 void Xn::TankCraft::GameManagerComponent::ConnectToServer(
     const std::wstring ipV4, const std::wstring port) {
   if (game_state_ != GameState::NoConnect) {
-    error_message_text->SetText(L"正在连接或正在尝试连接");
+    error_message_text_->SetText(L"正在连接或正在尝试连接");
     return;
   }
 
   if (ipV4.size() <= 0) {
-    error_message_text->SetText(L"IP读取失败");
+    error_message_text_->SetText(L"IP读取失败");
     return;
   }
   if (port.size() <= 0) {
-    error_message_text->SetText(L"port读取失败");
+    error_message_text_->SetText(L"port读取失败");
     return;
   }
 
@@ -68,12 +79,12 @@ void Xn::TankCraft::GameManagerComponent::ConnectToServer(
 }
 void Xn::TankCraft::GameManagerComponent::Login(const std::wstring user_name) {
   if (game_state_ != GameState::Connected) {
-    error_message_text->SetText(L"未连接或正在登录或已登录");
+    error_message_text_->SetText(L"未连接或正在登录或已登录");
     return;
   }
 
   if (user_name.size() <= 0) {
-    error_message_text->SetText(L"填一下登录名");
+    error_message_text_->SetText(L"填一下登录名");
     return;
   }
 
@@ -181,7 +192,7 @@ void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
       game_state_ = GameState::Connected;
       // TODO 与服务端连接成功
       {
-        error_message_text->SetText(L"连接成功");
+        error_message_text_->SetText(L"连接成功");
         return;
       }
     } break;
@@ -189,7 +200,7 @@ void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
       game_state_ = GameState::NoConnect;
       // TODO WAS启动时出错
       {
-        error_message_text->SetText(L"WAS启动时出错");
+        error_message_text_->SetText(L"WAS启动时出错");
         return;
       }
     } break;
@@ -197,7 +208,7 @@ void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
       game_state_ = GameState::NoConnect;
       // TODO 套接字对象建立时出错
       {
-        error_message_text->SetText(L"套接字对象建立时出错");
+        error_message_text_->SetText(L"套接字对象建立时出错");
         return;
       }
     } break;
@@ -205,7 +216,7 @@ void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
       game_state_ = GameState::NoConnect;
       // TODO 连接不到服务器
       {
-        error_message_text->SetText(L"连接不到服务器");
+        error_message_text_->SetText(L"连接不到服务器");
         return;
       }
     } break;
@@ -213,7 +224,7 @@ void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
       game_state_ = GameState::NoConnect;
       // TODO 已连接到服务器，但是断开了连接
       {
-        error_message_text->SetText(L"已连接到服务器，但是断开了连接");
+        error_message_text_->SetText(L"已连接到服务器，但是断开了连接");
         return;
       }
     } break;
@@ -365,7 +376,7 @@ void Xn::TankCraft::GameManagerComponent::DealLoginMessage(
       // 登录成功
       // TODO
       {
-        error_message_text->SetText(L"登录成功");
+        error_message_text_->SetText(L"登录成功");
         return;
       }
     } break;
@@ -375,7 +386,7 @@ void Xn::TankCraft::GameManagerComponent::DealLoginMessage(
       // 服务器满员
       // TODO
       {
-        error_message_text->SetText(L"服务器满员");
+        error_message_text_->SetText(L"服务器满员");
         return;
       }
     } break;
@@ -385,7 +396,7 @@ void Xn::TankCraft::GameManagerComponent::DealLoginMessage(
       // 登录名重复
       // TODO
       {
-        error_message_text->SetText(L"登录名重复");
+        error_message_text_->SetText(L"登录名重复");
         return;
       }
     } break;
@@ -395,7 +406,7 @@ void Xn::TankCraft::GameManagerComponent::DealLoginMessage(
       // 服务器禁用该IP
       // TODO
       {
-        error_message_text->SetText(L"服务器禁用该IP");
+        error_message_text_->SetText(L"服务器禁用该IP");
         return;
       }
     } break;
@@ -405,7 +416,7 @@ void Xn::TankCraft::GameManagerComponent::DealLoginMessage(
       // 意料之外的错误
       // TODO
       {
-        error_message_text->SetText(L"登陆时服务器发生了意料之外的错误");
+        error_message_text_->SetText(L"登陆时服务器发生了意料之外的错误");
         return;
       }
     } break;
@@ -467,7 +478,7 @@ void Xn::TankCraft::GameManagerComponent::TrySendKeyMessage() {
         mes += L"状态【";
         mes += std::to_wstring(key_state);
         mes += L"】";
-        error_message_text->SetText(mes);
+        error_message_text_->SetText(mes);
         OutputDebugString((mes + L"\n").data());
       }
 

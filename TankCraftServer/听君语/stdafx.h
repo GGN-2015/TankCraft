@@ -84,8 +84,10 @@
 #include <dcomp.h>
 #include <dwrite.h>
 #include <dxgi1_6.h>
+#include <mmsystem.h>
 #include <pix.h>
 #include <shellapi.h>
+#include <stdio.h>
 #include <tchar.h>
 #include <wrl.h>
 
@@ -107,3 +109,4 @@
 #pragma comment(lib, "dwrite")
 #pragma comment(lib, "dxgi")
 #pragma comment(lib, "dxguid")
+#pragma comment(lib, "winmm")

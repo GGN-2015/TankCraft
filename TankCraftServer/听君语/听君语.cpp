@@ -8,6 +8,7 @@
 #include "ForDebug.h"
 #include "InputManager.h"
 #include "ObjectManager.h"
+#include "OutputManager.h"
 #include "PlatformManager.h"
 #include "RenderManager.h"
 #include "TankCraft_GameManager_Component.h"
@@ -28,6 +29,7 @@ void Ìý¾ýÓï::Init(const HINSTANCE &instance_handle_, const uint &width,
       width, height, platform_manager->GetWindowHandle());
   object_manager_ = std::make_unique<ObjectManager>();
   input_manager_ = std::make_unique<InputManager>();
+  output_manager_ = std::make_unique<OutputManager>();
 
   time_.NextFrame();
 }

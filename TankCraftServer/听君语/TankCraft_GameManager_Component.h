@@ -69,7 +69,10 @@ class GameManagerComponent : public Component {
  private:
   GameState game_state_ = GameState::NoConnect;
 
-  Text_RenderComponent *error_message_text = nullptr;
+  // 暂时不想写多线程
+  // byte *bgm_ = nullptr;
+
+  Text_RenderComponent *error_message_text_ = nullptr;
 
   MapManagerComponent *map_manager_ = nullptr;
   UserManagerComponent *user_manager_ = nullptr;

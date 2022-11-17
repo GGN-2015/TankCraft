@@ -33,8 +33,10 @@ class BulletManagerComponent : public Component {
   void SetBulletState(const uint &bullet_id, const Vector2 &pos);
   void EndSyncBulletState();
 
-  std::map<Int, BulletComponent *> unsynced_bullets;
-  std::map<Int, BulletComponent *> synced_bullets;
+  byte *audio_bo_ = nullptr;
+
+  std::map<Int, BulletComponent *> unsynced_bullets_;
+  std::map<Int, BulletComponent *> synced_bullets_;
 };
 
 }  // namespace TankCraft
