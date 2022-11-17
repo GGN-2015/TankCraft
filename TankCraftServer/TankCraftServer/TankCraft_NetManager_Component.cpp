@@ -148,21 +148,18 @@ int Xn::TankCraft::NetManager_Component::GetConnectStatus() const {
 }
 
 bool Xn::TankCraft::NetManager_Component::HasClientRequest() const {
-  Lock();
   bool ans = false;
   for (auto& bufferArray : from_client_datas_buffers_) {
     ans |= (!bufferArray.isEmpty()); /* 只要有一个非空，就非空 */
   }
-  Unlock();
-
   return ans;
 }
 
 void Xn::TankCraft::NetManager_Component::
     MoveClientRequestToNetMessageBaseDataList(
         NetMessageBaseDataList* nmBaseDataList) {
+  Lock();
   if (HasClientRequest()) {
-    Lock();
 
     /* 找到一个有数据的 Buffer */
     if (from_client_datas_buffers_[from_client_datas_buffer_index_].isEmpty()) {
@@ -175,9 +172,8 @@ void Xn::TankCraft::NetManager_Component::
       nmBaseDataList->push_back(std::move(
           from_client_datas_buffers_[from_client_datas_buffer_index_].Pop()));
     }
-
-    Unlock();
   }
+  Unlock();
 }
 
 void Xn::TankCraft::NetManager_Component::PushServerMessageTcpData(
@@ -220,6 +216,7 @@ void Xn::TankCraft::NetMessageBaseData::MoveDataFrom(std::shared_ptr<TcpData> pT
 void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(
     std::shared_ptr<TcpData> tcpData) {
   /* 直接过继数据 */
+  assert(tcpData.get() != nullptr);
   tcpData->DirectSet((char*)data, length * 2);
 
   length = 0;
