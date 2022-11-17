@@ -216,7 +216,6 @@ void Xn::TankCraft::NetMessageBaseData::MoveDataFrom(std::shared_ptr<TcpData> pT
 void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(
     std::shared_ptr<TcpData> tcpData) {
   /* 直接过继数据 */
-  assert(tcpData.get() != nullptr);
   tcpData->DirectSet((char*)data, length * 2);
 
   length = 0;
