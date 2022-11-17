@@ -445,6 +445,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="PixelShader.hlsl">
+      <Filter>资源文件\图\着色器</Filter>
+    </None>
+    <None Include="VertexShader.hlsl">
+      <Filter>资源文件\图\着色器</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="听君语.rc">
@@ -455,14 +461,6 @@
     <Image Include="听君语v0.1.ico">
       <Filter>资源文件\图\ico</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>资源文件\图\着色器</Filter>
-    </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>资源文件\图\着色器</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="compute.txt">

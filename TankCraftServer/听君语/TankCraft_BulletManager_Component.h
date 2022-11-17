@@ -26,6 +26,7 @@ class BulletManagerComponent : public Component {
   BulletManagerComponent() : Component(L"TanksFight_BulletManagerComponent") {}
 
   virtual void OnStart() override;
+  virtual void OnDestory() override;
 
  private:
   void StartSyncBulletState();
