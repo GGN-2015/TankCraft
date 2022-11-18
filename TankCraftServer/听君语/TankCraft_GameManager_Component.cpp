@@ -55,7 +55,7 @@ void Xn::TankCraft::GameManagerComponent::OnUpdate() {
 void Xn::TankCraft::GameManagerComponent::OnDestory() {
   GetXnObject()->RemoveAllChild();
 
-  delete[] bgm_;
+  // delete[] bgm_;
 }
 
 void Xn::TankCraft::GameManagerComponent::ConnectToServer(
