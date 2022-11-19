@@ -40,7 +40,7 @@ void UserInfo::SetUserColor(unsigned char R, unsigned char G, unsigned char B,
 
 void UserInfo::SetUserColor(UserColor uc) { mUserColor = uc; }
 
-void UserInfo::Killed(int nHeight, int nWidth) { 
+void UserInfo::Killed(int nHeight, int nWidth) {
   mLastKilledTime = Utils::GetClockTime();
   mTankPos.RandomPosition(nHeight, nWidth);
 }
@@ -137,6 +137,11 @@ void UserInfo::Shoot() {
 void UserInfo::BulletExpired(int bulletCnt) {
   mBulletCount -= bulletCnt;
   // mBulletCount = std::max(mBulletCount, 0);
+  assert(mBulletCount >= 0);
+}
+
+void UserInfo::AddBullet(int bulletCnt) {
+  mBulletCount -= bulletCnt;
   assert(mBulletCount >= 0);
 }
 

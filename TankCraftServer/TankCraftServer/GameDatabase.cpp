@@ -82,9 +82,12 @@ void GameDatabase::DealUserKilled() {
       for (auto& bullet : mBulletInfoList) {
 
         /* 如果子弹能够杀死这个坦克 */
-        if (bullet.TouchCircle(posX, posY, TANK_BULLET_RADIUS, TANK_RADIUS)) {
+        if (bullet.Available() && 
+            bullet.TouchCircle(posX, posY, TANK_BULLET_RADIUS, TANK_RADIUS)) {
+            
           usedBulletId.insert(bullet.bulletId);
           killedUserId.insert(userId);
+
           if (bullet.userId != userId) { /* 自杀不会带来加分 */
             userAddScore[bullet.userId] += 1;
           }
@@ -94,14 +97,27 @@ void GameDatabase::DealUserKilled() {
     }
   }
 
+  IntMap userBulletAdd;
   /* 删除所有需要删除的子弹 */
   BulletInfoList tmpBulletInfoList;
   for (auto& bullet : mBulletInfoList) {
     if (usedBulletId.count(bullet.bulletId) <= 0) { /* 没有使用过的子弹 */
       tmpBulletInfoList.push_back(bullet);
+    } else {
+
+      /* 用户子弹数增加 */
+      userBulletAdd[bullet.userId] += 1;
     }
   }
   mBulletInfoList = tmpBulletInfoList;
+
+  /* 处理子弹数 */
+  for (auto& pUserInfo : mUserInfoList) {
+    int userId = pUserInfo->GetUserId();
+    if (userBulletAdd.count(userId) > 0) {
+      pUserInfo->AddBullet(userBulletAdd[userId]);
+    }
+  }
 
   /* 杀死需要杀死的用户 */
   /* 给需要加分的用户加分 */
@@ -341,7 +357,7 @@ void GameDatabase::GameDatabasePhsicalEngineTankFunction(
         double eps = 1e-4;
         pGameDatabase->AddBullet(
             newTankPos.posX, newTankPos.posY, newTankPos.dirR,
-            TANK_RADIUS + TANK_BULLET_RADIUS + eps, tankUserId);
+            TANK_RADIUS, tankUserId);
 
         shootUserIdSet.insert(tankUserId);
       }
