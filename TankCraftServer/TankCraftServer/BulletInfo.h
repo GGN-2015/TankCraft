@@ -10,4 +10,5 @@ class BulletInfo {
 
   /* 申请一个新的子弹编号 */
   static unsigned short NewBulletId();
+  bool TouchCircle(double uPosX, double uPosY, double bulletR, double tankR) const;
 };

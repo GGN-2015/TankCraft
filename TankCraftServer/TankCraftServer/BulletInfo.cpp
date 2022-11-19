@@ -1,4 +1,5 @@
 #include "BulletInfo.h"
+#include "Utils.h"
 
 BulletInfo::BulletInfo(double nPosX, double nPosY, double nDirR, double nTimeT,
                        int nUserId) {
@@ -19,4 +20,10 @@ unsigned short BulletInfo::NewBulletId() {
     nowId += 1;
   }
   return nowId;
+}
+
+bool BulletInfo::TouchCircle(double uPosX, double uPosY, double bulletR,
+                             double tankR) const {
+
+  return Utils::PointDistance(uPosX, uPosY, posX, posY) <= bulletR + tankR;
 }

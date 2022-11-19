@@ -67,6 +67,55 @@ void GameDatabase::DelUser(int nUserId) {
   mUserInfoList.erase(mUserInfoList.begin() + pos);
 }
 
+void GameDatabase::DealUserKilled() {
+  IntSet killedUserId;
+  IntSet usedBulletId;
+  IntMap userAddScore;
+
+  for (auto& pUser : mUserInfoList) {
+    int userId = pUser->GetUserId();
+    double posX = 0, posY = 0;
+    pUser->GetTankPos(posX, posY);
+
+    /* 如果一个用户没有被杀死过，则检测他是否可能被杀死，无敌状态不会被杀死 */
+    if (killedUserId.count(userId) <= 0 && !pUser->CheckSuperArmor()) {
+      for (auto& bullet : mBulletInfoList) {
+
+        /* 如果子弹能够杀死这个坦克 */
+        if (bullet.TouchCircle(posX, posY, TANK_BULLET_RADIUS, TANK_RADIUS)) {
+          usedBulletId.insert(bullet.bulletId);
+          killedUserId.insert(userId);
+          if (bullet.userId != userId) { /* 自杀不会带来加分 */
+            userAddScore[bullet.userId] += 1;
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  /* 删除所有需要删除的子弹 */
+  BulletInfoList tmpBulletInfoList;
+  for (auto& bullet : mBulletInfoList) {
+    if (usedBulletId.count(bullet.bulletId) <= 0) { /* 没有使用过的子弹 */
+      tmpBulletInfoList.push_back(bullet);
+    }
+  }
+  mBulletInfoList = tmpBulletInfoList;
+
+  /* 杀死需要杀死的用户 */
+  /* 给需要加分的用户加分 */
+  for (auto& pUser : mUserInfoList) {
+    int userId = pUser->GetUserId();
+    if (killedUserId.count(userId) > 0) { /* 用户被杀死了，重置位置 */
+      pUser->Killed(mGameGraph.GetHeight(), mGameGraph.GetWidth());
+    }
+    if (userAddScore.count(userId) > 0) { /* 用户杀死了别人 */
+      pUser->IncKillCnt(userAddScore[userId]);
+    }
+  }
+}
+
 void GameDatabase::GenerateNewMap(int mHeight, int mWidth, double alpha) {
   mGameGraph.SetSize(mHeight, mWidth, alpha);
 }
@@ -208,6 +257,9 @@ void GameDatabase::GameDatabasePhsicalEngineThreadFunction(
 
     /* 设置上次绘制时间 */
     pGameDatabase->SetLastFrameTime(Utils::GetClockTime());
+
+    /* 处理子弹杀死用户的情况 */
+    pGameDatabase->DealUserKilled();
 
     pGameDatabase
         ->unlock(); /* ---------------------------------------------------- */

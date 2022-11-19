@@ -72,11 +72,13 @@ class UserInfo {
   void SetUserColor(unsigned char R, unsigned char G, unsigned char B,
                     unsigned char A);
   void SetUserColor(UserColor uc);
+  void Killed(int nHeight, int nWidth); /* 被杀死了，然后随机生成新的位置 */
 
   /* 获取用户对应的 TcpData 数据, 详见“用户信息格式” */
   void GetUserInfoTcpData(TcpData* tcpData) const;
 
   void GetTankPos(TankPosMap* nTankPosMap); /* 获取所有玩家的坦克位置 */
+  void GetTankPos(double& posX, double& posY) const; /* 获取所有玩家的坦克位置 */
   void GetTankKeyStatus(KeyStatusMap* nKeyStatusMap); /* 获取玩家键盘操作状态 */
   void SetTankPos(const TankPosMap* nTankPosMap);   /* 更新坦克位置 */
   void SetTankPosRandomly(int mHeight, int mWidth); /* 随机更新坦克位置 */
