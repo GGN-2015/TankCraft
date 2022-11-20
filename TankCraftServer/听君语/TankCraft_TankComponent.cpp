@@ -21,8 +21,16 @@ void TankComponent::OnStart() {
   render_component_ =
       (Circular_RenderComponent *)GetXnObject()->SetRenderComponent(
           std::make_unique<Circular_RenderComponent>());
-  render_component_->color_ =
-      Vector4(Vector3(200 / 255.f, 212 / 255.f, 230 / 255.f), 1.f).asColor;
+  render_component_->color_ = Vector3::Color::RGB255(200, 212, 230);
+
+  invincible_state_effect_ = Ìý¾ýÓï::Get().GetObjectManager()->CreateXnObject(
+      Vector2::ZERO, GetXnObject());
+  invincible_state_effect_render_component_ =
+      (Circular_RenderComponent *)invincible_state_effect_->SetRenderComponent(
+          std::make_unique<Circular_RenderComponent>());
+  invincible_state_effect_render_component_->color_ =
+      Vector4::Color::RGB255(255, 247, 89, 120);
+  invincible_state_effect_->SetActive(false);
 
   though_t_ = 0;
 
@@ -67,7 +75,11 @@ void TankComponent::OnUpdate() {
     render_component_->color_ = user_data_->color.asColor;
   }
 }
-void TankComponent::OnDestory() {}
+void TankComponent::OnDestory() {
+  GetXnObject()->RemoveChild(invincible_state_effect_);
+  invincible_state_effect_ = nullptr;
+  invincible_state_effect_render_component_ = nullptr;
+}
 
 void TankComponent::SetLerpTime(const Float &lerp_time) {
   lerp_time_ = lerp_time;
@@ -95,6 +107,7 @@ void TankComponent::SetTargetPos(const Vector2 &pos, const Float &rotation) {
 }
 void TankComponent::SetRadio(const Float &radius) {
   render_component_->radius_ = radius;
+  invincible_state_effect_render_component_->radius_ = radius + 0.02f;
 }
 
 void Xn::TankCraft::TankComponent::SetState(const Int &state) {
@@ -103,18 +116,11 @@ void Xn::TankCraft::TankComponent::SetState(const Int &state) {
 
   switch (state) {
     case 0: {
-      render_component_->color_ = user_data_
-                                      ? user_data_->color.asColor
-                                      : Vector4::Color(0.9f, 0.9f, 0.9f, 1);
+      invincible_state_effect_->SetActive(false);
     } break;
 
     case 1: {
-      render_component_->color_ =
-          user_data_ ? Vector3::Lerp(Vector3(user_data_->color),
-                                     Vector3::Color::RGB255(255, 247, 89), 0.4f)
-                           .asColor
-                     : Vector3::Color::RGB255(255, 247, 89);
-      render_component_->color_.A = 0.8f;
+      invincible_state_effect_->SetActive(true);
     } break;
 
     default:

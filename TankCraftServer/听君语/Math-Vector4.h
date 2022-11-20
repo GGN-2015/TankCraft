@@ -38,6 +38,12 @@ struct Vector4 {
         : R(color.R), G(color.G), B(color.B), A(A) {}
 
     Float R, G, B, A;
+
+   public:
+    static inline Color RGB255(const uint8 &R, const uint8 &G, const uint8 &B,
+                               const uint8 &A) {
+      return Color(R / 255.f, G / 255.f, B / 255.f, A / 255.f);
+    }
   };
   struct Rect {
     Rect(const Float &left, const Float &top, const Float &right,

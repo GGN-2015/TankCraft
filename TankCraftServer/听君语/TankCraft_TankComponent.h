@@ -51,6 +51,9 @@ class TankComponent : public Component {
 
   const UserData *user_data_ = nullptr;
 
+  XnObject *invincible_state_effect_ = nullptr;
+  Circular_RenderComponent *invincible_state_effect_render_component_ = nullptr;
+
  private:
   Circular_RenderComponent *render_component_ = nullptr;
   Square_RenderComponent *gun_barrel_render_component_ = nullptr;
