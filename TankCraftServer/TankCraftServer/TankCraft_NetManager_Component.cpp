@@ -216,10 +216,13 @@ void Xn::TankCraft::NetMessageBaseData::MoveDataFrom(std::shared_ptr<TcpData> pT
 void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(
     std::shared_ptr<TcpData> tcpData) {
   /* 直接过继数据 */
-  tcpData->DirectSet((char*)data, length * 2);
 
-  length = 0;
-  data = nullptr;
+  if (this != nullptr && this != (void*)(-1)) {
+    tcpData->DirectSet((char*)data, length * 2);
+
+    length = 0;
+    data = nullptr;
+  }
 }
 
 void Xn::TankCraft::NetMessageBaseData::FreeData() {

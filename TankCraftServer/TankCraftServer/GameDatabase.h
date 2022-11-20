@@ -18,6 +18,8 @@
        */
 
 #define GAME_DATABASE_RUN (1)
+#define DEFAULT_GAMEHEIGHT (16) /* 游戏默认地图尺寸 */
+#define DEFAULT_GAMEWIDTH (16)
 #define GAME_DATABASE_STOP (0)
 
 #define TANK_SPEED (1.0)                          /* 每秒 1 格 */

@@ -127,6 +127,11 @@ void TcpUtils::CompactTcpDataListToTcpDataRequest(
   /* 计算二进制信息总长度 */
   for (auto pTcpData : *tcpDataList) {
     totalLength += pTcpData->GetLength();
+
+    if (pTcpData->GetLength() == 0) { /* 忽略空消息 */
+      std::cerr << "TcpUtils::CompactTcpDataListToTcpDataRequest Empty Msg." << std::endl;
+      totalCnt--;
+    }
   }
 
   /* 申请缓冲区 */
