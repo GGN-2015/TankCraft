@@ -11,6 +11,7 @@ namespace Xn {
 
 struct Vector2 {
   Vector2() : x(0), y(0) {}
+  Vector2(const Vector2 &other) : x(other.x), y(other.y) {}
   Vector2(const Float &x, const Float &y) : x(x), y(y) {}
   Vector2(const Float (&floats)[2]) {
     std::memcpy(this->asFloats.floats, floats, sizeof floats);

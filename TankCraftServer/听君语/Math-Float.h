@@ -9,7 +9,7 @@
 
 namespace Xn {
 
-struct Float {
+struct Float : public XnMath::NumberBase {
   Float() : x(0) {}
   Float(const float &value) : x(value) {}
   Float(const int &value) : x(static_cast<float>(value)) {}
@@ -21,6 +21,9 @@ struct Float {
   static const Float ZERO;  // 0
   static const Float ONE;   // 1
   static const Float PI;    // pi ~ 3.14бнбн
+
+ public:
+  inline std::wstring ToString() const { return std::to_wstring(x); }
 
  public:
   inline operator float() const { return x; }

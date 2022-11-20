@@ -12,6 +12,7 @@ namespace Xn {
 
 struct Vector3 {
   Vector3() : x(0), y(0), z(0) {}
+  Vector3(const Vector3 &other) : x(other.x), y(other.y), z(other.z) {}
   Vector3(const Float &x, const Float &y, const Float &z) : x(x), y(y), z(z) {}
   Vector3(const Float (&floats)[3]) {
     std::memcpy(this->asFloats.floats, floats, sizeof floats);

@@ -338,6 +338,9 @@
     <ClInclude Include="OutputManagerInterface.h">
       <Filter>代码文件\司\通\IO\输出</Filter>
     </ClInclude>
+    <ClInclude Include="Math-Int.h">
+      <Filter>代码文件\器\数学\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

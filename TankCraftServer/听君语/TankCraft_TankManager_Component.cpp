@@ -42,7 +42,7 @@ void Xn::TankCraft::TankManagerComponent::SetTankState(const Int& user_id,
       new_tank->SetTargetPos(pos, rotation);
   }
   // 插入到已同步列表中
-  new_tank->state_ = state;
+  new_tank->SetState(state);
   synced_tanks.insert({user_id, new_tank});
 }
 void Xn::TankCraft::TankManagerComponent::EndSyncTankState() {

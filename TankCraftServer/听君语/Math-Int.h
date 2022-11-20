@@ -24,10 +24,7 @@ struct Int : public XnMath::NumberBase {
   static const Int MAX;   // 0x7FFF
 
  public:
-  inline virtual std::wstring ToString() const override {
-    return std::to_wstring(x);
-  }
-  inline virtual operator bool() const { return x != 0; };
+  inline std::wstring ToString() const { return std::to_wstring(x); }
 
  public:
   inline operator int() const { return x; }
@@ -165,6 +162,16 @@ struct Int : public XnMath::NumberBase {
     if (value.x <= min.x) return min;
     if (value.x >= max.x) return max;
     return value;
+  }
+
+ public:
+  inline Int &operator=(const Int &other) {
+    x = other.x;
+    return *this;
+  }
+  inline Int &operator=(const int &other) {
+    x = other;
+    return *this;
   }
 };
 
