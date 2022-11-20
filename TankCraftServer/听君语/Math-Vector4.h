@@ -13,6 +13,8 @@ namespace Xn {
 
 struct Vector4 {
   Vector4() : x(0), y(0), z(0), w(0) {}
+  Vector4(const Vector4 &other)
+      : x(other.x), y(other.y), z(other.z), w(other.w) {}
   Vector4(const Float &x, const Float &y, const Float &z, const Float &w)
       : x(x), y(y), z(z), w(w) {}
   Vector4(const float (&floats)[4]) {
@@ -72,6 +74,9 @@ struct Vector4 {
   static const Vector4 Z;     // 0, 0, 1, 0
   static const Vector4 W;     // 0, 0, 0, 1
   static const Vector4 ONE;   // 1, 1, 1, 1
+
+ public:
+  inline operator Vector3() const { return Vector3(x, y, z); }
 
  public:
   // 取得[min, max)矩形区间上随机的Vector4

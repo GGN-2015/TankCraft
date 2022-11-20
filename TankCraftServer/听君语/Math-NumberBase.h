@@ -19,10 +19,7 @@ struct NumberBase {
   NumberBase() = default;
 
  public:
-  inline virtual std::wstring ToString() const = 0;
-
- public:
-  inline virtual operator bool() const = 0;
+  inline std::wstring ToString() const;
 };
 
 }  // namespace XnMath

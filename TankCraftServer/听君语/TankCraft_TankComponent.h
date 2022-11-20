@@ -33,6 +33,7 @@ class TankComponent : public Component {
   void SetPos(const Vector2 &pos, const Float &rotation);
   void SetTargetPos(const Vector2 &pos, const Float &rotation);
   void SetRadio(const Float &radius);
+  void SetState(const Int &state);
 
   void BindUser(const UserData *const &user_data);
 

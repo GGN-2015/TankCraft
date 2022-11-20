@@ -40,9 +40,10 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
 
   // TODO 暂时不想用多线程播放声音，所以bgm就先不加了
   // ulong _ = 0;
-  // ReadWavFileIntoMemory(L"君の神様になりたい.【Kohana Lam】 - こはならむ.wav",
+  // ReadWavFileIntoMemory(L"君の神様になりたい.【Kohana Lam】 -
+  // こはならむ.wav",
   //                       &bgm_, &_);
-  // 
+  //
   // 听君语::Get().GetOutputManager()->PlayAudioWithLoop(bgm_);
 }
 void Xn::TankCraft::GameManagerComponent::OnUpdate() {
@@ -281,13 +282,7 @@ void Xn::TankCraft::GameManagerComponent::SetTanksState(
     const auto user_id = *(uint*)&tanks_data[tank_data_index];
     tank_data_index += 2;
 
-    union Pos {
-      struct {
-        Float x;
-        Float y;
-      };
-      char data[8];
-    } the_pos = *(Pos*)&tanks_data[tank_data_index];
+    Vector2 the_pos = *(Vector2*)&tanks_data[tank_data_index];
     const Vector2 tank_pos(the_pos.x, the_pos.y);
     tank_data_index += 4;
 

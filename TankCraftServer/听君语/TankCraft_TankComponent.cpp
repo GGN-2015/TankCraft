@@ -97,6 +97,31 @@ void TankComponent::SetRadio(const Float &radius) {
   render_component_->radius_ = radius;
 }
 
+void Xn::TankCraft::TankComponent::SetState(const Int &state) {
+  if (state_ == state) return;
+  state_ = state;
+
+  switch (state) {
+    case 0: {
+      render_component_->color_ = user_data_
+                                      ? user_data_->color.asColor
+                                      : Vector4::Color(0.9f, 0.9f, 0.9f, 1);
+    } break;
+
+    case 1: {
+      render_component_->color_ =
+          user_data_ ? Vector3::Lerp(Vector3(user_data_->color),
+                                     Vector3::Color::RGB255(255, 247, 89), 0.4f)
+                           .asColor
+                     : Vector3::Color::RGB255(255, 247, 89);
+      render_component_->color_.A = 0.8f;
+    } break;
+
+    default:
+      break;
+  }
+}
+
 void TankComponent::BindUser(const UserData *const &user_data) {
   user_data_ = user_data;
 }

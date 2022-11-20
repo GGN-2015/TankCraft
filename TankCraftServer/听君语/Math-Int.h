@@ -24,12 +24,9 @@ struct Int : public XnMath::NumberBase {
   static const Int MAX;   // 0x7FFF
 
  public:
-  inline virtual std::wstring ToString() const override {
-    return std::to_wstring(x);
-  }
+  inline std::wstring ToString() const { return std::to_wstring(x); }
 
  public:
-  inline virtual operator bool() const { return x != 0; };
   inline operator int() const { return x; }
   inline operator float() const { return static_cast<float>(x); }
   inline float ToFloat() const { return static_cast<float>(x); }
