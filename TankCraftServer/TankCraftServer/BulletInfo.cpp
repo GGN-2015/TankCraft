@@ -33,6 +33,6 @@ bool BulletInfo::TouchCircle(double uPosX, double uPosY, double bulletR,
 
 bool BulletInfo::Available() const {
   bool ans = Utils::GetClockTime() - timeT >= BULLET_INVALID_TIME;
-  std::cerr << "BulletInfo::Available() ans = " << ans << std::endl;
+  // std::cerr << "BulletInfo::Available() ans = " << ans << std::endl;
   return ans;
 }
