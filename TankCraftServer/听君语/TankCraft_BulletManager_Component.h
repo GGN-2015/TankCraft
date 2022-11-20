@@ -5,11 +5,16 @@
 //
 //*********************************************************
 
+#include <dsound.h>
+
 #include <map>
 
 #include "Component.h"
 #include "Math.h"
+#include "stdafx.h"
 #include "typedef.h"
+
+#pragma comment(lib, "dsound")
 
 namespace Xn {
 
@@ -33,7 +38,7 @@ class BulletManagerComponent : public Component {
   void SetBulletState(const uint &bullet_id, const Vector2 &pos);
   void EndSyncBulletState();
 
-  byte *audio_bo_ = nullptr;
+  Microsoft::WRL::ComPtr<IDirectSoundBuffer> audio_bo_;
 
   std::map<Int, BulletComponent *> unsynced_bullets_;
   std::map<Int, BulletComponent *> synced_bullets_;

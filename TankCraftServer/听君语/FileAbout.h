@@ -33,38 +33,4 @@ inline std::wstring GetRootPath() {
   return root_path;
 }
 
-inline void ReadWavFileIntoMemory(const std::wstring &wav_file_name,
-                                  byte **const &wav_bytes,
-                                  ulong *const &wav_size) {
-  std::ifstream f(wav_file_name, std::ios::binary);
-
-  f.seekg(0, std::ios::end);
-  int lim = f.tellg();
-  *wav_size = lim;
-
-  *wav_bytes = new byte[lim];
-  f.seekg(0, std::ios::beg);
-
-  f.read((char *)*wav_bytes, lim);
-
-  f.close();
-}
-
-// TODO 这个是错的，我暂时不会改变音量大小
-//inline void ReadWavFileIntoMemory(const std::wstring &wav_file_name,
-//                                  const float &volume, byte **const &wav_bytes,
-//                                  ulong *const &wav_size) {
-//  ReadWavFileIntoMemory(wav_file_name, wav_bytes, wav_size);
-//
-//  byte *const _wav_bytes = *wav_bytes;
-//
-//  byte *data_offset = (_wav_bytes + 40);
-//
-//  __int16 *p = (__int16 *)(data_offset + 8);
-//  constexpr int t = sizeof(*p);
-//  for (int i = 80 / sizeof(*p); i < *wav_size / sizeof(*p); i++) {
-//    p[i] = (byte)((float)p[i] * volume);
-//  }
-//}
-
 }  // namespace Xn

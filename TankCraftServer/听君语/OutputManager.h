@@ -13,14 +13,11 @@ namespace Xn {
 
 class OutputManager : public OutputManagerInterface {
  public:
-  OutputManager();
+  OutputManager(const HWND& window_handle);
 
-  // Í¨¹ý OutputManagerInterface ¼Ì³Ð
-  virtual void PlayAudio(const byte* const& audio_bytes) override;
-  virtual void PlayAudioWithLoop(const byte* const& audio_bytes) override;
-  virtual void StopAllAudio() override;
+  AudioManager* GetOutputManager() { return &audio_manager_; }
 
- public:
+ private:
   AudioManager audio_manager_;
 
   CAN_NOT_COPY_THIS_CLASS(OutputManager);

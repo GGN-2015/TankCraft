@@ -8,15 +8,16 @@
 #include "听君语.h"
 
 void Xn::TankCraft::BulletManagerComponent::OnStart() {
-  ulong _ = 0;
-  ReadWavFileIntoMemory(L"啵.wav", &audio_bo_, &_);
+  audio_bo_ =
+      听君语::Get().GetOutputManager()->GetOutputManager()->LoadWaveAudio(
+          L"啵.wav");
 }
 
 void Xn::TankCraft::BulletManagerComponent::OnDestory() {
   unsynced_bullets_.clear();
   synced_bullets_.clear();
 
-  delete[] audio_bo_;
+  audio_bo_.Reset();
 }
 
 void Xn::TankCraft::BulletManagerComponent::StartSyncBulletState() {
@@ -36,7 +37,8 @@ void Xn::TankCraft::BulletManagerComponent::SetBulletState(
                      ->AddComponent(std::make_unique<BulletComponent>());
     new_bullet->SetPos(pos);
 
-    听君语::Get().GetOutputManager()->PlayAudio(audio_bo_);
+    audio_bo_->SetCurrentPosition(0);
+    audio_bo_->Play(0, 0, 0);
   } else {
     // 有，就从未同步列表删去
     new_bullet = bullet->second;
@@ -45,7 +47,9 @@ void Xn::TankCraft::BulletManagerComponent::SetBulletState(
       // 未初始化子弹，初始化一下
       new_bullet->GetXnObject()->SetActive(true);
       new_bullet->SetPos(pos);
-      听君语::Get().GetOutputManager()->PlayAudio(audio_bo_);
+
+      audio_bo_->SetCurrentPosition(0);
+      audio_bo_->Play(0, 0, 0);
     } else
       // 正常运行的子弹，继续走吧
       new_bullet->SetTargetPos(pos);

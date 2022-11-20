@@ -29,7 +29,8 @@ void Ìý¾ýÓï::Init(const HINSTANCE &instance_handle_, const uint &width,
       width, height, platform_manager->GetWindowHandle());
   object_manager_ = std::make_unique<ObjectManager>();
   input_manager_ = std::make_unique<InputManager>();
-  output_manager_ = std::make_unique<OutputManager>();
+  output_manager_ =
+      std::make_unique<OutputManager>(platform_manager->GetWindowHandle());
 
   time_.NextFrame();
 }

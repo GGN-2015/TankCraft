@@ -5,8 +5,12 @@
 //
 //*********************************************************
 
+#include <dwrite.h>
+
 #include "RenderComponent.h"
 #include "stdafx.h"
+
+#pragma comment(lib, "dwrite")
 
 namespace Xn {
 

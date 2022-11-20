@@ -1,8 +1,13 @@
 #pragma once
 
+#include <dsound.h>
+
 #include <string>
 
+#include "stdafx.h"
 #include "typedef.h"
+
+#pragma comment(lib, "dsound")
 
 namespace Xn {
 
@@ -12,11 +17,14 @@ class AudioManager {
   friend OutputManager;
 
  public:
-  AudioManager();
+  AudioManager(const HWND& window_handle);
 
-  void PlayAudio(const byte* const& audio_bytes);
-  void PlayMusic(const byte* const& audio_bytes);
-  void StopAll();
+  IDirectSoundBuffer* LoadWaveAudio(const wchar* const& wave_path);
+
+ private:
+  void InitDSound(const HWND& window_handle);
+
+  Microsoft::WRL::ComPtr<IDirectSound> d_sound_;
 };
 
 }  // namespace Xn

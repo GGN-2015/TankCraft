@@ -5,6 +5,14 @@
 //
 //*********************************************************
 
+#include <DirectXMath.h>
+#include <d2d1_3.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include <dcomp.h>
+#include <dwrite.h>
+#include <dxgi1_6.h>
+
 #include <stack>
 
 #include "Math.h"
@@ -12,6 +20,14 @@
 #include "RenderManagerInterface.h"
 #include "SingletonBaseClass.h"
 #include "stdafx.h"
+
+#pragma comment(lib, "d2d1")
+#pragma comment(lib, "d3d11")
+#pragma comment(lib, "d3dcompiler")
+#pragma comment(lib, "dcomp")
+#pragma comment(lib, "dwrite")
+#pragma comment(lib, "dxgi")
+#pragma comment(lib, "dxguid")
 
 namespace Xn {
 

@@ -13,10 +13,7 @@ namespace Xn {
 
 class OutputManagerInterface {
  public:
-  virtual void PlayAudio(const byte* const& audio_bytes) = 0;
-  virtual void PlayAudioWithLoop(const byte* const& audio_bytes) = 0;
-
-  virtual void StopAllAudio() = 0;
+  virtual class AudioManager* GetOutputManager() = 0;
 };
 
 }  // namespace Xn
