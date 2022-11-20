@@ -1,6 +1,7 @@
 #include "UserInfo.h"
 
 #include <cassert>
+#include <iostream>
 
 #include "TcpData.h"
 #include "Utils.h"
@@ -21,7 +22,13 @@ void UserInfo::SetUserInfoName(std::wstring nUserName) {
   mUserName = nUserName;
 }
 
-void UserInfo::IncKillCnt(int incVal) { mKillCnt += incVal; }
+void UserInfo::IncKillCnt(int incVal) {
+  mKillCnt += incVal;
+
+  /* 输出击杀数信息 */
+  std::cerr << "[UserInfo::IncKillCnt] userId = " << mUserId
+            << " mKillCnt = " << mKillCnt << std::endl;
+}
 
 void UserInfo::SetUserColor(unsigned char R, unsigned char G, unsigned char B,
                             unsigned char A) {
@@ -32,6 +39,11 @@ void UserInfo::SetUserColor(unsigned char R, unsigned char G, unsigned char B,
 }
 
 void UserInfo::SetUserColor(UserColor uc) { mUserColor = uc; }
+
+void UserInfo::Killed(int nHeight, int nWidth) {
+  mLastKilledTime = Utils::GetClockTime();
+  mTankPos.RandomPosition(nHeight, nWidth);
+}
 
 void UserInfo::GetUserInfoTcpData(TcpData* tcpData) const {
   /* 用户 ID, 登录名长度, 字符串, RGBA, 击杀数 */
@@ -62,6 +74,11 @@ void UserInfo::GetUserInfoTcpData(TcpData* tcpData) const {
 void UserInfo::GetTankPos(TankPosMap* nTankPosMap) /* 将坦克未知存入 Map */
 {
   (*nTankPosMap)[GetUserId()] = mTankPos;
+}
+
+void UserInfo::GetTankPos(double& posX, double& posY) const {
+  posX = mTankPos.posX;
+  posY = mTankPos.posY;
 }
 
 void UserInfo::GetTankKeyStatus(KeyStatusMap* nKeyStatusMap) {
@@ -107,20 +124,25 @@ void UserInfo::GetTankPosTcpData(TcpData* pTcpData) const {
 
 KeyStatus* UserInfo::GetKeyStatusObject() { return &mKeyStatus; }
 
-bool UserInfo::CanShoot() const { 
-    return mBulletCount < USER_BULLET_MAX &&
-        Utils::GetClockTime() - mLastShootTime >= TANK_SHOOT_TIME_PERIOD;
+bool UserInfo::CanShoot() const {
+  return mBulletCount < USER_BULLET_MAX &&
+         Utils::GetClockTime() - mLastShootTime >= TANK_SHOOT_TIME_PERIOD;
 }
 
-void UserInfo::Shoot() { 
-    mBulletCount += 1;  
-    mLastShootTime = Utils::GetClockTime();
+void UserInfo::Shoot() {
+  mBulletCount += 1;
+  mLastShootTime = Utils::GetClockTime();
 }
 
-void UserInfo::BulletExpired(int bulletCnt) { 
-    mBulletCount -= bulletCnt; 
-    // mBulletCount = std::max(mBulletCount, 0);
-    assert(mBulletCount >= 0);
+void UserInfo::BulletExpired(int bulletCnt) {
+  mBulletCount -= bulletCnt;
+  // mBulletCount = std::max(mBulletCount, 0);
+  assert(mBulletCount >= 0);
+}
+
+void UserInfo::AddBullet(int bulletCnt) {
+  mBulletCount -= bulletCnt;
+  assert(mBulletCount >= 0);
 }
 
 UserColor::UserColor(unsigned char nR, unsigned char nG, unsigned char nB,

@@ -55,6 +55,8 @@ class GameDatabase : public MyMutex {
   void AddUser(int nUserId, std::wstring nUserName); /* 将玩家加入游戏中 */
   void DelUser(int nUserId);                         /* 删除一个玩家 */
 
+  void DealUserKilled(); /* 处理子弹杀死用户的情况 */
+
   /* alpha: 0 ~ 1 之间，描述地图的稠密程度: 0 稠密, 1 稀疏 */
   void GenerateNewMap(int mHeight, int mWidth,
                       double alpha); /* 生成一个新的地图 */

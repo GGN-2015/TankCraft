@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TankCraftServer", "TankCraf
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "听君语", "听君语\听君语.vcxproj", "{7106827A-664F-4E6A-8607-BF161D9EFDED}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupProject", "SetupProject\SetupProject.vdproj", "{483A6D1B-13A5-4282-AFE7-3C0840638725}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,8 @@ Global
 		{7106827A-664F-4E6A-8607-BF161D9EFDED}.Debug|x64.Build.0 = Debug|x64
 		{7106827A-664F-4E6A-8607-BF161D9EFDED}.Release|x64.ActiveCfg = Release|x64
 		{7106827A-664F-4E6A-8607-BF161D9EFDED}.Release|x64.Build.0 = Release|x64
+		{483A6D1B-13A5-4282-AFE7-3C0840638725}.Debug|x64.ActiveCfg = Debug
+		{483A6D1B-13A5-4282-AFE7-3C0840638725}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
