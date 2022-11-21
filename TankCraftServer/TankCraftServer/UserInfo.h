@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 
-#define SUPER_ARMOR_TIME (1.0) /* 重生后的无敌时间长度 */
+#define SUPER_ARMOR_TIME (3.0) /* 重生后的无敌时间长度 */
 
 struct UserColor { /* 描述用户的颜色 */
   unsigned char R, G, B, A;
