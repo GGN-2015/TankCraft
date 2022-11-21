@@ -214,7 +214,7 @@ void Xn::TankCraft::NetMessageBaseData::MoveDataFrom(std::shared_ptr<TcpData> pT
 }
 
 void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(
-    std::shared_ptr<TcpData> tcpData) {
+    std::shared_ptr<TcpData> tcpData) volatile {
   /* 直接过继数据 */
 
   if (this != nullptr && this != (void*)(-1)) {

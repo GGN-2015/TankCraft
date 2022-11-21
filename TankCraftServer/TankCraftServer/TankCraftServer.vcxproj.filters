@@ -144,11 +144,11 @@
     <ClCompile Include="TcpDataManager.cpp">
       <Filter>源文件\拓展</Filter>
     </ClCompile>
-    <ClCompile Include="BulletInfo.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="BulletPosMessage.cpp">
-      <Filter>源文件</Filter>
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletInfo.cpp">
+      <Filter>源文件\实现</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

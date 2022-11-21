@@ -28,7 +28,8 @@ struct NetMessageBaseData {
   NetMessageBaseData() : length(0), data(nullptr){};
   ~NetMessageBaseData() { FreeData(); }     /* 析构函数 */
   void MoveDataFrom(std::shared_ptr<TcpData> pTcpData); /* 转移构造 */
-  void MoveDataToTcpData(std::shared_ptr<TcpData> tcpData); /* 将数据转移出去 */
+  void MoveDataToTcpData(
+      std::shared_ptr<TcpData> tcpData) volatile; /* 将数据转移出去 */
   void FreeData();                          /* 安全地清空数据 */
   void SetData(wchar_t* nData, int nLen); /* 释放原先的数据，设置新数据 */
 
@@ -36,7 +37,8 @@ struct NetMessageBaseData {
 };
 
 /* 数据缓冲区 */
-typedef std::vector<std::unique_ptr<NetMessageBaseData>> NetMessageBaseDataList;
+typedef std::vector<std::unique_ptr<volatile NetMessageBaseData>>
+    NetMessageBaseDataList;
 
 class NetMessageBaseDataBuffer {
  public:
