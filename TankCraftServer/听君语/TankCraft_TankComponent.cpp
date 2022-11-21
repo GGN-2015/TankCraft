@@ -10,6 +10,7 @@
 #include "ObjectManager.h"
 #include "Square_RenderComponent.h"
 #include "TankCraft_UserManager_Component.h"
+#include "Transform_RenderComponent.h"
 #include "Ìý¾ýÓï.h"
 
 using namespace Xn;
@@ -19,10 +20,10 @@ using namespace TankCraft;
 
 void TankComponent::OnStart() {
   render_component_ =
-      (Circular_RenderComponent *)GetXnObject()->SetRenderComponent(
-          std::make_unique<Circular_RenderComponent>());
-  render_component_->color_ = Vector3::Color::RGB255(200, 212, 230);
+      (Transform_RenderComponent *)GetXnObject()->SetRenderComponent(
+          std::make_unique<Transform_RenderComponent>());
 
+  // ÌØÐ§
   invincible_state_effect_ = Ìý¾ýÓï::Get().GetObjectManager()->CreateXnObject(
       Vector2::ZERO, GetXnObject());
   invincible_state_effect_render_component_ =
@@ -32,12 +33,12 @@ void TankComponent::OnStart() {
       Vector4::Color::RGB255(255, 247, 89, 120);
   invincible_state_effect_->SetActive(false);
 
-  though_t_ = 0;
-
-  // ÉèÖÃ°ë¾¶
-  SetRadio(0.3f);
-
-  SetLerpTime(0.1f);
+  // ÉíÌå
+  tank_body_render_component_ =
+      (Circular_RenderComponent *)Ìý¾ýÓï::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->SetRenderComponent(std::make_unique<Circular_RenderComponent>());
 
   // ÉèÖÃÅÚ¹ÜÎ»ÖÃ
   gun_barrel_render_component_ =
@@ -47,6 +48,13 @@ void TankComponent::OnStart() {
           ->SetRenderComponent(std::make_unique<Square_RenderComponent>(
               Vector4(162.f / 255.f, 168.f / 255.f, 160.f / 255.f, 1)));
   gun_barrel_render_component_->rect_ = Vector4(-0.05f, 0.05f, 0.23f, -0.05f);
+
+  though_t_ = 0;
+
+  // ÉèÖÃ°ë¾¶
+  SetRadio(0.3f);
+
+  SetLerpTime(0.1f);
 
 #if _DEBUG && 0
   SetPos(Vector2::Random({0, 0}, {10, 10}), 0.f);
@@ -72,7 +80,7 @@ void TankComponent::OnUpdate() {
 #endif  // Test
 
   if (user_data_) {
-    render_component_->color_ = user_data_->color.asColor;
+    tank_body_render_component_->color_ = user_data_->color.asColor;
   }
 }
 void TankComponent::OnDestory() {
@@ -106,8 +114,8 @@ void TankComponent::SetTargetPos(const Vector2 &pos, const Float &rotation) {
 #endif  // IS_TANK_LERP_MOVE
 }
 void TankComponent::SetRadio(const Float &radius) {
-  render_component_->radius_ = radius;
-  invincible_state_effect_render_component_->radius_ = radius + 0.02f;
+  tank_body_render_component_->radius_ = radius;
+  invincible_state_effect_render_component_->radius_ = radius + 0.06f;
 }
 
 void Xn::TankCraft::TankComponent::SetState(const Int &state) {
