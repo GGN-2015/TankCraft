@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -161,6 +161,7 @@
     <ClCompile Include="ParserRegister.cpp" />
     <ClCompile Include="PingMessage.cpp" />
     <ClCompile Include="PingParser.cpp" />
+    <ClCompile Include="ScoreBoardMessage.cpp" />
     <ClCompile Include="SysUtils.cpp" />
     <ClCompile Include="TankCraftServer.cpp" />
     <ClCompile Include="TankCraft_NetManager_Component.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="PingMessage.h" />
     <ClInclude Include="PingParser.h" />
     <ClInclude Include="RequestMessageTypes.h" />
+    <ClInclude Include="ScoreBoardMessage.h" />
     <ClInclude Include="SysUtils.h" />
     <ClInclude Include="TankCraft_NetManager_Component.h" />
     <ClInclude Include="TankPosMessage.h" />
