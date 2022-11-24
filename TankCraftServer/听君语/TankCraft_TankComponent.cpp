@@ -78,10 +78,6 @@ void TankComponent::OnUpdate() {
     SetTargetPos(new_target_pos_, 45);
   }
 #endif  // Test
-
-  if (user_data_) {
-    tank_body_render_component_->color_ = user_data_->color.asColor;
-  }
 }
 void TankComponent::OnDestory() {
   GetXnObject()->RemoveChild(invincible_state_effect_);
@@ -136,6 +132,4 @@ void Xn::TankCraft::TankComponent::SetState(const Int &state) {
   }
 }
 
-void TankComponent::BindUser(const UserData *const &user_data) {
-  user_data_ = user_data;
-}
+void TankComponent::BindUser(const uint &user_id) { user_id_ = user_id; }

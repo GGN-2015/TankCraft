@@ -23,10 +23,11 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
   net_manager_ = (NetManager_Component*)GetXnObject()->AddComponent(
       std::make_unique<NetManager_Component>());
 
-  map_manager_ = (MapManagerComponent*)Ìý¾ýÓï::Get()
-                     .GetObjectManager()
-                     ->CreateXnObject(Vector2::ZERO, GetXnObject())
-                     ->AddComponent(std::make_unique<MapManagerComponent>());
+  map_manager_ =
+      (MapManagerComponent*)Ìý¾ýÓï::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->AddComponent(std::make_unique<MapManagerComponent>(user_manager_));
   Ìý¾ýÓï::Get()
       .GetObjectManager()
       ->CreateXnObject(Vector2::ZERO, GetXnObject())
@@ -528,10 +529,9 @@ void Xn::TankCraft::GameManagerComponent::AddUser(
   std::wstring name(user_name_length, '\0');
   memcpy(name.data(), user_name, size_t(2 * user_name_length));
 
-  const auto user_data =
-      user_manager_->AddUser(user_id, name, user_color, user_kill_number);
+  user_manager_->AddUser(user_id, name, user_color, user_kill_number);
 
-  map_manager_->TryBindUser(user_data);
+  map_manager_->TryBindUser(user_id);
 }
 void Xn::TankCraft::GameManagerComponent::SetBulletState(const uint& id,
                                                          const Vector2& pos) {

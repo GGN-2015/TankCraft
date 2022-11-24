@@ -14,11 +14,24 @@ struct UserData {
         user_name(user_name),
         color(color),
         kill_number(kill_number) {}
+  UserData(const UserData& other)
+      : user_id(other.user_id),
+        user_name(other.user_name),
+        color(other.color),
+        kill_number(other.kill_number) {}
 
-  const Int user_id;
+  Int user_id;
   std::wstring user_name;
   Vector4 color;
   Int kill_number;
+
+  UserData& operator=(const UserData& other) {
+    user_id = other.user_id;
+    user_name = other.user_name;
+    color = other.color;
+    kill_number = other.kill_number;
+    return *this;
+  }
 };
 
 }  // namespace TankCraft

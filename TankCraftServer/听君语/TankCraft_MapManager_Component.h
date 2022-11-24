@@ -23,12 +23,16 @@ class WallManagerComponent;
 class TankManagerComponent;
 class BulletManagerComponent;
 
+class UserManagerComponent;
+
 // 以x（Vector2::X）为前方向
 class MapManagerComponent : public Component {
   friend class GameManagerComponent;
 
  public:
-  MapManagerComponent() : Component(L"TanksFight_MapManagerComponent") {}
+  MapManagerComponent(UserManagerComponent *user_manager)
+      : Component(L"TanksFight_MapManagerComponent"),
+        user_manager_(user_manager) {}
 
   virtual void OnStart() override;
   virtual void OnUpdate() override;
@@ -44,7 +48,7 @@ class MapManagerComponent : public Component {
   void SetTankState(const Int &usesr_id, const Vector2 &pos,
                     const Float &rotation, const Int &state);
   void EndSyncTankState();
-  void TryBindUser(const UserData *const &user_data);
+  void TryBindUser(const uint &user_id);
   void StartSyncBulletState();
   void SetBulletState(const uint &id, const Vector2 &pos);
   void EndSyncBulletState();
@@ -56,6 +60,8 @@ class MapManagerComponent : public Component {
   WallManagerComponent *wall_manager = nullptr;
   TankManagerComponent *tank_manager = nullptr;
   BulletManagerComponent *bullet_manager = nullptr;
+
+  UserManagerComponent *user_manager_ = nullptr;
 
  private:
   Vector2 target_pos_;

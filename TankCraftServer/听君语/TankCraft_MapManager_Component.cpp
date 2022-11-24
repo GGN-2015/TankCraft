@@ -29,10 +29,11 @@ void Xn::TankCraft::MapManagerComponent::OnStart() {
                      .GetObjectManager()
                      ->CreateXnObject(Vector2::ZERO, GetXnObject())
                      ->AddComponent(std::make_unique<WallManagerComponent>());
-  tank_manager = (TankManagerComponent*)Ìý¾ýÓï::Get()
-                     .GetObjectManager()
-                     ->CreateXnObject(Vector2::ZERO, GetXnObject())
-                     ->AddComponent(std::make_unique<TankManagerComponent>());
+  tank_manager =
+      (TankManagerComponent*)Ìý¾ýÓï::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->AddComponent(std::make_unique<TankManagerComponent>(user_manager_));
   bullet_manager =
       (BulletManagerComponent*)Ìý¾ýÓï::Get()
           .GetObjectManager()
@@ -70,7 +71,9 @@ void Xn::TankCraft::MapManagerComponent::OnUpdate() {
   map_scale -= amend_scale_div;
   SetTargetPos(map_pos, map_scale);
 }
-void Xn::TankCraft::MapManagerComponent::OnDestory() {}
+void Xn::TankCraft::MapManagerComponent::OnDestory() {
+  GetXnObject()->RemoveAllChild();
+}
 
 void Xn::TankCraft::MapManagerComponent::SetPos(const Vector2& pos,
                                                 const Float& scale) {
@@ -108,9 +111,8 @@ void Xn::TankCraft::MapManagerComponent::EndSyncTankState() {
   tank_manager->EndSyncTankState();
 }
 
-void Xn::TankCraft::MapManagerComponent::TryBindUser(
-    const UserData* const& user_data) {
-  tank_manager->TryBindUser(user_data);
+void Xn::TankCraft::MapManagerComponent::TryBindUser(const uint& user_id) {
+  tank_manager->TryBindUser(user_id);
 }
 
 void Xn::TankCraft::MapManagerComponent::StartSyncBulletState() {

@@ -36,7 +36,7 @@ class TankComponent : public Component {
   void SetRadio(const Float &radius);
   void SetState(const Int &state);
 
-  void BindUser(const UserData *const &user_data);
+  void BindUser(const uint &user_id);
 
  private:
   Float web_delay_time_;
@@ -50,7 +50,7 @@ class TankComponent : public Component {
 
   Int state_;
 
-  const UserData *user_data_ = nullptr;
+  uint user_id_ = 0;
 
   XnObject *invincible_state_effect_ = nullptr;
   Circular_RenderComponent *tank_body_render_component_ = nullptr;
