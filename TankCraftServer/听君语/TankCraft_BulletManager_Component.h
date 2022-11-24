@@ -28,7 +28,7 @@ class BulletManagerComponent : public Component {
   friend class MapManagerComponent;
 
  public:
-  BulletManagerComponent() : Component(L"TanksFight_BulletManagerComponent") {}
+  BulletManagerComponent();
 
   virtual void OnStart() override;
   virtual void OnDestory() override;
