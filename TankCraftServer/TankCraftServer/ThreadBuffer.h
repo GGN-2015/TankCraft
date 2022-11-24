@@ -36,8 +36,9 @@ class ThreadBuffer {
   int GetMaxSentUserId() const; /* 获取发送过的最大用户 ID */
 
  private:
-  IMessageList mIMessageList; /* 待发送的消息队列，服务端有义务在清空这个队列时对其中内容进行释放
-                               */
+  IMessageList
+      mIMessageList; /* 待发送的消息队列，服务端有义务在清空这个队列时对其中内容进行释放
+                      */
 
   /* 描述当前玩家是否已经加入游戏 */
   /* 未加入的玩家可以通过登录请求加入游戏，登录请求失败的仍然不能加入游戏 */
@@ -49,6 +50,7 @@ class ThreadBuffer {
   double mLastShootTime;    /* 上次发射炮弹的时间 */
   double mLastGetGraphTime; /* 上次获取地图的时间 */
   double mLastGetScoreBoardTime = 0;
+  double mLastGetUserInfoTime = 0;
 
   TcpData* mGraphTcpDataCache = nullptr;
   int mMaxSentId; /* 曾经获取过用户信息的最大用户 ID */

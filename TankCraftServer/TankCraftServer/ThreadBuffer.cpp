@@ -26,7 +26,8 @@ void ThreadBuffer::DumpMessage(std::shared_ptr<IMessage> iMessage) {
 
 void ThreadBuffer::DumpTankPosMessage(GameDatabase* Gdb) {
   // TcpData tmpTcpData;
-  std::shared_ptr<TcpData> tmpTcpData(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+  std::shared_ptr<TcpData> tmpTcpData(
+      TcpData::AllocTcpData(__FILE__, __LINE__, false));
   Gdb->GetTankPosMessage(tmpTcpData.get());
 
   /* 向客户端反馈坦克位置信息 */
@@ -45,20 +46,21 @@ void ThreadBuffer::DumpBulletPosMessage(GameDatabase* Gdb) {
 
   // tmpTcpData->DebugShow("[BulletPosMessage] ");
   // system("pause");
-   
+
   /* 还是要实时发送子弹状态 */
-  DumpMessage(std::shared_ptr<IMessage>(new BulletPosMessage(tmpTcpData.get())));
+  DumpMessage(
+      std::shared_ptr<IMessage>(new BulletPosMessage(tmpTcpData.get())));
 }
 
 void ThreadBuffer::DumpScoreBoardMessage(GameDatabase* Gdb) {
-  // std::cerr << "[ThreadBuffer::DumpScoreBoardMessage]" << std::endl;
-
   if (mLastGetScoreBoardTime < Gdb->GetLastRefreshScoreBoardTime()) {
+    std::cerr << "[ThreadBuffer::DumpScoreBoardMessage]" << std::endl;
     mLastGetScoreBoardTime = Gdb->GetLastRefreshScoreBoardTime();
 
     unsigned short killCnt = 0;
     if (InGame()) {
-      killCnt = Gdb->GetKillCntByUserID(mUserID); /* 这个函数比较慢可能需要考虑优化 */
+      killCnt =
+          Gdb->GetKillCntByUserID(mUserID); /* 这个函数比较慢可能需要考虑优化 */
     }
     std::shared_ptr<IMessage> scores = Gdb->GetScoreBoardMessage(killCnt);
     DumpMessage(scores);
@@ -66,8 +68,13 @@ void ThreadBuffer::DumpScoreBoardMessage(GameDatabase* Gdb) {
 }
 
 void ThreadBuffer::DumpUserInfoMessage(GameDatabase* Gdb) {
-  std::shared_ptr<IMessage> pUserInfoMessage = Gdb->GetUserInfoMessage();
-  DumpMessage(pUserInfoMessage);
+  if (mLastGetUserInfoTime < Gdb->GetLastRefreshUserInfoTime()) {
+    std::cerr << "[ThreadBuffer::DumpUserInfoMessage]" << std::endl;
+    mLastGetUserInfoTime = Gdb->GetLastRefreshUserInfoTime();
+
+    std::shared_ptr<IMessage> pUserInfoMessage = Gdb->GetUserInfoMessage();
+    DumpMessage(pUserInfoMessage);
+  }
 }
 
 void ThreadBuffer::ClearDumpedMessage() {
@@ -96,7 +103,8 @@ void ThreadBuffer::GetTcpDataFromDumpedMessage(TcpData* pTcpDataGet) {
   for (auto pMsg : mIMessageList) {
     /* 获取二进制数据 */
     // TcpData tmpTcpData;
-    std::shared_ptr<TcpData> tmpTcpData(TcpData::AllocTcpData(__FILE__, __LINE__, false));
+    std::shared_ptr<TcpData> tmpTcpData(
+        TcpData::AllocTcpData(__FILE__, __LINE__, false));
     pMsg->GetRawData(tmpTcpData.get());
 
     Utils::DumpTcpDataToBuffer(buffer, pos, tmpTcpData.get());
