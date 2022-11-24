@@ -16,6 +16,7 @@
 
 void Xn::TankCraft::GameManagerComponent::OnStart() {
   game_state_ = GameState::NoConnect;
+  this_user_id_ = -1;
 
   user_manager_ = (UserManagerComponent*)GetXnObject()->AddComponent(
       std::make_unique<UserManagerComponent>());
@@ -136,8 +137,7 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
     switch (msg_type) {
       case 65535: {
         const uint error_code = *(uint16*)&data[2];
-        const uint this_user_id = *(uint32*)&data[3];
-        InternalCommunicationMessage(error_code, this_user_id);
+        InternalCommunicationMessage(error_code);
       } break;
 
       case 0: {
@@ -201,7 +201,7 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
 }
 
 void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
-    const uint& code, const uint& id) {
+    const uint& code) {
   OutputDebugString(std::to_wstring(code).data());
   switch (code) {
     case 0: {
@@ -209,7 +209,6 @@ void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
       // TODO 与服务端连接成功
       {
         error_message_text_->SetText(L"连接成功");
-        this_user_id_ = id;
         return;
       }
     } break;
@@ -324,8 +323,9 @@ void Xn::TankCraft::GameManagerComponent::SetUsersKillNumber(
                         .data());
 
   ranking_list_component_->SetRankingNumber(users_kill_number_count);
-  ranking_list_component_->SetThisKillCount(
-      user_manager_->GetUser(this_user_id_)->user_name, this_user_kill_number);
+  auto user = user_manager_->GetUser(this_user_id_);
+  ranking_list_component_->SetThisKillCount(user ? user->user_name : L"???",
+                                            this_user_kill_number);
 
   uint users_kill_number_data_index = 0;
 
@@ -339,11 +339,16 @@ void Xn::TankCraft::GameManagerComponent::SetUsersKillNumber(
         *(uint16*)&users_kill_number_data[users_kill_number_data_index];
     users_kill_number_data_index += 1;
 
-    user_manager_->GetUser(user_id)->kill_number = users_kill_number;
+    user = user_manager_->GetUser(this_user_id_);
+    if (user) {
+      user->kill_number = users_kill_number;
 
-    ranking_list_component_->SetKillCount(
-        users_index, user_manager_->GetUser(this_user_id_)->user_name,
-        this_user_kill_number);
+      ranking_list_component_->SetKillCount(users_index, user->user_name,
+                                            this_user_kill_number);
+    } else {
+      ranking_list_component_->SetKillCount(users_index, L"???",
+                                            this_user_kill_number);
+    }
   }
 }
 void Xn::TankCraft::GameManagerComponent::SetEntitiesState(
@@ -402,6 +407,7 @@ void Xn::TankCraft::GameManagerComponent::DealLoginMessage(
       // TODO
       {
         error_message_text_->SetText(L"登录成功");
+        this_user_id_ = user_id;
         return;
       }
     } break;
@@ -492,17 +498,17 @@ void Xn::TankCraft::GameManagerComponent::TrySendKeyMessage() {
 
       const uint the_key = virtual_key | (key_state << 8);
 
-      //{
-      //  std::wstring mes = L"发送：按键消息：";
-      //  mes += L"按键【";
-      //  mes += std::to_wstring(virtual_key);
-      //  mes += L"】";
-      //  mes += L"状态【";
-      //  mes += std::to_wstring(key_state);
-      //  mes += L"】";
-      //  error_message_text_->SetText(mes);
-      //  OutputDebugString((mes + L"\n").data());
-      //}
+      {
+        std::wstring mes = L"发送：按键消息：";
+        mes += L"按键【";
+        mes += std::to_wstring(virtual_key);
+        mes += L"】";
+        mes += L"状态【";
+        mes += std::to_wstring(key_state);
+        mes += L"】";
+        error_message_text_->SetText(mes);
+        OutputDebugString((mes + L"\n").data());
+      }
 
       std::wstring s = L"";
       s.push_back(*(wchar*)&message_type);
@@ -520,7 +526,7 @@ void Xn::TankCraft::GameManagerComponent::AddUser(
     const wchar* const& user_name, const Vector4& user_color,
     const uint& user_kill_number) {
   std::wstring name(user_name_length, '\0');
-  memcpy(name.data(), user_name, size_t(2 * user_name_length));
+  memcpy(name.data(), user_name, size_t(user_name_length));
 
   const auto user_data =
       user_manager_->AddUser(user_id, name, user_color, user_kill_number);

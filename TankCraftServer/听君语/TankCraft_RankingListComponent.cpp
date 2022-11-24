@@ -29,9 +29,10 @@ void Xn::TankCraft::RankingListComponent::OnDestory() {}
 
 void Xn::TankCraft::RankingListComponent::SetThisKillCount(
     const std::wstring& user_name, const uint& kill_count) {
-  if (user_name.size() > 4)
+
+  if (user_name.size() > 3)
     ranking_list_items_[ranking_list_number_]->SetText(
-        user_name.substr(0, 4) + L":" + std::to_wstring(kill_count));
+        user_name.substr(0, 3) + L":" + std::to_wstring(kill_count));
   else
     ranking_list_items_[ranking_list_number_]->SetText(
         user_name + L":" + std::to_wstring(kill_count));
@@ -42,8 +43,8 @@ void Xn::TankCraft::RankingListComponent::SetKillCount(
     const uint& kill_count) {
   if (ranking >= ranking_list_number_) return;
 
-  if (user_name.size() > 4)
-    ranking_list_items_[ranking]->SetText(user_name.substr(0, 4) + L":" +
+  if (user_name.size() > 3)
+    ranking_list_items_[ranking]->SetText(user_name.substr(0, 3) + L":" +
                                           std::to_wstring(kill_count));
   else
     ranking_list_items_[ranking]->SetText(user_name + L":" +

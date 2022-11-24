@@ -45,7 +45,7 @@ class GameManagerComponent : public Component {
 
  private:
   void NetMessageDeal(NetMessageBaseDataBuffer *const &server_to_client);
-  void InternalCommunicationMessage(const uint &code, const uint &id);
+  void InternalCommunicationMessage(const uint &code);
   void SetMap(const wchar *const &map_data, const uint &x_side_length,
               const uint &y_side_length);
   void AddUsers(const wchar *const &users_data, const uint &user_count);
@@ -70,7 +70,7 @@ class GameManagerComponent : public Component {
  private:
   GameState game_state_ = GameState::NoConnect;
 
-  uint this_user_id_ = 0;
+  uint this_user_id_;
   RankingListComponent *ranking_list_component_ = nullptr;
 
   // 暂时不想写多线程
