@@ -21,16 +21,17 @@
 #define GAME_DATABASE_RUN (1)
 #define DEFAULT_GAMEHEIGHT (16) /* 游戏默认地图尺寸 */
 #define DEFAULT_GAMEWIDTH (16)
+#define DEFAULT_WALLDENCITY (0.5) /* 默认墙密度 0 ~ 1*/
 #define GAME_DATABASE_STOP (0)
 
-#define TANK_SPEED (1.0)                          /* 每秒 1 格 */
+#define TANK_SPEED (1.0 * 1.25)                    /* 每秒 1 格 */
 #define TANK_ROTATE_SPEED (Utils::Get2PI() / 2.0) /* 每秒 0.5 圈 */
 #define TANK_RADIUS (0.3)                         /* 坦克半径 */
 #define WALL_WIDTH (0.05)                         /* 墙的宽度的一半 */
 #define TANK_BULLET_RADIUS (0.04)                 /* 子弹的宽度 */
-#define TANK_BULLET_EXPIRED_TIME (30.0)            /* 子弹生存时间 */
+#define TANK_BULLET_EXPIRED_TIME (30.0)           /* 子弹生存时间 */
 
-#define BULLET_SPEED (2 * TANK_SPEED) /* 子弹的速度 */
+#define BULLET_SPEED ((2 / 1.25) * TANK_SPEED) /* 子弹的速度 */
 
 class BulletInfo;
 class TcpData;
@@ -67,13 +68,15 @@ class GameDatabase : public MyMutex {
   void GetGraphTcpData(TcpData* mGraphTcpDataCache) const; /* 获取 地图数据 */
 
   double GetLastGraphGenerateTime() const; /* 获取上一次重置地图的时间 */
+  double GetLastRefreshScoreBoardTime() const;          /* 获取上次更新计分板的时间 */
   void GetTcpDataForUserInfoMessage(TcpData* nTcpData); /* 获取用户数据 */
 
   void GetTankPosMessage(
       TcpData* pTcpData) const; /* 获取所有坦克当前的位置信息 */
-  void GetBulletPosMessage(TcpData* pTcpData) const; /* 获取所有子弹的位置信息 */
+  void GetBulletPosMessage(
+      TcpData* pTcpData) const; /* 获取所有子弹的位置信息 */
 
-  int GetMaxUserId() const;     /* 获得当前最大用户编号 */
+  int GetMaxUserId() const; /* 获得当前最大用户编号 */
 
   int GetGameDatabaseStatusAtomic() const;    /* 获取运行状态 */
   UserInfo* GetUserInfoByUserId(int nUserId); /* 获取用户信息对象 */
@@ -103,7 +106,10 @@ class GameDatabase : public MyMutex {
   void GetCanShootUserIdSet(IntSet* userIdSet) const;
   void UserBulletExpired(IntMap* userIdMapToBulletCnt);
 
-  std::shared_ptr<IMessage> GetScoreBoardMessage(unsigned short nThisUserKillCnt) const;
+  std::shared_ptr<IMessage> GetScoreBoardMessage(
+      unsigned short nThisUserKillCnt) const;
+
+  std::shared_ptr<IMessage> GetUserInfoMessage(); /* 获取所有用户的名字信息和颜色信息 */
 
  private:
   GameDatabase();
@@ -118,6 +124,7 @@ class GameDatabase : public MyMutex {
   double mLastFrameTime; /* 上次物理引擎启动时间 */
 
   int mGameDatabaseStatus;
+  double mLastRefreshScoreBoardTime = 0;
   /* 在一个单独的线程运行物理引擎 */
   std::thread* pGameDatabasePhysicalEngineThread;
 };

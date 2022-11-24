@@ -88,7 +88,7 @@ Xn::TankCraft::NetManager_Component::TryGetServerToClientMessageBuffer() {
   return foo;
 }
 
-NetMessageBaseDataBuffer*
+NetMessageBaseDataBuffer* 
 Xn::TankCraft::NetManager_Component::TryGetClientToServerMessageBuffer() {
   Lock();
 
@@ -109,6 +109,8 @@ Xn::TankCraft::NetManager_Component::TryGetClientToServerMessageBuffer() {
   /* 一定会返回一个空队列 */
   return bufferFrom;
 }
+
+
 
 void Xn::TankCraft::NetManager_Component::PushPingMessage(unsigned short xVal) {
   /* 发送一条 ping 消息 */
@@ -217,12 +219,10 @@ void Xn::TankCraft::NetMessageBaseData::MoveDataToTcpData(
     std::shared_ptr<TcpData> tcpData) volatile {
   /* 直接过继数据 */
 
-  if (this != nullptr && this != (void*)(-1)) {
-    tcpData->DirectSet((char*)data, length * 2);
+  tcpData->DirectSet((char*)data, length * 2);
 
-    length = 0;
-    data = nullptr;
-  }
+  length = 0;
+  data = nullptr;
 }
 
 void Xn::TankCraft::NetMessageBaseData::FreeData() {

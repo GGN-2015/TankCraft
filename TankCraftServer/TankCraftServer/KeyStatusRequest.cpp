@@ -19,7 +19,7 @@ void KeyStatusRequest::SetKeyStatus(unsigned char nKeyStatus) {
 }
 
 void KeyStatusRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb) {
-  std::cerr << "[KeyStatusRequest::Dispatch] Exist" << std::endl;
+  // std::cerr << "[KeyStatusRequest::Dispatch] Exist" << std::endl;
   if (tb->InGame()) {
     int nUserId = tb->GetUserID();
     

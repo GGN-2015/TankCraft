@@ -12,6 +12,7 @@ class ThreadBuffer {
   void DumpTankPosMessage(GameDatabase* Gdb); /* 向客户端发送坦克位置信息 */
   void DumpBulletPosMessage(GameDatabase* Gdb); /* 向客户端发送子弹位置信息 */
   void DumpScoreBoardMessage(GameDatabase* Gdb); /* 发送记分板消息 */
+  void DumpUserInfoMessage(GameDatabase* Gdb);   /* 发送用户名称消息 */
 
   void ClearDumpedMessage(); /* 清空所有待发送的消息 */
 

@@ -101,6 +101,7 @@ class NetManager_Component : public Component {
   // 返回:
   //   - nullptr     : 获取失败，可能因为加锁什么的
   //   - not nullptr : 获取成功，指向NetMessageBaseDataBuffer的指针
+  
   NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
 
  public:

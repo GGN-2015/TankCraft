@@ -53,12 +53,21 @@ void ThreadBuffer::DumpBulletPosMessage(GameDatabase* Gdb) {
 void ThreadBuffer::DumpScoreBoardMessage(GameDatabase* Gdb) {
   // std::cerr << "[ThreadBuffer::DumpScoreBoardMessage]" << std::endl;
 
-  unsigned short killCnt = 0;
-  if (InGame()) {
-    killCnt = Gdb->GetKillCntByUserID(mUserID);
+  if (mLastGetScoreBoardTime < Gdb->GetLastRefreshScoreBoardTime()) {
+    mLastGetScoreBoardTime = Gdb->GetLastRefreshScoreBoardTime();
+
+    unsigned short killCnt = 0;
+    if (InGame()) {
+      killCnt = Gdb->GetKillCntByUserID(mUserID); /* 这个函数比较慢可能需要考虑优化 */
+    }
+    std::shared_ptr<IMessage> scores = Gdb->GetScoreBoardMessage(killCnt);
+    DumpMessage(scores);
   }
-  std::shared_ptr<IMessage> scores = Gdb->GetScoreBoardMessage(killCnt);
-  DumpMessage(scores);
+}
+
+void ThreadBuffer::DumpUserInfoMessage(GameDatabase* Gdb) {
+  std::shared_ptr<IMessage> pUserInfoMessage = Gdb->GetUserInfoMessage();
+  DumpMessage(pUserInfoMessage);
 }
 
 void ThreadBuffer::ClearDumpedMessage() {

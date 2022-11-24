@@ -9,6 +9,7 @@
 #include "ScoreBoardMessage.h"
 #include "SysUtils.h"
 #include "UserInfo.h"
+#include "UserInfoMessage.h"
 #include "Utils.h"
 
 GameDatabase* GameDatabase::pGlobalGameDatabase = nullptr;
@@ -25,7 +26,7 @@ GameDatabase* GameDatabase::GetGlobalGameDatabase() {
   return pGlobalGameDatabase;
 }
 
-bool GameDatabase::CheckUserNameExist(std::wstring userName) const {
+bool GameDatabase::CheckUserNameExist(std::wstring userName) const { /* Slow */
   bool ans = false;
   for (auto pUserInfo : mUserInfoList) {
     if (pUserInfo->GetUserInfoName() == userName) {
@@ -56,6 +57,8 @@ void GameDatabase::AddUser(int nUserId, std::wstring nUserName) {
   pUserInfo->SetTankPosRandomly(mGameGraph.GetHeight(), mGameGraph.GetWidth());
 
   mUserInfoList.push_back(pUserInfo); /* 增加一个用户 */
+  mLastRefreshScoreBoardTime = Utils::GetClockTime();
+
 #ifdef GAME_DATABASE_DEBUG
   std::wcerr << L"GameDatabase::AddUser() {\n    nUserId = " << nUserId
              << L"\n    nUserName = " << nUserName << "\n}" << std::endl;
@@ -72,6 +75,8 @@ void GameDatabase::DelUser(int nUserId) {
   }
 
   assert(pos != -1);
+  mLastRefreshScoreBoardTime = Utils::GetClockTime();
+
   std::wcerr << L"[GameDatabase::DelUser] UserName = "
              << mUserInfoList[pos]->GetUserInfoName() << std::endl;
   mUserInfoList.erase(mUserInfoList.begin() + pos);
@@ -140,6 +145,10 @@ void GameDatabase::DealUserKilled() {
       pUser->IncKillCnt(userAddScore[userId]);
     }
   }
+
+  if (userAddScore.size() > 0) { /* 需要更新计分板的时间 */
+    mLastRefreshScoreBoardTime = Utils::GetClockTime();
+  }
 }
 
 void GameDatabase::GenerateNewMap(int mHeight, int mWidth, double alpha) {
@@ -152,6 +161,10 @@ void GameDatabase::GetGraphTcpData(TcpData* pGraphTcpDataCache) const {
 
 double GameDatabase::GetLastGraphGenerateTime() const {
   return mGameGraph.GetCreateTime();
+}
+
+double GameDatabase::GetLastRefreshScoreBoardTime() const {
+  return mLastRefreshScoreBoardTime;
 }
 
 void GameDatabase::GetTcpDataForUserInfoMessage(TcpData* nTcpData) {
@@ -442,7 +455,7 @@ void GameDatabase::SetLastFrameTime(double nFrameTime) {
 void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
   UserInfo* pUserInfo = GetUserInfoByUserId(nUserId);
   if (pUserInfo != nullptr) {
-    std::cerr << "[GameDatabase::SetKeyStatusForUser]" << nUserId << ", "
+    //std::cerr << "[GameDatabase::SetKeyStatusForUser]" << nUserId << ", "\
               << nKeyId << ", " << status << std::endl;
     pUserInfo->GetKeyStatusObject()->GetStatusById(nKeyId) = status;
   } else {
@@ -458,7 +471,7 @@ void GameDatabase::AddBullet(double posX, double posY, double dirR, double disD,
   posY += dy; /* 在坦克的前方 disD 放置子弹 */
 
   mBulletInfoList.push_back(BulletInfo(posX, posY, dirR, Utils::GetClockTime(), userId));
-  std::cerr << "GameDatabase::AddBullet, bulletCnt = " << mBulletInfoList.size()
+  // std::cerr << "GameDatabase::AddBullet, bulletCnt = " << mBulletInfoList.size()\
             << std::endl;
 }
 
@@ -497,12 +510,20 @@ std::shared_ptr<IMessage> GameDatabase::GetScoreBoardMessage(
   return scores;
 }
 
+std::shared_ptr<IMessage> GameDatabase::GetUserInfoMessage() {
+  TcpData* pTmpTcpData = TcpData::AllocTcpData(__FILE__, __LINE__, false);
+  GetTcpDataForUserInfoMessage(pTmpTcpData);
+
+  std::shared_ptr<UserInfoMessage> names(new UserInfoMessage(pTmpTcpData));
+  return names;
+}
+
 GameDatabase::GameDatabase() {
   mUserIdNow = 0;
   mLastFrameTime = Utils::GetClockTime();
 
   mGameDatabaseStatus = GAME_DATABASE_RUN;
-  mGameGraph.SetSize(DEFAULT_GAMEHEIGHT, DEFAULT_GAMEWIDTH, 0.3);
+  mGameGraph.SetSize(DEFAULT_GAMEHEIGHT, DEFAULT_GAMEWIDTH, 1 - DEFAULT_WALLDENCITY);
 
   /* 启动物理引擎渲染线程 */
   pGameDatabasePhysicalEngineThread =

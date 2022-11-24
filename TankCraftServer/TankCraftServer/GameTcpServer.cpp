@@ -43,5 +43,6 @@ void GameTcpServer::GetTcpDataResult(const TcpData* pTcpDataRecv,
   tb->DumpBulletPosMessage(Gdb); /* 获取并发送子弹位置信息 */
   tb->GetTcpDataFromDumpedMessage(pTcpDataSend); /* 获取要被发送的消息 */
   tb->DumpScoreBoardMessage(Gdb);                /* 获取计分板消息 */
+  tb->DumpUserInfoMessage(Gdb);                  /* 输出用户名称颜色映射 */
   tb->ClearDumpedMessage(); /* 清空缓存的要发送的消息 */
 }
