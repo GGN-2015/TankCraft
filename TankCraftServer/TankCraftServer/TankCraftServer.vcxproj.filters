@@ -150,6 +150,9 @@
     <ClCompile Include="BulletInfo.cpp">
       <Filter>源文件\实现</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreBoardMessage.cpp">
+      <Filter>源文件\实现</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TcpClient.h">
@@ -264,6 +267,9 @@
       <Filter>头文件\GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="BulletPosMessage.h">
+      <Filter>头文件\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreBoardMessage.h">
       <Filter>头文件\Parser</Filter>
     </ClInclude>
   </ItemGroup>

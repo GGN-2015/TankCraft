@@ -24,7 +24,7 @@
 #define DEFAULT_WALLDENCITY (0.5) /* 默认墙密度 0 ~ 1*/
 #define GAME_DATABASE_STOP (0)
 
-#define TANK_SPEED (1.0 * 1.25)                    /* 每秒 1 格 */
+#define TANK_SPEED (1.0 * 1.25)                   /* 每秒 1 格 */
 #define TANK_ROTATE_SPEED (Utils::Get2PI() / 2.0) /* 每秒 0.5 圈 */
 #define TANK_RADIUS (0.3)                         /* 坦克半径 */
 #define WALL_WIDTH (0.05)                         /* 墙的宽度的一半 */
@@ -68,7 +68,8 @@ class GameDatabase : public MyMutex {
   void GetGraphTcpData(TcpData* mGraphTcpDataCache) const; /* 获取 地图数据 */
 
   double GetLastGraphGenerateTime() const; /* 获取上一次重置地图的时间 */
-  double GetLastRefreshScoreBoardTime() const;          /* 获取上次更新计分板的时间 */
+  double GetLastRefreshScoreBoardTime() const; /* 获取上次更新计分板的时间 */
+  double GetLastRefreshUserInfoTime() const;
   void GetTcpDataForUserInfoMessage(TcpData* nTcpData); /* 获取用户数据 */
 
   void GetTankPosMessage(
@@ -109,7 +110,8 @@ class GameDatabase : public MyMutex {
   std::shared_ptr<IMessage> GetScoreBoardMessage(
       unsigned short nThisUserKillCnt) const;
 
-  std::shared_ptr<IMessage> GetUserInfoMessage(); /* 获取所有用户的名字信息和颜色信息 */
+  std::shared_ptr<IMessage>
+  GetUserInfoMessage(); /* 获取所有用户的名字信息和颜色信息 */
 
  private:
   GameDatabase();
@@ -125,6 +127,7 @@ class GameDatabase : public MyMutex {
 
   int mGameDatabaseStatus;
   double mLastRefreshScoreBoardTime = 0;
+  double mLastRefreshUserInfoTime = 0;
   /* 在一个单独的线程运行物理引擎 */
   std::thread* pGameDatabasePhysicalEngineThread;
 };

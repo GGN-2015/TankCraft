@@ -57,7 +57,7 @@ void GameDatabase::AddUser(int nUserId, std::wstring nUserName) {
   pUserInfo->SetTankPosRandomly(mGameGraph.GetHeight(), mGameGraph.GetWidth());
 
   mUserInfoList.push_back(pUserInfo); /* 增加一个用户 */
-  mLastRefreshScoreBoardTime = Utils::GetClockTime();
+  mLastRefreshUserInfoTime = mLastRefreshScoreBoardTime = Utils::GetClockTime();
 
 #ifdef GAME_DATABASE_DEBUG
   std::wcerr << L"GameDatabase::AddUser() {\n    nUserId = " << nUserId
@@ -75,7 +75,7 @@ void GameDatabase::DelUser(int nUserId) {
   }
 
   assert(pos != -1);
-  mLastRefreshScoreBoardTime = Utils::GetClockTime();
+  mLastRefreshUserInfoTime = mLastRefreshScoreBoardTime = Utils::GetClockTime();
 
   std::wcerr << L"[GameDatabase::DelUser] UserName = "
              << mUserInfoList[pos]->GetUserInfoName() << std::endl;
@@ -95,11 +95,9 @@ void GameDatabase::DealUserKilled() {
     /* 如果一个用户没有被杀死过，则检测他是否可能被杀死，无敌状态不会被杀死 */
     if (killedUserId.count(userId) <= 0 && !pUser->CheckSuperArmor()) {
       for (auto& bullet : mBulletInfoList) {
-
         /* 如果子弹能够杀死这个坦克 */
-        if (bullet.Available() && 
+        if (bullet.Available() &&
             bullet.TouchCircle(posX, posY, TANK_BULLET_RADIUS, TANK_RADIUS)) {
-            
           usedBulletId.insert(bullet.bulletId);
           killedUserId.insert(userId);
 
@@ -119,7 +117,6 @@ void GameDatabase::DealUserKilled() {
     if (usedBulletId.count(bullet.bulletId) <= 0) { /* 没有使用过的子弹 */
       tmpBulletInfoList.push_back(bullet);
     } else {
-
       /* 用户子弹数增加 */
       userBulletAdd[bullet.userId] += 1;
     }
@@ -165,6 +162,10 @@ double GameDatabase::GetLastGraphGenerateTime() const {
 
 double GameDatabase::GetLastRefreshScoreBoardTime() const {
   return mLastRefreshScoreBoardTime;
+}
+
+double GameDatabase::GetLastRefreshUserInfoTime() const {
+  return mLastRefreshUserInfoTime;
 }
 
 void GameDatabase::GetTcpDataForUserInfoMessage(TcpData* nTcpData) {
@@ -378,9 +379,8 @@ void GameDatabase::GameDatabasePhsicalEngineTankFunction(
       if (canShootUserId.count(tankUserId) > 0) { /* 可以发炮 */
 
         double eps = 1e-4;
-        pGameDatabase->AddBullet(
-            newTankPos.posX, newTankPos.posY, newTankPos.dirR,
-            TANK_RADIUS, tankUserId);
+        pGameDatabase->AddBullet(newTankPos.posX, newTankPos.posY,
+                                 newTankPos.dirR, TANK_RADIUS, tankUserId);
 
         shootUserIdSet.insert(tankUserId);
       }
@@ -421,11 +421,10 @@ void GameDatabase::GameDatabasePhsicalEngineBulletFunction(
 
       pGameDatabase->mGameGraph.BulletBoxFit(
           &bulletPos.posX, &bulletPos.posY, /* 子弹的位置 */
-          TANK_BULLET_RADIUS + WALL_WIDTH, &bulletPos.dirR
-      );
+          TANK_BULLET_RADIUS + WALL_WIDTH, &bulletPos.dirR);
     }
   }
-  
+
   IntMap userIdBulletExpired; /* 所有子弹过期的用户 */
 
   /* 删除所有过期的子弹 */
@@ -438,7 +437,7 @@ void GameDatabase::GameDatabasePhsicalEngineBulletFunction(
       userIdBulletExpired[userId] += 1;
 
       pGameDatabase->mBulletInfoList.erase(
-          pGameDatabase->mBulletInfoList.begin()  + * p);
+          pGameDatabase->mBulletInfoList.begin() + *p);
     } while (p != nExpiredBulletId.begin());
   }
 
@@ -465,12 +464,12 @@ void GameDatabase::SetKeyStatusForUser(int nUserId, int nKeyId, bool status) {
 
 void GameDatabase::AddBullet(double posX, double posY, double dirR, double disD,
                              int userId) {
-
   double dx = cos(dirR) * disD, dy = sin(dirR) * disD;
   posX += dx;
   posY += dy; /* 在坦克的前方 disD 放置子弹 */
 
-  mBulletInfoList.push_back(BulletInfo(posX, posY, dirR, Utils::GetClockTime(), userId));
+  mBulletInfoList.push_back(
+      BulletInfo(posX, posY, dirR, Utils::GetClockTime(), userId));
   // std::cerr << "GameDatabase::AddBullet, bulletCnt = " << mBulletInfoList.size()\
             << std::endl;
 }
@@ -484,7 +483,7 @@ void GameDatabase::GetCanShootUserIdSet(IntSet* userIdSet) const {
   }
 }
 
-void GameDatabase::UserBulletExpired(IntMap* userIdMapToBulletCnt) { 
+void GameDatabase::UserBulletExpired(IntMap* userIdMapToBulletCnt) {
   for (auto pUserInfo : mUserInfoList) {
     int userId = pUserInfo->GetUserId();
     if (userIdMapToBulletCnt->count(userId)) {
@@ -495,10 +494,10 @@ void GameDatabase::UserBulletExpired(IntMap* userIdMapToBulletCnt) {
 
 std::shared_ptr<IMessage> GameDatabase::GetScoreBoardMessage(
     unsigned short nThisUserKillCnt) const {
-
   /* 计分板 */
-  std::shared_ptr<ScoreBoardMessage> scores(new ScoreBoardMessage(nThisUserKillCnt));
-  
+  std::shared_ptr<ScoreBoardMessage> scores(
+      new ScoreBoardMessage(nThisUserKillCnt));
+
   for (auto& pUserInfo : mUserInfoList) {
     scores->AddUserScore(
         UserScore(pUserInfo->GetUserId(), pUserInfo->GetKillCnt()));
@@ -523,7 +522,8 @@ GameDatabase::GameDatabase() {
   mLastFrameTime = Utils::GetClockTime();
 
   mGameDatabaseStatus = GAME_DATABASE_RUN;
-  mGameGraph.SetSize(DEFAULT_GAMEHEIGHT, DEFAULT_GAMEWIDTH, 1 - DEFAULT_WALLDENCITY);
+  mGameGraph.SetSize(DEFAULT_GAMEHEIGHT, DEFAULT_GAMEWIDTH,
+                     1 - DEFAULT_WALLDENCITY);
 
   /* 启动物理引擎渲染线程 */
   pGameDatabasePhysicalEngineThread =
