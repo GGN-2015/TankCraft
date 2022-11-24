@@ -25,7 +25,7 @@ void PingMessage::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)
     pPingMsgRev->SetX(((unsigned int)GetX() + 1) % 65536);
 
     /* 将应答消息缓存起来 */
-    tb->DumpMessage(pPingMsgRev);
+    tb->DumpMessage(std::shared_ptr<IMessage>(pPingMsgRev));
 
     /* 注意：tb 负责对 DumpMessage 中的 Message 进行释放 */
 }

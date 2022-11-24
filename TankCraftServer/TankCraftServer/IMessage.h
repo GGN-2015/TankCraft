@@ -1,9 +1,10 @@
 #pragma once
 #include <vector>
+#include <memory>
 
 class TcpData;
 class IMessage;
-typedef std::vector<IMessage*> IMessageList;
+typedef std::vector<std::shared_ptr<IMessage>> IMessageList;
 
 class ThreadBuffer; /* 每个客户端在服务器端对应的实体 */
 class GameDatabase; /* 游戏玩家数据库 */

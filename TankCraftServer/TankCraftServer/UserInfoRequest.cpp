@@ -28,7 +28,7 @@ void UserInfoRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)
     Gdb->unlock();
 
     UserInfoMessage* pUserInfoMessage = new UserInfoMessage(pTcpData.get());
-    tb->DumpMessage(pUserInfoMessage);
+    tb->DumpMessage(std::shared_ptr<IMessage>(pUserInfoMessage));
     tb->SetMaxSentUserId(maxUserId);
 }
 

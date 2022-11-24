@@ -94,6 +94,8 @@ class UserInfo {
   void BulletExpired(int bulletCnt); /* 子弹过期了 */
   void AddBullet(int bulletCnt); /* 子弹因为打死了别人而消失了 */
 
+  int GetKillCnt() const;
+
  private:
   int mUserId;
   std::wstring mUserName; /* 登录名 */

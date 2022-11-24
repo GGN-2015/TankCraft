@@ -145,6 +145,8 @@ void UserInfo::AddBullet(int bulletCnt) {
   assert(mBulletCount >= 0);
 }
 
+int UserInfo::GetKillCnt() const { return mKillCnt; }
+
 UserColor::UserColor(unsigned char nR, unsigned char nG, unsigned char nB,
                      unsigned char nA) {
   R = nR;

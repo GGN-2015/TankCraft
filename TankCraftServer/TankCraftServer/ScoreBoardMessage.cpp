@@ -1,6 +1,7 @@
 
 #include "ScoreBoardMessage.h"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 
@@ -9,6 +10,26 @@
 
 void ScoreBoardMessage::AddUserScore(UserScore nUserScore) {
   mUserScoreList.push_back(nUserScore);
+}
+
+/* 击杀数第一关键字用户 id 第二关键字排序 */
+static bool UserScoreCmp(const UserScore &us1, const UserScore &us2) {
+  if (us1.killCnt != us2.killCnt) {
+    return us1.killCnt > us2.killCnt;
+  }
+  return us1.userId < us2.userId;
+}
+
+void ScoreBoardMessage::SortUserScore() { 
+    std::sort(mUserScoreList.begin(), mUserScoreList.end(), UserScoreCmp); 
+}
+
+double ScoreBoardMessage::GetScoreBoardTime() const { 
+    return mScoreBoardTime; 
+}
+
+void ScoreBoardMessage::CutUserScore() {
+  while (mUserScoreList.size() > USER_SCORE_LIST_LEN) mUserScoreList.pop_back();
 }
 
 void ScoreBoardMessage::GetRawData(TcpData *tcpData) {

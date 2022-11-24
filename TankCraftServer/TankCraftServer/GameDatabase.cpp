@@ -6,6 +6,7 @@
 
 #include "BulletInfo.h"
 #include "GameGraph.h"
+#include "ScoreBoardMessage.h"
 #include "SysUtils.h"
 #include "UserInfo.h"
 #include "Utils.h"
@@ -38,6 +39,15 @@ bool GameDatabase::CheckUserNameExist(std::wstring userName) const {
 int GameDatabase::AllocNxtUserId() { return ++mUserIdNow; }
 
 int GameDatabase::GetUserCount() const { return (int)mUserInfoList.size(); }
+
+int GameDatabase::GetKillCntByUserID(int userId) const {
+  for (auto& pUserInfo : mUserInfoList) {
+    if (pUserInfo->GetUserId() == userId) {
+      return pUserInfo->GetKillCnt();
+    }
+  }
+  return 0; /* 没有击杀数 */
+}
 
 void GameDatabase::AddUser(int nUserId, std::wstring nUserName) {
   UserInfo* pUserInfo = new UserInfo(nUserId);
@@ -468,6 +478,23 @@ void GameDatabase::UserBulletExpired(IntMap* userIdMapToBulletCnt) {
       pUserInfo->BulletExpired((*userIdMapToBulletCnt)[userId]);
     }
   }
+}
+
+std::shared_ptr<IMessage> GameDatabase::GetScoreBoardMessage(
+    unsigned short nThisUserKillCnt) const {
+
+  /* 计分板 */
+  std::shared_ptr<ScoreBoardMessage> scores(new ScoreBoardMessage(nThisUserKillCnt));
+  
+  for (auto& pUserInfo : mUserInfoList) {
+    scores->AddUserScore(
+        UserScore(pUserInfo->GetUserId(), pUserInfo->GetKillCnt()));
+  }
+
+  scores->SortUserScore();
+  scores->CutUserScore();
+
+  return scores;
 }
 
 GameDatabase::GameDatabase() {

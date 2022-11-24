@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "GameGraph.h"
+#include "IMessage.h"
 #include "MyMutex.h"
 
 // TODO: LOCK BEFORE USE GAME_DATABASE
@@ -53,6 +54,7 @@ class GameDatabase : public MyMutex {
 
   int AllocNxtUserId();     /* 申请一个新的用户编号 */
   int GetUserCount() const; /* 获取服务器当前正在游玩的人数 */
+  int GetKillCntByUserID(int userId) const; /* 获取玩家击杀数, 有待优化 */
 
   void AddUser(int nUserId, std::wstring nUserName); /* 将玩家加入游戏中 */
   void DelUser(int nUserId);                         /* 删除一个玩家 */
@@ -100,6 +102,8 @@ class GameDatabase : public MyMutex {
 
   void GetCanShootUserIdSet(IntSet* userIdSet) const;
   void UserBulletExpired(IntMap* userIdMapToBulletCnt);
+
+  std::shared_ptr<IMessage> GetScoreBoardMessage(unsigned short nThisUserKillCnt) const;
 
  private:
   GameDatabase();

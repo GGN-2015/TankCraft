@@ -52,7 +52,9 @@ void DataParser::Parse(const TcpData* pTcpData, IMessageList* pContainer,
     for (IParser* iParser : (*pGlobalParserList)) {
       /* DEBUG OUTPUT */
       int type = Utils::GetUnsignedShort(pTcpData->GetData(), posNow);
-      if (type != 0) std::cerr << "Get Msg Type = " << type << std::endl;
+
+      /* 输出获得到的消息类型 */
+      // if (type != 0) std::cerr << "Get Msg Type = " << type << std::endl;
 
       /* 可以开始解析 */
       if (iParser->CheckAvailableToParse(pTcpData, posNow)) {
@@ -64,7 +66,8 @@ void DataParser::Parse(const TcpData* pTcpData, IMessageList* pContainer,
             pTcpData, posNow); /* ParseAt 负责申请 IMessage 结点 */
         posNow += iMessage->GetRawDataLength(); /* 数据使用者负责释放 */
 
-        pContainer->push_back(iMessage); /* 数据追加到队列尾部 */
+        pContainer->push_back(
+            std::shared_ptr<IMessage> (iMessage)); /* 数据追加到队列尾部 */
         break;
       }
     }

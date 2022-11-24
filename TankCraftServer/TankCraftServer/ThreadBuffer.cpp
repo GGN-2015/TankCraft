@@ -20,7 +20,7 @@ ThreadBuffer::ThreadBuffer() {
 
 ThreadBuffer::~ThreadBuffer() { FreeGraphTcpDataCache(); }
 
-void ThreadBuffer::DumpMessage(IMessage* iMessage) {
+void ThreadBuffer::DumpMessage(std::shared_ptr<IMessage> iMessage) {
   mIMessageList.push_back(iMessage);
 }
 
@@ -33,7 +33,7 @@ void ThreadBuffer::DumpTankPosMessage(GameDatabase* Gdb) {
   // std::cerr << "[DumpTankPosMessage] tmpTcpData.GetLength() = "
   //          << tmpTcpData.GetLength() << std::endl;
 
-  DumpMessage(new TankPosMessage(tmpTcpData.get()));
+  DumpMessage(std::shared_ptr<IMessage>(new TankPosMessage(tmpTcpData.get())));
 }
 
 void ThreadBuffer::DumpBulletPosMessage(GameDatabase* Gdb) {
@@ -47,13 +47,25 @@ void ThreadBuffer::DumpBulletPosMessage(GameDatabase* Gdb) {
   // system("pause");
    
   /* 还是要实时发送子弹状态 */
-  DumpMessage(new BulletPosMessage(tmpTcpData.get()));
+  DumpMessage(std::shared_ptr<IMessage>(new BulletPosMessage(tmpTcpData.get())));
+}
+
+void ThreadBuffer::DumpScoreBoardMessage(GameDatabase* Gdb) {
+  // std::cerr << "[ThreadBuffer::DumpScoreBoardMessage]" << std::endl;
+
+  unsigned short killCnt = 0;
+  if (InGame()) {
+    killCnt = Gdb->GetKillCntByUserID(mUserID);
+  }
+  std::shared_ptr<IMessage> scores = Gdb->GetScoreBoardMessage(killCnt);
+  DumpMessage(scores);
 }
 
 void ThreadBuffer::ClearDumpedMessage() {
-  for (auto iMessage : mIMessageList) {
-    delete iMessage;
-  }
+  /* shared_ptr 自动释放 */
+  // for (auto iMessage : mIMessageList) {
+  //   delete iMessage;
+  // }
   mIMessageList.clear();
 }
 
@@ -126,7 +138,7 @@ void ThreadBuffer::DumpGraphTcpDataIntoMessageList(GameDatabase* Gdb) {
   }
 
   /* 注：这个消息不允许被 vector 容器析构 */
-  DumpMessage(new MapMessage(mGraphTcpDataCache));
+  DumpMessage(std::shared_ptr<IMessage>(new MapMessage(mGraphTcpDataCache)));
 }
 
 void ThreadBuffer::SetGraphTimer() {

@@ -7,9 +7,11 @@ class ThreadBuffer {
   ThreadBuffer();
   ~ThreadBuffer();
 
-  void DumpMessage(IMessage* iMessage); /* 向缓冲区中缓冲一条消息 */
+  void DumpMessage(
+      std::shared_ptr<IMessage> iMessage); /* 向缓冲区中缓冲一条消息 */
   void DumpTankPosMessage(GameDatabase* Gdb); /* 向客户端发送坦克位置信息 */
   void DumpBulletPosMessage(GameDatabase* Gdb); /* 向客户端发送子弹位置信息 */
+  void DumpScoreBoardMessage(GameDatabase* Gdb); /* 发送记分板消息 */
 
   void ClearDumpedMessage(); /* 清空所有待发送的消息 */
 
@@ -45,6 +47,7 @@ class ThreadBuffer {
   double mLastKillListTime; /* 上一次获取 KillList 的时间 */
   double mLastShootTime;    /* 上次发射炮弹的时间 */
   double mLastGetGraphTime; /* 上次获取地图的时间 */
+  double mLastGetScoreBoardTime = 0;
 
   TcpData* mGraphTcpDataCache = nullptr;
   int mMaxSentId; /* 曾经获取过用户信息的最大用户 ID */

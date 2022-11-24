@@ -45,7 +45,7 @@ void LoginRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb)
         }
 
         /* 反馈消息加入反馈队列 */
-        tb->DumpMessage(pLoginMessage);
+        tb->DumpMessage(std::shared_ptr<IMessage>(pLoginMessage));
 
         Gdb->unlock(); /* 解锁 */
     }
