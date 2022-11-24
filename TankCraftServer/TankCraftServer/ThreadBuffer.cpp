@@ -53,24 +53,30 @@ void ThreadBuffer::DumpBulletPosMessage(GameDatabase* Gdb) {
 }
 
 void ThreadBuffer::DumpScoreBoardMessage(GameDatabase* Gdb) {
-  if (mLastGetScoreBoardTime < Gdb->GetLastRefreshScoreBoardTime()) {
-    std::cerr << "[ThreadBuffer::DumpScoreBoardMessage]" << std::endl;
-    mLastGetScoreBoardTime = Gdb->GetLastRefreshScoreBoardTime();
+  if (mLastGetScoreBoardTime < Gdb->GetLastRefreshScoreBoardTime() ||
+      Utils::GetClockTime() - mLastGetScoreBoardTime >
+          SCOREBOARD_REFRESH_TIME) {
+    mLastGetScoreBoardTime = Utils::GetClockTime();
 
     unsigned short killCnt = 0;
     if (InGame()) {
       killCnt =
           Gdb->GetKillCntByUserID(mUserID); /* 这个函数比较慢可能需要考虑优化 */
     }
+
+    std::cerr << "[ThreadBuffer::DumpScoreBoardMessage] killCnt = " << killCnt
+              << std::endl;
+
     std::shared_ptr<IMessage> scores = Gdb->GetScoreBoardMessage(killCnt);
     DumpMessage(scores);
   }
 }
 
 void ThreadBuffer::DumpUserInfoMessage(GameDatabase* Gdb) {
-  if (mLastGetUserInfoTime < Gdb->GetLastRefreshUserInfoTime()) {
+  if (mLastGetUserInfoTime < Gdb->GetLastRefreshUserInfoTime() ||
+      mLastGetUserInfoTime == 0) {
     std::cerr << "[ThreadBuffer::DumpUserInfoMessage]" << std::endl;
-    mLastGetUserInfoTime = Gdb->GetLastRefreshUserInfoTime();
+    mLastGetUserInfoTime = Utils::GetClockTime();
 
     std::shared_ptr<IMessage> pUserInfoMessage = Gdb->GetUserInfoMessage();
     DumpMessage(pUserInfoMessage);

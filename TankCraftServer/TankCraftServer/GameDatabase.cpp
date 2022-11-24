@@ -42,11 +42,15 @@ int GameDatabase::AllocNxtUserId() { return ++mUserIdNow; }
 int GameDatabase::GetUserCount() const { return (int)mUserInfoList.size(); }
 
 int GameDatabase::GetKillCntByUserID(int userId) const {
+  lock();
+
   for (auto& pUserInfo : mUserInfoList) {
     if (pUserInfo->GetUserId() == userId) {
       return pUserInfo->GetKillCnt();
     }
   }
+
+  unlock();
   return 0; /* 没有击杀数 */
 }
 
@@ -494,6 +498,8 @@ void GameDatabase::UserBulletExpired(IntMap* userIdMapToBulletCnt) {
 
 std::shared_ptr<IMessage> GameDatabase::GetScoreBoardMessage(
     unsigned short nThisUserKillCnt) const {
+  lock();
+
   /* 计分板 */
   std::shared_ptr<ScoreBoardMessage> scores(
       new ScoreBoardMessage(nThisUserKillCnt));
@@ -505,6 +511,8 @@ std::shared_ptr<IMessage> GameDatabase::GetScoreBoardMessage(
 
   scores->SortUserScore();
   scores->CutUserScore();
+
+  unlock();
 
   return scores;
 }
