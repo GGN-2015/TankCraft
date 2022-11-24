@@ -19,8 +19,8 @@
        */
 
 #define GAME_DATABASE_RUN (1)
-#define DEFAULT_GAMEHEIGHT (16) /* 游戏默认地图尺寸 */
-#define DEFAULT_GAMEWIDTH (16)
+#define DEFAULT_GAMEHEIGHT (8) /* 游戏默认地图尺寸 */
+#define DEFAULT_GAMEWIDTH (8)
 #define DEFAULT_WALLDENCITY (0.5) /* 默认墙密度 0 ~ 1*/
 #define GAME_DATABASE_STOP (0)
 
