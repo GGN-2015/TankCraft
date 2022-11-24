@@ -38,8 +38,9 @@ void GameTcpServer::GetTcpDataResult(const TcpData* pTcpDataRecv,
   // }
 
   /* 在这里加入所有周期性检查事件 */
-  tb->DumpTankPosMessage(Gdb); /* 获取并发送坦克位置信息 */
+  tb->DumpTankPosMessage(Gdb);   /* 获取并发送坦克位置信息 */
   tb->DumpBulletPosMessage(Gdb); /* 获取并发送子弹位置信息 */
+
   tb->DumpScoreBoardMessage(Gdb); /* 获取计分板消息 */
   tb->DumpUserInfoMessage(Gdb);   /* 输出用户名称颜色映射 */
 

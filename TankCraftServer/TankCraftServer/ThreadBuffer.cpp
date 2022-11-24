@@ -64,10 +64,9 @@ void ThreadBuffer::DumpScoreBoardMessage(GameDatabase* Gdb) {
           Gdb->GetKillCntByUserID(mUserID); /* 这个函数比较慢可能需要考虑优化 */
     }
 
-    std::cerr << "[ThreadBuffer::DumpScoreBoardMessage] killCnt = " << killCnt
-              << std::endl;
-
     std::shared_ptr<IMessage> scores = Gdb->GetScoreBoardMessage(killCnt);
+
+    scores->DebugShow();
     DumpMessage(scores);
   }
 }
