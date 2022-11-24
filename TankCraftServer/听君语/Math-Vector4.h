@@ -39,6 +39,9 @@ struct Vector4 {
 
     Float R, G, B, A;
 
+    inline operator Vector3() { return Vector3(R, G, B); }
+    inline operator Vector4() { return Vector4(R, G, B, A); }
+
    public:
     static inline Color RGB255(const uint8 &R, const uint8 &G, const uint8 &B,
                                const uint8 &A) {

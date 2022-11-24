@@ -8,6 +8,7 @@
 #include "TankCraft_LoginComponent.h"
 #include "TankCraft_MapManager_Component.h"
 #include "TankCraft_NetManager_Component.h"
+#include "TankCraft_RankingListComponent.h"
 #include "TankCraft_UserManager_Component.h"
 #include "Text_RenderComponent.h"
 #include "stdafx.h"
@@ -30,6 +31,12 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
       ->CreateXnObject(Vector2::ZERO, GetXnObject())
       ->AddComponent(std::make_unique<LoginComponent>(this));
 
+  ranking_list_component_ =
+      (RankingListComponent*)听君语::Get()
+          .GetObjectManager()
+          ->CreateXnObject(Vector2::ZERO, GetXnObject())
+          ->AddComponent(std::make_unique<RankingListComponent>());
+
   error_message_text_ =
       (Text_RenderComponent*)听君语::Get()
           .GetObjectManager()
@@ -47,9 +54,8 @@ void Xn::TankCraft::GameManagerComponent::OnStart() {
   // 听君语::Get().GetOutputManager()->PlayAudioWithLoop(bgm_);
 }
 void Xn::TankCraft::GameManagerComponent::OnUpdate() {
-  if (const auto buffer = net_manager_->TryGetServerToClientMessageBuffer()) {
+  if (const auto buffer = net_manager_->TryGetServerToClientMessageBuffer())
     NetMessageDeal(buffer);
-  }
 
   if (game_state_ == GameState::Gaming) TrySendKeyMessage();
 }
@@ -89,8 +95,6 @@ void Xn::TankCraft::GameManagerComponent::Login(const std::wstring user_name) {
     return;
   }
 
-  auto buffer = net_manager_->TryGetClientToServerMessageBuffer();
-  if (!buffer) return;
   // 登录请求
   {
     auto data = std::make_unique<NetMessageBaseData>();
@@ -102,7 +106,7 @@ void Xn::TankCraft::GameManagerComponent::Login(const std::wstring user_name) {
     s.push_back(*(wchar*)&name_length_as_char);
     s += user_name;
     data->SetData(s.data(), (uint)s.size());
-    buffer->Push(std::move(data));
+    net_manager_->PushBaseDataToClientToServerMessageBuffer(std::move(data));
     game_state_ = GameState::WaitForLogin;
   }
   // 地图请求
@@ -115,7 +119,7 @@ void Xn::TankCraft::GameManagerComponent::Login(const std::wstring user_name) {
     s.push_back(*(wchar*)&message_type);
     s.push_back(*(wchar*)&name_length_as_char);
     data->SetData(s.data(), (uint)s.size());
-    buffer->Push(std::move(data));
+    net_manager_->PushBaseDataToClientToServerMessageBuffer(std::move(data));
   }
   // 清空输入消息
   听君语::Get().GetInputManager()->keyboard_manager_.Flush();
@@ -132,7 +136,8 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
     switch (msg_type) {
       case 65535: {
         const uint error_code = *(uint16*)&data[2];
-        InternalCommunicationMessage(error_code);
+        const uint this_user_id = *(uint32*)&data[3];
+        InternalCommunicationMessage(error_code, this_user_id);
       } break;
 
       case 0: {
@@ -186,7 +191,7 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
 }
 
 void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
-    const uint& code) {
+    const uint& code, const uint& id) {
   OutputDebugString(std::to_wstring(code).data());
   switch (code) {
     case 0: {
@@ -194,6 +199,7 @@ void Xn::TankCraft::GameManagerComponent::InternalCommunicationMessage(
       // TODO 与服务端连接成功
       {
         error_message_text_->SetText(L"连接成功");
+        this_user_id_ = id;
         return;
       }
     } break;
@@ -301,6 +307,12 @@ void Xn::TankCraft::GameManagerComponent::SetUsersKillNumber(
     const uint& this_user_kill_number,
     const wchar* const& users_kill_number_data,
     const uint& users_kill_number_count) {
+  error_message_text_->SetText(L"接收到排行榜消息");
+
+  ranking_list_component_->SetRankingNumber(users_kill_number_count);
+  ranking_list_component_->SetThisKillCount(
+      user_manager_->GetUser(this_user_id_)->user_name, this_user_kill_number);
+
   uint users_kill_number_data_index = 0;
 
   for (uint users_index = 0; users_index < users_kill_number_count;
@@ -314,6 +326,10 @@ void Xn::TankCraft::GameManagerComponent::SetUsersKillNumber(
     users_kill_number_data_index += 1;
 
     user_manager_->GetUser(user_id)->kill_number = users_kill_number;
+
+    ranking_list_component_->SetKillCount(
+        users_index, user_manager_->GetUser(this_user_id_)->user_name,
+        this_user_kill_number);
   }
 }
 void Xn::TankCraft::GameManagerComponent::SetEntitiesState(
@@ -423,9 +439,6 @@ void Xn::TankCraft::GameManagerComponent::DealLoginMessage(
 
 void Xn::TankCraft::GameManagerComponent::TrySendKeyMessage() {
   if (!听君语::Get().GetInputManager()->keyboard_manager_.IsKeyBufferEmpty()) {
-    auto buffer = net_manager_->TryGetClientToServerMessageBuffer();
-    if (!buffer) return;
-
     while (!听君语::Get()
                 .GetInputManager()
                 ->keyboard_manager_.IsKeyBufferEmpty()) {
@@ -465,17 +478,17 @@ void Xn::TankCraft::GameManagerComponent::TrySendKeyMessage() {
 
       const uint the_key = virtual_key | (key_state << 8);
 
-      {
-        std::wstring mes = L"发送：按键消息：";
-        mes += L"按键【";
-        mes += std::to_wstring(virtual_key);
-        mes += L"】";
-        mes += L"状态【";
-        mes += std::to_wstring(key_state);
-        mes += L"】";
-        error_message_text_->SetText(mes);
-        OutputDebugString((mes + L"\n").data());
-      }
+      //{
+      //  std::wstring mes = L"发送：按键消息：";
+      //  mes += L"按键【";
+      //  mes += std::to_wstring(virtual_key);
+      //  mes += L"】";
+      //  mes += L"状态【";
+      //  mes += std::to_wstring(key_state);
+      //  mes += L"】";
+      //  error_message_text_->SetText(mes);
+      //  OutputDebugString((mes + L"\n").data());
+      //}
 
       std::wstring s = L"";
       s.push_back(*(wchar*)&message_type);
@@ -483,7 +496,7 @@ void Xn::TankCraft::GameManagerComponent::TrySendKeyMessage() {
       s.push_back(*(wchar*)&the_key);
 
       data->SetData(s.data(), (int)s.size());
-      buffer->Push(std::move(data));
+      net_manager_->PushBaseDataToClientToServerMessageBuffer(std::move(data));
     }
   }
 }

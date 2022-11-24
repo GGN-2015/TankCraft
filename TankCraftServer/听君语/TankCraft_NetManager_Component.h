@@ -28,15 +28,17 @@ struct NetMessageBaseData {
   NetMessageBaseData() : length(0), data(nullptr){};
   ~NetMessageBaseData() { FreeData(); }                 /* 析构函数 */
   void MoveDataFrom(std::shared_ptr<TcpData> pTcpData); /* 转移构造 */
-  void MoveDataToTcpData(std::shared_ptr<TcpData> tcpData); /* 将数据转移出去 */
-  void FreeData();                        /* 安全地清空数据 */
+  void MoveDataToTcpData(
+      std::shared_ptr<TcpData> tcpData) volatile; /* 将数据转移出去 */
+  void FreeData();                                /* 安全地清空数据 */
   void SetData(wchar_t* nData, int nLen); /* 释放原先的数据，设置新数据 */
 
   void DebugShow() const; /* 仅在调试时使用 */
 };
 
 /* 数据缓冲区 */
-typedef std::vector<std::unique_ptr<NetMessageBaseData>> NetMessageBaseDataList;
+typedef std::vector<std::unique_ptr<volatile NetMessageBaseData>>
+    NetMessageBaseDataList;
 
 class NetMessageBaseDataBuffer {
  public:
@@ -99,15 +101,22 @@ class NetManager_Component : public Component {
   // 返回:
   //   - nullptr     : 获取失败，可能因为加锁什么的
   //   - not nullptr : 获取成功，指向NetMessageBaseDataBuffer的指针
-  NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
+
+  // NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
+  void PushBaseDataToClientToServerMessageBuffer(
+      std::unique_ptr<NetMessageBaseData> data); /* 写入一个数据 */
 
  public:
+  void Lock() const; /* 加锁/解锁 */
+  void Unlock() const;
+
   void PushPingMessage(unsigned short xVal); /* 原子发送 Ping 消息*/
   void PushFailedMessage(int ret);           /* 原子：推送出错消息 */
   void PushSucessMessage();                  /* 原子：推送成功消息 */
   int GetConnectStatus() const;              /* 原子：获取连接状态 */
 
-  bool HasClientRequest() const; /* 原子：检测客户端是否要想服务端发送消息 */
+  bool HasClientRequest()
+      const; /* 不是原子：检测客户端是否要想服务端发送消息 */
   void MoveClientRequestToNetMessageBaseDataList(
       NetMessageBaseDataList* nmBaseDataList); /* 原子：数据转移 */
 
@@ -119,10 +128,6 @@ class NetManager_Component : public Component {
  private:
   /* 原子：相当于一条来自服务器的消息，但是实际上是本机推送的 */
   void PushToFromServerList(std::unique_ptr<NetMessageBaseData> nmData);
-
- protected:
-  void Lock() const; /* 加锁/解锁 */
-  void Unlock() const;
 
  private:
   int mConnectStatus; /* 子线程根据这一标致退出 */

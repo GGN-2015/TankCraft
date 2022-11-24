@@ -341,6 +341,12 @@
     <ClInclude Include="Math-Int.h">
       <Filter>代码文件\器\数学\Base</Filter>
     </ClInclude>
+    <ClInclude Include="TankCraft_RankingListComponent.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\游玩界面</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -465,6 +471,12 @@
     </ClCompile>
     <ClCompile Include="OutputManager-AudioManager.cpp">
       <Filter>代码文件\司\通\IO\输出\音频</Filter>
+    </ClCompile>
+    <ClCompile Include="TankCraft_RankingListComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\坦克动荡\UI界面\游玩界面</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>代码文件\司\数\对象组件\实体组件\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
