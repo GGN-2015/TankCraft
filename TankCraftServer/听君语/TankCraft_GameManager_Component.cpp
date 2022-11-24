@@ -177,6 +177,11 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
 
       case 6: {
         // 按键反馈消息，不管
+        error_message_text_->SetText(L"按键反馈消息，不管:msg_type=" +
+                                     std::to_wstring(msg_type));
+        OutputDebugString((L"按键反馈消息，不管:msg_type=" +
+                           std::to_wstring(msg_type) + L"\n")
+                              .data());
       } break;
 
       case 7: {
@@ -185,6 +190,11 @@ void Xn::TankCraft::GameManagerComponent::NetMessageDeal(
       } break;
 
       default:
+        error_message_text_->SetText(L"未知消息：msg_type=" +
+                                     std::to_wstring(msg_type));
+        OutputDebugString(
+            (L"未知消息：msg_type=" + std::to_wstring(msg_type) + L"\n")
+                .data());
         break;
     }
   }
@@ -307,7 +317,11 @@ void Xn::TankCraft::GameManagerComponent::SetUsersKillNumber(
     const uint& this_user_kill_number,
     const wchar* const& users_kill_number_data,
     const uint& users_kill_number_count) {
-  error_message_text_->SetText(L"接收到排行榜消息");
+  error_message_text_->SetText(L"接收到排行榜消息：users_kill_number_count=" +
+                               std::to_wstring(users_kill_number_count));
+  OutputDebugString((L"接收到排行榜消息：users_kill_number_count=" +
+                     std::to_wstring(users_kill_number_count) + L"\n")
+                        .data());
 
   ranking_list_component_->SetRankingNumber(users_kill_number_count);
   ranking_list_component_->SetThisKillCount(
