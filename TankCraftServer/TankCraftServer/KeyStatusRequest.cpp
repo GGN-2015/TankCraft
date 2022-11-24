@@ -20,13 +20,16 @@ void KeyStatusRequest::SetKeyStatus(unsigned char nKeyStatus) {
 
 void KeyStatusRequest::Dispatch(ThreadBuffer* tb, GameDatabase* Gdb) {
   // std::cerr << "[KeyStatusRequest::Dispatch] Exist" << std::endl;
+
   if (tb->InGame()) {
     int nUserId = tb->GetUserID();
-    
+
     /* 无视发炮的抬起事件 */
     if (!(mKeyId == TANK_SHOOT && mKeyStatus == TANK_KEY_UP)) {
       Gdb->lock();
+
       Gdb->SetKeyStatusForUser(nUserId, mKeyId, mKeyStatus);
+
       Gdb->unlock();
     }
   } else {

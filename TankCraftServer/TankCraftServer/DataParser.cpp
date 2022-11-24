@@ -58,6 +58,8 @@ void DataParser::Parse(const TcpData* pTcpData, IMessageList* pContainer,
 
       /* 可以开始解析 */
       if (iParser->CheckAvailableToParse(pTcpData, posNow)) {
+        if (type != 0)
+          std::cerr << " Parse: Get Msg Type = " << type << std::endl;
 
         suc = true;
         requestCntGet += 1;
@@ -67,7 +69,7 @@ void DataParser::Parse(const TcpData* pTcpData, IMessageList* pContainer,
         posNow += iMessage->GetRawDataLength(); /* 数据使用者负责释放 */
 
         pContainer->push_back(
-            std::shared_ptr<IMessage> (iMessage)); /* 数据追加到队列尾部 */
+            std::shared_ptr<IMessage>(iMessage)); /* 数据追加到队列尾部 */
         break;
       }
     }
