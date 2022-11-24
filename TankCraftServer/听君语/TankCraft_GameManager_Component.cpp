@@ -263,7 +263,7 @@ void Xn::TankCraft::GameManagerComponent::AddUsers(
     const auto user_id = *(uint*)&users_data[users_data_index];
     users_data_index += 2;
 
-    const auto user_name_length = *(uint16*)&users_data[users_data_index];
+    const auto user_name_length = *(uint16*)&users_data[users_data_index] / 2;
     users_data_index += 1;
 
     const auto user_name = &users_data[users_data_index];
@@ -279,7 +279,7 @@ void Xn::TankCraft::GameManagerComponent::AddUsers(
       char data[4];
     } the_color = *(RGBA*)&users_data[users_data_index];
     const Vector4 user_color(the_color.r / 255.f, the_color.g / 255.f,
-                             the_color.b / 255.f, the_color.a / 255.f);
+                             the_color.b / 255.f, 1);
     users_data_index += 2;
 
     const auto user_kill_number = *(uint16*)&users_data[users_data_index];
@@ -339,15 +339,15 @@ void Xn::TankCraft::GameManagerComponent::SetUsersKillNumber(
         *(uint16*)&users_kill_number_data[users_kill_number_data_index];
     users_kill_number_data_index += 1;
 
-    user = user_manager_->GetUser(this_user_id_);
+    user = user_manager_->GetUser(user_id);
     if (user) {
       user->kill_number = users_kill_number;
 
       ranking_list_component_->SetKillCount(users_index, user->user_name,
-                                            this_user_kill_number);
+                                            users_kill_number);
     } else {
       ranking_list_component_->SetKillCount(users_index, L"???",
-                                            this_user_kill_number);
+                                            users_kill_number);
     }
   }
 }
@@ -526,7 +526,7 @@ void Xn::TankCraft::GameManagerComponent::AddUser(
     const wchar* const& user_name, const Vector4& user_color,
     const uint& user_kill_number) {
   std::wstring name(user_name_length, '\0');
-  memcpy(name.data(), user_name, size_t(user_name_length));
+  memcpy(name.data(), user_name, size_t(2 * user_name_length));
 
   const auto user_data =
       user_manager_->AddUser(user_id, name, user_color, user_kill_number);
