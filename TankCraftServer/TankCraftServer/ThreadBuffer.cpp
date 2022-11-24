@@ -73,7 +73,7 @@ void ThreadBuffer::DumpScoreBoardMessage(GameDatabase* Gdb) {
 
 void ThreadBuffer::DumpUserInfoMessage(GameDatabase* Gdb) {
   if (mLastGetUserInfoTime < Gdb->GetLastRefreshUserInfoTime() ||
-      mLastGetUserInfoTime == 0) {
+      (Utils::GetClockTime() - mLastGetUserInfoTime) > USERINFO_REFRESH_TIME) {
     std::cerr << "[ThreadBuffer::DumpUserInfoMessage]" << std::endl;
     mLastGetUserInfoTime = Utils::GetClockTime();
 

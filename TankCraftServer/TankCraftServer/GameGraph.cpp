@@ -35,7 +35,7 @@ void GameGraph::GenerateRandMap(double alpha) {
 
   /* 生成两份地图 */
   GenerateRandMap(&nGameGraph);
-  GenerateRandMap(&mGameGraph);
+  GenerateRandMap(&this->mGameGraph);
 
   for (int i = 0; i < mHeight; i += 1) {
     for (int j = 0; j < mWidth; j += 1) {
@@ -214,10 +214,10 @@ void GameGraph::BoxFit(double* posX, double* posY, double r) const {
     Utils::PointPush(posX, posY, gridY, gridX, r);
   }
   if (PosHasTopRight(gridX, gridY)) {
-    Utils::PointPush(posX, posY, gridY+1, gridX, r);
+    Utils::PointPush(posX, posY, gridY + 1, gridX, r);
   }
   if (PosHasBottomLeft(gridX, gridY)) {
-    Utils::PointPush(posX, posY, gridY, gridX+1, r);
+    Utils::PointPush(posX, posY, gridY, gridX + 1, r);
   }
   if (PosHasBottomRight(gridX, gridY)) {
     Utils::PointPush(posX, posY, gridY + 1, gridX + 1, r);
@@ -359,7 +359,8 @@ bool GameGraph::PosHasBottomLeft(int gridX, int gridY) const {
 }
 
 bool GameGraph::PosHasBottomRight(int gridX, int gridY) const {
-  return PosHasLeftEdge(gridX + 1, gridY + 1) || PosHasTopEdge(gridX + 1, gridY + 1) ||
+  return PosHasLeftEdge(gridX + 1, gridY + 1) ||
+         PosHasTopEdge(gridX + 1, gridY + 1) ||
          PosHasLeftEdge(gridX, gridY + 1) || PosHasTopEdge(gridX + 1, gridY);
 }
 
