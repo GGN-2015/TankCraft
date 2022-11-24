@@ -7,11 +7,17 @@
 #include "TankCraft_BulletComponent.h"
 #include "Ìý¾ýÓï.h"
 
-void Xn::TankCraft::BulletManagerComponent::OnStart() {
+Xn::TankCraft::BulletManagerComponent::BulletManagerComponent()
+    : Component(L"TanksFight_BulletManagerComponent") {
   audio_bo_ =
       Ìý¾ýÓï::Get().GetOutputManager()->GetOutputManager()->LoadWaveAudio(
           L"à£.wav");
+  audio_bo_->SetVolume(0);
+  audio_bo_->SetCurrentPosition(0);
+  audio_bo_->Play(0, 0, 0);
 }
+
+void Xn::TankCraft::BulletManagerComponent::OnStart() {}
 
 void Xn::TankCraft::BulletManagerComponent::OnDestory() {
   unsynced_bullets_.clear();
@@ -37,6 +43,7 @@ void Xn::TankCraft::BulletManagerComponent::SetBulletState(
                      ->AddComponent(std::make_unique<BulletComponent>());
     new_bullet->SetPos(pos);
 
+    audio_bo_->SetVolume(100);
     audio_bo_->SetCurrentPosition(0);
     audio_bo_->Play(0, 0, 0);
   } else {
@@ -48,6 +55,7 @@ void Xn::TankCraft::BulletManagerComponent::SetBulletState(
       new_bullet->GetXnObject()->SetActive(true);
       new_bullet->SetPos(pos);
 
+      audio_bo_->SetVolume(100);
       audio_bo_->SetCurrentPosition(0);
       audio_bo_->Play(0, 0, 0);
     } else
