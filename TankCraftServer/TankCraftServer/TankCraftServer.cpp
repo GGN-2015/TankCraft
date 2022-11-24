@@ -174,11 +174,11 @@ void TestTcpNetManager() {
     }
 
     /* 缓冲区送入发送队列 */
-    auto requestBufferArr = nmComponent.TryGetClientToServerMessageBuffer();
+    // auto requestBufferArr = nmComponent.TryGetClientToServerMessageBuffer();
     std::unique_ptr<Xn::TankCraft::NetMessageBaseData> pnmbd1(
         new Xn::TankCraft::NetMessageBaseData);
     pnmbd1->MoveDataFrom(tcpDataSend);
-    requestBufferArr->Push(std::move(pnmbd1));
+    nmComponent.PushBaseDataToClientToServerMessageBuffer(std::move(pnmbd1));
 
     /* 获取客户收到的数据 */
     auto msgBufferArr = nmComponent.TryGetServerToClientMessageBuffer();

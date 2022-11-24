@@ -102,8 +102,10 @@ class NetManager_Component : public Component {
   //   - nullptr     : 获取失败，可能因为加锁什么的
   //   - not nullptr : 获取成功，指向NetMessageBaseDataBuffer的指针
   
-  NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
-
+  // NetMessageBaseDataBuffer* TryGetClientToServerMessageBuffer();
+  void PushBaseDataToClientToServerMessageBuffer(
+      std::unique_ptr<NetMessageBaseData> data); /* 写入一个数据 */
+  
  public:
   void Lock() const; /* 加锁/解锁 */
   void Unlock() const;

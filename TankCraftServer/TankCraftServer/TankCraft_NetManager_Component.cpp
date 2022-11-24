@@ -88,27 +88,28 @@ Xn::TankCraft::NetManager_Component::TryGetServerToClientMessageBuffer() {
   return foo;
 }
 
-NetMessageBaseDataBuffer* 
-Xn::TankCraft::NetManager_Component::TryGetClientToServerMessageBuffer() {
-  Lock();
 
-  /* from_client_datas_buffer_index_ 是当前的服务线程正在占用的 buffer index */
-  NetMessageBaseDataBuffer* bufferFrom =
-      &from_client_datas_buffers_[from_client_datas_buffer_index_ ^ 1];
-  NetMessageBaseDataBuffer* bufferTo =
-      &from_client_datas_buffers_[from_client_datas_buffer_index_];
-
-  /* 将当前队列中的数据放到目标队列中 */
-  while (!bufferFrom->isEmpty()) {
-    std::unique_ptr<NetMessageBaseData> data = bufferFrom->Pop();
-    bufferTo->Push(std::move(data));
-  }
-
-  Unlock();
-
-  /* 一定会返回一个空队列 */
-  return bufferFrom;
-}
+//NetMessageBaseDataBuffer* 
+//Xn::TankCraft::NetManager_Component::TryGetClientToServerMessageBuffer() {
+//  Lock();
+//
+//  /* from_client_datas_buffer_index_ 是当前的服务线程正在占用的 buffer index */
+//  NetMessageBaseDataBuffer* bufferFrom =
+//      &from_client_datas_buffers_[from_client_datas_buffer_index_ ^ 1];
+//  NetMessageBaseDataBuffer* bufferTo =
+//      &from_client_datas_buffers_[from_client_datas_buffer_index_];
+//
+//  /* 将当前队列中的数据放到目标队列中 */
+//  while (!bufferFrom->isEmpty()) {
+//    std::unique_ptr<NetMessageBaseData> data = bufferFrom->Pop();
+//    bufferTo->Push(std::move(data));
+//  }
+//
+//  Unlock();
+//
+//  /* 一定会返回一个空队列 */
+//  return bufferFrom;
+//}
 
 
 
@@ -119,7 +120,7 @@ void Xn::TankCraft::NetManager_Component::PushPingMessage(unsigned short xVal) {
       new Xn::TankCraft::NetMessageBaseData);
 
   newMsg->SetData(wbuf, 3);
-  TryGetClientToServerMessageBuffer()->Push(std::move(newMsg));
+  PushBaseDataToClientToServerMessageBuffer(std::move(newMsg));
 }
 
 void Xn::TankCraft::NetManager_Component::PushFailedMessage(int ret) {
@@ -196,6 +197,22 @@ void Xn::TankCraft::NetManager_Component::PushToFromServerList(
 
   from_server_datas_buffers_[from_server_datas_buffer_index_].Push(
       std::move(nmData));
+
+  Unlock();
+}
+
+void Xn::TankCraft::NetManager_Component::
+    PushBaseDataToClientToServerMessageBuffer(
+        std::unique_ptr<NetMessageBaseData> data) {
+  Lock();
+
+  /* from_client_datas_buffer_index_ 是当前的服务线程正在占用的 buffer index */
+  NetMessageBaseDataBuffer* bufferFrom =
+      &from_client_datas_buffers_[from_client_datas_buffer_index_ ^ 1];
+  NetMessageBaseDataBuffer* bufferTo =
+      &from_client_datas_buffers_[from_client_datas_buffer_index_];
+
+  bufferTo->Push(std::move(data)); /* 写入数据 */
 
   Unlock();
 }
