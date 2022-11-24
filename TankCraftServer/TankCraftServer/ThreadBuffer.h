@@ -1,7 +1,7 @@
 #pragma once
 #include "IMessage.h"
 
-#define SCOREBOARD_REFRESH_TIME (10)
+#define SCOREBOARD_REFRESH_TIME (20)
 
 /* 本类的实现不需要考虑线程安全，因为我们保证每个线程各自有一个 ThreadBuffer */
 class ThreadBuffer {
