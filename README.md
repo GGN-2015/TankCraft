@@ -9,4 +9,5 @@ A Simple Tank Game for LAN players. (Temporarily for Windows)
 - 2022-11-01：制定通信协议，设计并实现 NetManager_Component
 - 2022-11-02：继续实现 NetManager_Component
 - 2022-11-03：实现随机地图生成算法 GameGraph 类
+- 后略...
 
